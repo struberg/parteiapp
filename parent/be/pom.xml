@@ -33,6 +33,42 @@
         Parent for all Parteiapp backend projects
     </description>
 
+    <properties>
+        <openjpa.version>3.1.0</openjpa.version>
+        <openjpa.skipenhance>true</openjpa.skipenhance>
+        <database.vendor>h2</database.vendor>
+
+        <openjpa.connectionProperties>
+            driverClassName=${database.driver.name},
+            url=${database.connection.url},
+            username=${database.user},
+            password=${database.password}
+        </openjpa.connectionProperties>
+
+        <h2.version>1.4.195</h2.version>
+
+        <!--
+        H2 requires an absolute path, to be able to run multiple builds in parallel we need one path per build
+        override with -Dh2.database.base.path=<absolute_path>
+        To connect to the H2 Database while it is in use (e.g. while running tomcat), we added the AUTO_SERVER_PORT.
+        By default this is 9090, override with -Dh2.database.base.port=9091
+        Attention, path is OS dependent (e.g. under windows you will need something like /D:/tmp/h2/v3
+
+        h2.database.base.port - use a different default for trunk and branches 9051 = R05 first branch assigned
+        h2.bindAddress        - use localhost (= 127.0.0.1) to listen and access database locally
+        h2.database.base.path - use a separate database for each branch (and port)
+        -->
+        <h2.bindAddress>127.0.0.1</h2.bindAddress>
+        <h2.database.base.port>7090</h2.database.base.port>
+        <h2.database.base.path>/tmp/h2/</h2.database.base.path>
+        <h2.database.driver.name>org.h2.Driver</h2.database.driver.name>
+        <h2.database.connection.url>jdbc:h2:file:${h2.database.base.path}/parteiapp;AUTO_SERVER=TRUE;MVCC=TRUE;AUTO_SERVER_PORT=${h2.database.base.port};MAX_LENGTH_INPLACE_LOB=4096</h2.database.connection.url>
+        <h2.database.user>sa</h2.database.user>
+        <h2.database.password />
+        <h2.database.onError.action>abort</h2.database.onError.action>
+
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
@@ -41,4 +77,30 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>h2server</id>
+            <properties>
+                <h2.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/zeptadb</h2.database.connection.url>
+                <h2.zepta-run.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/zeptarundb</h2.zepta-run.database.connection.url>
+                <h2.camunda.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/camundadb</h2.camunda.database.connection.url>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>h2</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <database.driver.name>${h2.database.driver.name}</database.driver.name>
+                <database.connection.url>${h2.database.connection.url}</database.connection.url>
+                <database.user>${h2.database.user}</database.user>
+                <database.password>${h2.database.password}</database.password>
+                <database.onError.action>${h2.database.onError.action}</database.onError.action>
+            </properties>
+        </profile>
+    </profiles>
+
 </project>

@@ -44,6 +44,8 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <deltaspike.version>1.9.0</deltaspike.version>
     </properties>
 
     <modules>
@@ -64,6 +66,31 @@
             <version>1.1</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Deltaspike -->
+        <dependency>
+            <groupId>org.apache.deltaspike.core</groupId>
+            <artifactId>deltaspike-core-api</artifactId>
+            <version>${deltaspike.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.deltaspike.core</groupId>
+            <artifactId>deltaspike-core-impl</artifactId>
+            <version>${deltaspike.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.deltaspike.cdictrl</groupId>
+            <artifactId>deltaspike-cdictrl-api</artifactId>
+            <version>${deltaspike.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.deltaspike.cdictrl</groupId>
+            <artifactId>deltaspike-cdictrl-openejb</artifactId>
+            <version>${deltaspike.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
 </project>

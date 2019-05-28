@@ -14,33 +14,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.gruene.parteiapp.voting.be;
+package at.gruene.parteiapp.voting.be.entities;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * A single Ballot. E.g. a vote for a leader of a division held at a certain date.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
+@Entity
 public class Ballot {
+
+    /**
+     * Status of the ballot.
+     *
+     * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+     */
+    public enum BallotStatus {
+        /**
+         * The ballot metadata got created, but no entry of votes is possible
+         */
+        CREATED,
+
+        /**
+         * The ballot votes can be entered, but are not yet tallied.
+         */
+        OPEN,
+
+        /**
+         * The ballot votes cannot be entered anymore as the counting is finished.
+         */
+        CLOSED,
+    }
+
 
     @Id
     @GeneratedValue
     private int id;
+
+    @ManyToOne
+    private Ballot ballot;
 
     @Column(length = 255, nullable = false)
     private String name;
 
     private LocalDate heldAt;
 
+    /**
+     * How many votes are maximal allowed for this vote
+     */
+    private int maxVotes;
+
     private BallotStatus status;
 
     private LocalDateTime pollOpened;
     private LocalDateTime pollClosed;
+
 }

@@ -20,32 +20,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>at.gruene.parteiapp</groupId>
-    <artifactId>parteiapp-all</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <parent>
+        <groupId>at.gruene.parteiapp.platform</groupId>
+        <artifactId>platform-parent</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>platform-idm-parent</artifactId>
     <packaging>pom</packaging>
 
-    <description>
-        This is purely a build pom for now.
-        We might keep this, but if the single apps develop their own
-        lifecycle it might get removed.
-    </description>
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
     <modules>
-        <module>parent</module>
-        <module>platform</module>
-        <module>voting</module>
+        <module>api</module>
+        <module>be</module>
     </modules>
+
 </project>

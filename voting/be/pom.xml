@@ -24,10 +24,94 @@
         <groupId>at.gruene.parteiapp.parent</groupId>
         <artifactId>parent-be</artifactId>
         <version>0.1-SNAPSHOT</version>
+        <relativePath>../../parent/be/pom.xml</relativePath>
     </parent>
 
     <groupId>at.gruene.parteiapp.voting</groupId>
     <artifactId>voting-be</artifactId>
 
 
+    <properties>
+        <openjpa.skipenhance>false</openjpa.skipenhance>
+        <openjpa.includes>at/gruene/parteiapp/voting/be/entities/*.class</openjpa.includes>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>at.gruene.parteiapp.platform</groupId>
+            <artifactId>platform-idm-api</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.openjpa</groupId>
+            <artifactId>openjpa</artifactId>
+            <version>${openjpa.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.openjpa</groupId>
+                    <artifactId>openjpa-jest</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa-maven-plugin</artifactId>
+                <version>${openjpa.version}</version>
+                <configuration>
+                    <skip>${openjpa.skipenhance}</skip>
+                    <sqlAction>build</sqlAction>
+                    <sqlFile>${project.build.directory}/database-${database.vendor}.sql</sqlFile>
+                    <addDefaultConstructor>true</addDefaultConstructor>
+                    <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
+                    <includes>${openjpa.includes}</includes>
+                    <connectionDriverName>org.apache.commons.dbcp.BasicDataSource</connectionDriverName>
+                    <connectionProperties>
+                        ${openjpa.connectionProperties}
+                    </connectionProperties>
+                    <toolProperties>
+                        <!--
+                         * These are the same like in persistence.properties but without 'openjpa.' and 'jdbc.' in front.
+                         * We need them here as they are not in persistence.xml
+                        -->
+                        <MappingDefaults>ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict</MappingDefaults>
+                    </toolProperties>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>enhance-classes</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa</artifactId>
+                        <version>${openjpa.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>commons-dbcp</groupId>
+                        <artifactId>commons-dbcp</artifactId>
+                        <version>1.4</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>${h2.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>
