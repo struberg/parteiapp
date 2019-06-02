@@ -51,11 +51,11 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">Administrator</f:facet>
-                            <h:outputText value="#{u.admin}"/>
+                            <h:graphicImage rendered="#{u.admin}" value="resources/images/message-tick.png"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">Zähler</f:facet>
-                            <h:outputText value="#{u.counter}"/>
+                            <h:graphicImage rendered="#{u.counter}" value="resources/images/message-tick.png"/>
                         </h:column>
                     </h:dataTable>
                 </fieldset>
