@@ -9,7 +9,8 @@ HTML {
     MARGIN: 0px;
     PADDING-TOP: 0px;
     BORDER-RIGHT-WIDTH: 0px;
-    background-color: #ffffff;
+    background: -moz-radial-gradient(center,ellipse cover,rgba(0,0,0,.25) 0,rgba(0,0,0,0) 100%);
+    background-color: #84B414;
     FONT-FAMILY: Verdana, Helvetica, Geneva, sans-serif;
     color: #000000;
     font-size: 12px;

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/META-INF/fragments/template.xhtml">
+    <ui:define name="title">#{txt.voting_title}</ui:define>
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="ballotId" value="#{ballotDetail.ballotId}"/>
+            <f:viewAction action="#{ballotDetail.loadBallot}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div id="detail-panel">
+                <fieldset class="styledFieldset">
+                    <legend>Ballot</legend>
+                    <ol>
+                        <li>
+                            <h:outputLabel for="ballotName" value="Name der Wahl"/>
+                            <h:inputText styleClass="largeInput" id="ballotName" value="#{ballotDetail.ballot.name}" readonly="#{!ballotDetail.edit}"/>
+                        </li>
+                        <li>
+                            <h:outputLabel for="ballotDate" value="Bis"/>
+                            <h:inputText styleClass="largeInput" id="ballotDate" value="#{ballotDetail.ballot.heldAt}" readonly="#{!ballotDetail.edit}">
+                                <f:convertDateTime type="localDate" dateStyle="medium" />
+                            </h:inputText>
+                        </li>
+                        <li>
+                            <h:commandButton id="cEditBtn" value="Bearbeiten" action="#{ballotDetail.doEdit()}" rendered="#{ballotDetail.admin and !ballotDetail.edit}"/>
+                            <h:commandButton id="cSaveBtn" value="Speichern" action="#{ballotDetail.doSave()}" rendered="#{ballotDetail.admin and ballotDetail.edit}"/>
+                            <h:commandButton id="cCancelBtn" value="Abbrechen" action="#{ballotDetail.doCancel()}" rendered="#{ballotDetail.admin and ballotDetail.edit}"/>
+                        </li>
+                    </ol>
+                </fieldset>
+            </div>
+            <h:panelGroup id="user-panel" rendered="#{ballotDetail.admin}">
+                <fieldset class="styledFieldset">
+                    <legend>Users</legend>
+                    <h:dataTable id="userTable" value="#{ballotDetail.ballotUsers}" var="u"
+                                 columnClasses="description, description, description">
+                        <h:column>
+                            <f:facet name="header">userId</f:facet>
+                            <h:outputText value="#{u.userId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Administrator</f:facet>
+                            <h:outputText value="#{u.admin}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Zähler</f:facet>
+                            <h:outputText value="#{u.counter}"/>
+                        </h:column>
+                    </h:dataTable>
+                </fieldset>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

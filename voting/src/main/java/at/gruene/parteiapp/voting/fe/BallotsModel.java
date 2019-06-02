@@ -21,21 +21,22 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import at.gruene.parteiapp.voting.be.BallotManagementService;
+import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
+
+import at.gruene.parteiapp.voting.be.BallotService;
 import at.gruene.parteiapp.voting.be.entities.Ballot;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
 @Named("ballots")
-@SessionScoped
+@ViewAccessScoped
 public class BallotsModel implements Serializable {
 
-    private @Inject BallotManagementService ballotManagementService;
+    private @Inject BallotService ballotService;
 
     private LocalDate searchFrom = LocalDate.now();
     private LocalDate searchUntil = LocalDate.now();
@@ -83,7 +84,7 @@ public class BallotsModel implements Serializable {
      */
     public String doSearch() {
         //X TODO add orgUnits.
-        ballots = ballotManagementService.searchBallot(searchFrom, searchUntil, searchStatus, null);
+        ballots = ballotService.searchBallot(searchFrom, searchUntil, searchStatus, null);
 
         return null;
     }

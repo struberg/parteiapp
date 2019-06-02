@@ -35,27 +35,21 @@
                         </ol>
                     </fieldset>
                 </h:panelGroup>
-                <!--
-                                <h:dataTable id="votes" value="#{adminView.customers}" var="customer"
-                                             columnClasses="description, description, description">
-                                    <h:column>
-                                        <f:facet name="header">Vorname</f:facet>
-                                        <h:outputText value="#{customer.firstName}"/>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">Nachname</f:facet>
-                                        <h:outputText value="#{customer.lastName}"/>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">MSISDN</f:facet>
-                                        <h:commandLink action="#{editCustomerView.editCustomer(customer)}">
-                                            <h:outputText value="#{customer.msisdn}"/>
-                                        </h:commandLink>
-                                    </h:column>
-                                </h:dataTable>
-                                <h:commandButton value="Neuer Kunde" action="#{editCustomerView.editCustomer(null)}"/>
-                -->
 
+                <h:dataTable id="votes" value="#{ballots.ballots}" var="b"
+                             columnClasses="description, description">
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:link outcome="/ballotDetail.xhtml" value="#{b.name}">
+                            <f:param name="ballotId" value="#{b.id}"/>
+                        </h:link>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Wahldatum</f:facet>
+                        <h:outputText value="#{b.heldAt}"/>
+                    </h:column>
+                </h:dataTable>
+                <h:commandButton value="Abstimmung anlegen" action="#{b.doCreateBallot()}"/>
 
             </div>
         </h:form>

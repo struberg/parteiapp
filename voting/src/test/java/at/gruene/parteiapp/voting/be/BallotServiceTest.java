@@ -22,31 +22,31 @@ import static org.junit.Assert.assertNotNull;
  */
 
 @RunWith(CdiTestRunner.class)
-public class BallotManagementServiceTest {
+public class BallotServiceTest {
 
-    private @Inject BallotManagementService ballotManagementService;
+    private @Inject BallotService ballotService;
 
     private @Inject EntityManager em;
 
     @Test
     public void testCreateBallot() {
         LocalDate today = LocalDate.now();
-        List<Ballot> oldBallots = ballotManagementService.searchBallot(today, today, null, null);
+        List<Ballot> oldBallots = ballotService.searchBallot(today, today, null, null);
 
-        Ballot ballot = ballotManagementService.createBallot(LocalDate.now(),
+        Ballot ballot = ballotService.createBallot(LocalDate.now(),
                 "testBallotNow-" + UUID.randomUUID(), "BO10");
 
-        ballotManagementService.addUser(ballot, "testUsr2", true);
-        ballotManagementService.addUser(ballot, "testUsr3", false);
+        ballotService.addUser(ballot, "testUsr2", true);
+        ballotService.addUser(ballot, "testUsr3", false);
 
         em.clear();
         Ballot ballot2 = em.find(Ballot.class, ballot.getId());
         assertNotNull(ballot2);
-        List<BallotUser> ballotUser = ballotManagementService.getBallotUser(ballot2);
+        List<BallotUser> ballotUser = ballotService.getBallotUser(ballot2);
         assertNotNull(ballotUser);
         assertEquals(3, ballotUser.size());
 
-        List<Ballot> newBallots = ballotManagementService.searchBallot(today, today, null, null);
+        List<Ballot> newBallots = ballotService.searchBallot(today, today, null, null);
         assertEquals(oldBallots.size()+1, newBallots.size());
 
     }

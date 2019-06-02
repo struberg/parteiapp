@@ -23,7 +23,7 @@ import org.apache.deltaspike.jpa.api.transaction.Transactional;
  */
 @ApplicationScoped
 @Transactional
-public class BallotManagementService {
+public class BallotService {
 
     private @Inject GruenPrincipal user;
 
@@ -127,5 +127,12 @@ public class BallotManagementService {
 
     protected <T extends VersionedEntity > boolean isManaged (T entity){
         return entity != null && entity.getId() != null;
+    }
+
+    /**
+     * load a Ballot with the given Id
+     */
+    public Ballot loadBallot(int ballotId) {
+        return em.find(Ballot.class, ballotId);
     }
 }

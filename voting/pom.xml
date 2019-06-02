@@ -41,7 +41,6 @@
         <openjpa.skipenhance>false</openjpa.skipenhance>
         <openjpa.includes>at/gruene/parteiapp/voting/be/entities/*.class</openjpa.includes>
 
-        <myfaces.version>2.3.3</myfaces.version>
     </properties>
 
     <dependencies>
@@ -66,6 +65,12 @@
             <groupId>at.gruene.parteiapp.parent</groupId>
             <artifactId>platform-fe-jsf</artifactId>
             <version>0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-api</artifactId>
+            <version>${myfaces.version}</version>
+            <scope>provided</scope>
         </dependency>
 
 
@@ -113,18 +118,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <!-- just needed because we have jsf stuff in this package -->
-            <groupId>org.apache.myfaces.core</groupId>
-            <artifactId>myfaces-api</artifactId>
-            <version>${myfaces.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
+
 
 
     </dependencies>
@@ -146,6 +145,7 @@
                 <artifactId>sql-maven-plugin</artifactId>
                 <version>1.4</version>
                 <configuration>
+                    <skip>${skipTests}</skip>
                     <driver>${database.driver.name}</driver>
                     <url>${database.connection.url}</url>
                     <username>${database.user}</username>
@@ -292,6 +292,10 @@
 
                     <libs>
                         <lib>com.h2database:h2:${h2.version}</lib>
+
+                        <lib>remove:myfaces-*</lib>
+                        <lib>org.apache.myfaces.core:myfaces-api:${myfaces.version}</lib>
+                        <lib>org.apache.myfaces.core:myfaces-impl:${myfaces.version}</lib>
                     </libs>
                 </configuration>
             </plugin>
