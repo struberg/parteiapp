@@ -20,12 +20,286 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>at.gruene.parteiapp.voting</groupId>
-    <artifactId>voting-parent</artifactId>
-    <version>0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <parent>
+        <groupId>at.gruene.parteiapp.parent</groupId>
+        <artifactId>parteiapp-parent</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <relativePath>../parent/pom.xml</relativePath>
+    </parent>
 
-    <modules>
-        <module>be</module>
-    </modules>
+    <groupId>at.gruene.parteiapp.voting</groupId>
+    <artifactId>voting</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+
+    <properties>
+        <tomee.additional.args></tomee.additional.args>
+        <projectstage>Development</projectstage>
+
+        <openjpa.sqlAction>build</openjpa.sqlAction>
+        <openjpa.skipenhance>false</openjpa.skipenhance>
+        <openjpa.includes>at/gruene/parteiapp/voting/be/entities/*.class</openjpa.includes>
+
+        <myfaces.version>2.3.3</myfaces.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>at.gruene.parteiapp.platform</groupId>
+            <artifactId>platform-idm-api</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>at.gruene.parteiapp.platform</groupId>
+            <artifactId>platform-idm-be</artifactId>
+            <version>0.1-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>at.gruene.parteiapp.parent</groupId>
+            <artifactId>platform-be</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>at.gruene.parteiapp.parent</groupId>
+            <artifactId>platform-fe-jsf</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-jpa-module-api</artifactId>
+            <version>${deltaspike.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-jpa-module-impl</artifactId>
+            <version>${deltaspike.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- TEST dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-test-control-module-api</artifactId>
+            <version>${deltaspike.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-test-control-module-impl</artifactId>
+            <version>${deltaspike.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.deltaspike.cdictrl</groupId>
+            <artifactId>deltaspike-cdictrl-openejb</artifactId>
+            <version>${deltaspike.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>openejb-core</artifactId>
+            <version>${tomee.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- just needed because we have jsf stuff in this package -->
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-api</artifactId>
+            <version>${myfaces.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <finalName>voting</finalName>
+
+        <testResources>
+            <!-- generate the db-*.properties files for ContainerTest -->
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.4</version>
+                <configuration>
+                    <driver>${database.driver.name}</driver>
+                    <url>${database.connection.url}</url>
+                    <username>${database.user}</username>
+                    <password>${database.password}</password>
+                    <escapeProcessing>false</escapeProcessing>
+                    <srcFiles>
+                        <srcFile>src/main/sql/${database.vendor}/createdb.sql</srcFile>
+                        <srcFile>src/main/sql/${database.vendor}/database.sql</srcFile>
+                        <srcFile>src/main/sql/${database.vendor}/schema_delta.sql</srcFile>
+                        <srcFile>src/main/sql/${database.vendor}/createindex.sql</srcFile>
+                        <srcFile>src/test/sql/${database.vendor}/testdata.sql</srcFile>
+                    </srcFiles>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>setup-test-database</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>${h2.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa-maven-plugin</artifactId>
+                <version>${openjpa.version}</version>
+                <configuration>
+                    <skip>${openjpa.skipenhance}</skip>
+                    <sqlAction>${openjpa.sqlAction}</sqlAction>
+                    <sqlFile>${project.build.directory}/database-${database.vendor}.sql</sqlFile>
+                    <addDefaultConstructor>true</addDefaultConstructor>
+                    <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
+                    <includes>${openjpa.includes}</includes>
+                    <connectionDriverName>org.apache.commons.dbcp.BasicDataSource</connectionDriverName>
+                    <connectionProperties>
+                        ${openjpa.connectionProperties}
+                    </connectionProperties>
+                    <toolProperties>
+                        <!--
+                         * These are the same like in persistence.properties but without 'openjpa.' and 'jdbc.' in front.
+                         * We need them here as they are not in persistence.xml
+                        -->
+                        <MappingDefaults>ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict</MappingDefaults>
+                    </toolProperties>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>enhance-classes</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa</artifactId>
+                        <version>${openjpa.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>commons-dbcp</groupId>
+                        <artifactId>commons-dbcp</artifactId>
+                        <version>1.4</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>${h2.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-tomee-conf</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <!-- has to be configured as tomee.conf.dir -->
+                            <outputDirectory>${project.build.directory}/tomee/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/tomee/</directory>
+                                    <includes>
+                                        <include>**/*.xml</include>
+                                        <include>**/*.properties</include>
+                                    </includes>
+                                    <!-- filter to correctly set the database connection properties in tomee.xml -->
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.tomee.maven</groupId>
+                <artifactId>tomee-maven-plugin</artifactId>
+                <version>${tomee.version}</version>
+                <configuration>
+                    <synchronization>
+                        <extensions>
+                            <extension>.class</extension>
+                            <extension>.properties</extension>
+                            <extension>.css</extension>
+                            <extension>.xhtml</extension>
+                            <!-- if you want to update each time you build with mvn compile -->
+                        </extensions>
+                        <updateInterval>2</updateInterval>
+                    </synchronization>
+
+                    <!-- because resource filtering ... -->
+                    <config>${project.build.directory}/tomee/conf</config>
+
+                    <!-- removed the .war extension from the "warFile" property, so we can use exploded archives -->
+                    <warFile>${project.build.directory}/${project.build.finalName}</warFile>
+
+                    <!-- path that is used by tomEE in the tomee:deploy and tomee:undeploy goal -->
+                    <path>${project.build.directory}/apache-tomee/webapps/${project.build.finalName}</path>
+
+                    <args>-Dorg.apache.deltaspike.ProjectStage=${projectstage} -Dfaces.PROJECT_STAGE=${projectstage} -Dfile.encoding=UTF-8 -Xms128m -Xmx1024m  -XX:+DisableExplicitGC ${tomee.additional.args}</args>
+
+                    <libs>
+                        <lib>com.h2database:h2:${h2.version}</lib>
+                    </libs>
+                </configuration>
+            </plugin>
+
+
+
+        </plugins>
+    </build>
+
+
 </project>

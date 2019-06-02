@@ -24,17 +24,9 @@
         <groupId>at.gruene.parteiapp.parent</groupId>
         <artifactId>parteiapp-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
-        <relativePath>../parent/pom.xml</relativePath>
+        <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>at.gruene.parteiapp.platform</groupId>
-    <artifactId>platform-parent</artifactId>
-    <version>0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <artifactId>platform-be</artifactId>
 
-    <modules>
-        <module>idm</module>
-        <module>be</module>
-        <module>fe-jsf</module>
-    </modules>
 </project>

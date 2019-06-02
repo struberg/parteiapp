@@ -29,4 +29,13 @@
 
     <artifactId>platform-idm-be</artifactId>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>at.gruene.parteiapp.platform</groupId>
+            <artifactId>platform-idm-api</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>

@@ -1,0 +1,7 @@
+--------------------------------------------------------------------------------
+--
+-- changes of the database schema for the Voting app.
+--
+-- this file contains all ALTER TABLE statements in chronological order.
+--
+--------------------------------------------------------------------------------

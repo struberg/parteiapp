@@ -10,10 +10,25 @@ import java.util.Objects;
 public class GruenPrincipal implements Principal {
 
     private String name;
+    private String viewName;
     private List<String> orgUnits;
+
+    // for proxying
+    public GruenPrincipal() {
+    }
+
+    public GruenPrincipal(String name, String viewName, List<String> orgUnits) {
+        this.name = name;
+        this.viewName = viewName;
+        this.orgUnits = orgUnits;
+    }
 
     public String getName() {
         return name;
+    }
+
+    public String getViewName() {
+        return viewName;
     }
 
     /**

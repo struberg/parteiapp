@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/META-INF/fragments/template.xhtml">
+    <ui:define name="title">#{txt.voting_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div id="overview">
+                <h2>Ballots</h2>
+
+                <h:panelGroup id="searchPanel">
+                    <fieldset class="styledFieldset">
+                        <legend>Search Ballots</legend>
+                        <ol>
+                            <li>
+                                <h:outputLabel for="searchFrom" value="Von"/>
+                                <h:inputText styleClass="largeInput" id="searchFrom" value="#{ballots.searchFrom}">
+                                    <f:convertDateTime type="localDate" dateStyle="medium" />
+                                </h:inputText>
+                            </li>
+                            <li>
+                                <h:outputLabel for="searchUntil" value="Bis"/>
+                                <h:inputText styleClass="largeInput" id="searchUntil" value="#{ballots.searchUntil}">
+                                    <f:convertDateTime type="localDate" dateStyle="medium" />
+                                </h:inputText>
+                            </li>
+                            <li>
+                                <h:commandButton id="cSearchBtn" value="Suchen" action="#{ballots.doSearch}"/>
+                            </li>
+                        </ol>
+                    </fieldset>
+                </h:panelGroup>
+                <!--
+                                <h:dataTable id="votes" value="#{adminView.customers}" var="customer"
+                                             columnClasses="description, description, description">
+                                    <h:column>
+                                        <f:facet name="header">Vorname</f:facet>
+                                        <h:outputText value="#{customer.firstName}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Nachname</f:facet>
+                                        <h:outputText value="#{customer.lastName}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">MSISDN</f:facet>
+                                        <h:commandLink action="#{editCustomerView.editCustomer(customer)}">
+                                            <h:outputText value="#{customer.msisdn}"/>
+                                        </h:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                                <h:commandButton value="Neuer Kunde" action="#{editCustomerView.editCustomer(null)}"/>
+                -->
+
+
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
