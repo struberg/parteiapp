@@ -12,7 +12,7 @@
     <ui:define name="metadata">
         <f:metadata>
             <f:viewParam name="ballotId" value="#{ballotDetail.ballotId}"/>
-            <f:viewAction action="#{ballotDetail.loadBallot}"/>
+            <f:viewAction action="#{ballotDetail.initBallot}"/>
         </f:metadata>
     </ui:define>
 
@@ -24,11 +24,16 @@
                     <ol>
                         <li>
                             <h:outputLabel for="ballotName" value="Name der Wahl"/>
-                            <h:inputText styleClass="largeInput" id="ballotName" value="#{ballotDetail.ballot.name}" readonly="#{!ballotDetail.editBallot}"/>
+                            <h:outputText id="ballotNameOut" value="#{ballotDetail.ballot.name}" rendered="#{!ballotDetail.editBallot}"/>
+                            <h:inputText styleClass="largeInput" id="ballotName" value="#{ballotDetail.ballot.name}" rendered="#{ballotDetail.editBallot}"/>
                         </li>
                         <li>
                             <h:outputLabel for="ballotDate" value="Datum der Wahl"/>
-                            <h:inputText styleClass="largeInput" id="ballotDate" value="#{ballotDetail.ballot.heldAt}" readonly="#{!ballotDetail.editBallot}">
+                            <h:outputText id="ballotDateOut" value="#{ballotDetail.ballot.heldAt}" rendered="#{!ballotDetail.editBallot}">
+                                <f:convertDateTime type="localDate" dateStyle="medium" />
+                            </h:outputText>
+
+                            <h:inputText styleClass="largeInput" id="ballotDate" value="#{ballotDetail.ballot.heldAt}" rendered="#{ballotDetail.editBallot}">
                                 <f:convertDateTime type="localDate" dateStyle="medium" />
                             </h:inputText>
                         </li>
@@ -40,22 +45,25 @@
                     </ol>
                 </fieldset>
             </div>
-            <h:panelGroup id="user-panel" rendered="#{ballotDetail.admin}">
+            <h:panelGroup id="user-panel" rendered="#{ballotDetail.admin and ballotDetail.ballot.id != null}">
                 <fieldset class="styledFieldset">
                     <legend>Users</legend>
                     <h:dataTable id="userTable" value="#{ballotDetail.ballotUsers}" var="u"
                                  columnClasses="description, description, description">
                         <h:column>
                             <f:facet name="header">userId</f:facet>
-                            <h:outputText value="#{u.userId}"/>
+                            <h:inputText value="#{u.userId}" rendered="#{u.id == null}"/>
+                            <h:outputText value="#{u.userId}" rendered="#{u.id != null}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">Administrator</f:facet>
-                            <h:graphicImage rendered="#{u.admin}" value="resources/images/message-tick.png"/>
+                            <h:selectBooleanCheckbox value="#{u.admin}" rendered="#{u == ballotDetail.editedUser}"/>
+                            <h:graphicImage rendered="#{u != ballotDetail.editedUser and u.admin}" value="resources/images/message-tick.png"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">Zähler</f:facet>
-                            <h:graphicImage rendered="#{u.counter}" value="resources/images/message-tick.png"/>
+                            <h:selectBooleanCheckbox value="#{u.counter}" rendered="#{u == ballotDetail.editedUser}"/>
+                            <h:graphicImage rendered="#{u != ballotDetail.editedUser and u.counter}" value="resources/images/message-tick.png"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header"></f:facet>
@@ -73,7 +81,9 @@
                     </h:dataTable>
                     <ol>
                         <li>
-                            <h:commandButton id="cAddUserBtn" value="Benutzer hinzufügen" action="#{ballotDetail.doAddUser}" rendered="#{ballotDetail.admin and !ballotDetail.editBallot}"/>
+                            <h:commandLink id="cAddUserBtn" action="#{ballotDetail.doAddUser}" rendered="#{ballotDetail.admin and ballotDetail.editedUser == null}">
+                                <h:graphicImage value="resources/images/circle-plus.png" alt="Benutzer hinzufügen"/>
+                            </h:commandLink>
                         </li>
                     </ol>
                 </fieldset>

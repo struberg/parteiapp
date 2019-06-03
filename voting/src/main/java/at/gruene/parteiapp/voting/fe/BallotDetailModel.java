@@ -17,6 +17,8 @@
 package at.gruene.parteiapp.voting.fe;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +30,7 @@ import org.apache.deltaspike.jsf.api.message.JsfMessage;
 
 import at.gruene.parteiapp.voting.be.BallotService;
 import at.gruene.parteiapp.voting.be.entities.Ballot;
+import at.gruene.parteiapp.voting.be.entities.BallotNominee;
 import at.gruene.parteiapp.voting.be.entities.BallotUser;
 import at.gruene.parteiapp.voting.fe.msg.BallotMessage;
 import at.gruene.platform.idm.api.GruenPrincipal;
@@ -48,6 +51,9 @@ public class BallotDetailModel implements Serializable {
 
     private List<BallotUser> ballotUsers;
     private BallotUser editedUser;
+
+    private List<BallotNominee> ballotNominees;
+    private BallotNominee editedNominee;
 
 
     private @Inject GruenPrincipal principal;
@@ -87,11 +93,36 @@ public class BallotDetailModel implements Serializable {
         return editedUser;
     }
 
-    public String loadBallot() {
+    public List<BallotNominee> getBallotNominees() {
+        return ballotNominees;
+    }
+
+    public BallotNominee getEditedNominee() {
+        return editedNominee;
+    }
+
+    public String initBallot() {
         //X TODO security:
 
         if (ballotId == null) {
             ballotMsg.addError().noBallotIdGiven();
+            return null;
+        }
+
+        if (ballotId == -1) {
+            // create new Ballot
+            ballot = new Ballot();
+            ballot.setHeldAt(LocalDate.now());
+
+            isAdmin = true;
+            isCounter=false;
+            isEditBallot = true;
+
+            ballotUsers = new ArrayList<>();
+            editedUser = null;
+            ballotNominees = new ArrayList<>();
+            editedNominee = null;
+
             return null;
         }
 
@@ -100,8 +131,10 @@ public class BallotDetailModel implements Serializable {
             ballotMsg.addError().noBallotFound(ballotId);
             return null;
         }
+        // Lists we get from JPA are unmodifiable.
+        // So we need to copy this over to be able to add a new user
+        ballotUsers = new ArrayList<>(ballotService.getBallotUser(ballot));
 
-        ballotUsers = ballotService.getBallotUser(ballot);
         Optional<BallotUser> ballotUser = ballotUsers.stream()
                 .filter(b -> b.getUserId().equals(principal.getName()))
                 .findFirst();
@@ -126,13 +159,26 @@ public class BallotDetailModel implements Serializable {
     }
 
     public String doCancel() {
-        loadBallot();
+        initBallot();
         return null;
     }
 
     public String doSave() {
-        ballotService.updateBallot(ballot);
+        if (ballot.getId() == null) {
+            ballot = ballotService.createBallot(ballot.getHeldAt(), ballot.getName(), null);
+            return "/ballotDetail.xhtml?ballotId=" + ballot.getId() + "&faces-redirect=true";
+        }
+        else {
+            ballotService.updateBallot(ballot);
+        }
         isEditBallot = false;
+        return null;
+    }
+
+    public String doAddUser() {
+        this.editedUser = new BallotUser();
+        this.editedUser.setBallot(ballot);
+        ballotUsers.add(this.editedUser);
         return null;
     }
 

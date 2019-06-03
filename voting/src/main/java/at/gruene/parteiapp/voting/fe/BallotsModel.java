@@ -88,4 +88,8 @@ public class BallotsModel implements Serializable {
 
         return null;
     }
+
+    public String doCreateBallot() {
+        return "/ballotDetail.xhtml?ballotId=-1&faces-redirect=true";
+    }
 }
