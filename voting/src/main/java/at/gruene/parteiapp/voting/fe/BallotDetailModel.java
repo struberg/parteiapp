@@ -44,8 +44,11 @@ public class BallotDetailModel implements Serializable {
     private Ballot ballot;
     private boolean isAdmin;
     private boolean isCounter;
-    private boolean isEdit;
+    private boolean isEditBallot;
+
     private List<BallotUser> ballotUsers;
+    private BallotUser editedUser;
+
 
     private @Inject GruenPrincipal principal;
     private @Inject BallotService ballotService;
@@ -72,12 +75,16 @@ public class BallotDetailModel implements Serializable {
         return isCounter;
     }
 
-    public boolean isEdit() {
-        return isEdit;
+    public boolean isEditBallot() {
+        return isEditBallot;
     }
 
     public List<BallotUser> getBallotUsers() {
         return ballotUsers;
+    }
+
+    public BallotUser getEditedUser() {
+        return editedUser;
     }
 
     public String loadBallot() {
@@ -104,14 +111,17 @@ public class BallotDetailModel implements Serializable {
                     .orElse(false);
 
         // start in read mode
-        isEdit = false;
+        isEditBallot = false;
+        editedUser = null;
 
         // stay on the page
         return null;
     }
 
+    /* ballot edit */
+
     public String doEdit() {
-        isEdit = true;
+        isEditBallot = true;
         return null;
     }
 
@@ -121,7 +131,26 @@ public class BallotDetailModel implements Serializable {
     }
 
     public String doSave() {
-        ballotService.update(ballot);
+        ballotService.updateBallot(ballot);
+        isEditBallot = false;
         return null;
     }
+
+    /* user edit */
+    public String doEditUser(BallotUser u) {
+        this.editedUser = u;
+        return null;
+    }
+
+    public String doCancelEditUser() {
+        this.editedUser = null;
+        return null;
+    }
+
+    public String doSaveUser() {
+        ballotService.saveBallotUser(editedUser);
+        this.editedUser = null;
+        return null;
+    }
+
 }

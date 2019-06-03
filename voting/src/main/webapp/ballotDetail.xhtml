@@ -24,18 +24,18 @@
                     <ol>
                         <li>
                             <h:outputLabel for="ballotName" value="Name der Wahl"/>
-                            <h:inputText styleClass="largeInput" id="ballotName" value="#{ballotDetail.ballot.name}" readonly="#{!ballotDetail.edit}"/>
+                            <h:inputText styleClass="largeInput" id="ballotName" value="#{ballotDetail.ballot.name}" readonly="#{!ballotDetail.editBallot}"/>
                         </li>
                         <li>
-                            <h:outputLabel for="ballotDate" value="Bis"/>
-                            <h:inputText styleClass="largeInput" id="ballotDate" value="#{ballotDetail.ballot.heldAt}" readonly="#{!ballotDetail.edit}">
+                            <h:outputLabel for="ballotDate" value="Datum der Wahl"/>
+                            <h:inputText styleClass="largeInput" id="ballotDate" value="#{ballotDetail.ballot.heldAt}" readonly="#{!ballotDetail.editBallot}">
                                 <f:convertDateTime type="localDate" dateStyle="medium" />
                             </h:inputText>
                         </li>
                         <li>
-                            <h:commandButton id="cEditBtn" value="Bearbeiten" action="#{ballotDetail.doEdit()}" rendered="#{ballotDetail.admin and !ballotDetail.edit}"/>
-                            <h:commandButton id="cSaveBtn" value="Speichern" action="#{ballotDetail.doSave()}" rendered="#{ballotDetail.admin and ballotDetail.edit}"/>
-                            <h:commandButton id="cCancelBtn" value="Abbrechen" action="#{ballotDetail.doCancel()}" rendered="#{ballotDetail.admin and ballotDetail.edit}"/>
+                            <h:commandButton id="cEditBtn" value="Bearbeiten" action="#{ballotDetail.doEdit()}" rendered="#{ballotDetail.admin and !ballotDetail.editBallot}"/>
+                            <h:commandButton id="cSaveBtn" value="Speichern" action="#{ballotDetail.doSave()}" rendered="#{ballotDetail.admin and ballotDetail.editBallot}"/>
+                            <h:commandButton id="cCancelBtn" value="Abbrechen" action="#{ballotDetail.doCancel()}" rendered="#{ballotDetail.admin and ballotDetail.editBallot}"/>
                         </li>
                     </ol>
                 </fieldset>
@@ -57,7 +57,25 @@
                             <f:facet name="header">Zähler</f:facet>
                             <h:graphicImage rendered="#{u.counter}" value="resources/images/message-tick.png"/>
                         </h:column>
+                        <h:column>
+                            <f:facet name="header"></f:facet>
+                            <h:commandLink rendered="#{ballotDetail.admin and ballotDetail.editedUser == null}" action="#{ballotDetail.doEditUser(u)}">
+                                <h:graphicImage value="resources/images/pencil.png" alt="Benutzer bearbeiten"/>
+                            </h:commandLink>
+                            <h:commandLink rendered="#{ballotDetail.admin and u == ballotDetail.editedUser}" action="#{ballotDetail.doSaveUser}">
+                                <h:graphicImage value="resources/images/circle-tick.png" alt="Benutzer Änderunen speichern"/>
+                            </h:commandLink>
+                            <h:commandLink rendered="#{ballotDetail.admin and u == ballotDetail.editedUser}" action="#{ballotDetail.doCancelEditUser}">
+                                <h:graphicImage value="resources/images/circle-cross.png" alt="Benutzer Bearbeiten abbrechen"/>
+                            </h:commandLink>
+
+                        </h:column>
                     </h:dataTable>
+                    <ol>
+                        <li>
+                            <h:commandButton id="cAddUserBtn" value="Benutzer hinzufügen" action="#{ballotDetail.doAddUser}" rendered="#{ballotDetail.admin and !ballotDetail.editBallot}"/>
+                        </li>
+                    </ol>
                 </fieldset>
             </h:panelGroup>
         </h:form>

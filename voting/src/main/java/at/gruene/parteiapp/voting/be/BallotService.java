@@ -85,7 +85,7 @@ public class BallotService {
      *
      * @param ballot
      */
-    public Ballot update(Ballot ballot) {
+    public Ballot updateBallot(Ballot ballot) {
         return em.merge(ballot);
     }
 
@@ -135,4 +135,18 @@ public class BallotService {
     public Ballot loadBallot(int ballotId) {
         return em.find(Ballot.class, ballotId);
     }
+
+    /**
+     * Save or update the BallotUser to the database if there was any change.
+     */
+    public BallotUser saveBallotUser(BallotUser ballotUser) {
+        if (isManaged(ballotUser)) {
+            return em.merge(ballotUser);
+        }
+        else {
+            em.persist(ballotUser);
+            return ballotUser;
+        }
+    }
+
 }

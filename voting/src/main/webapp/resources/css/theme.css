@@ -96,9 +96,6 @@ IMG {
     font-size: 10px;
     border-width: 1px;
     border-style: none;
-/*
-    background-color: #EDEDED;
-*/
 }
 
 #contentContainer {
@@ -434,36 +431,10 @@ table, p {
     width: 300px;
 }
 
-.credit {
-    text-align: right;
-    color: #00FF00;
-    width: 100px;
-}
-
-.debit {
-    text-align: right;
-    color: #Ff0000;
-    width: 100px;
-}
-
-.saldo {
-    text-align: right;
-    color: #000000;
-    font-weight: bold;
-    width: 100px;
-
-    border-top-width: 1px;
-    border-top-color: #000000;
-    border-top-style: solid;
-
-    border-bottom-width: 3px;
-    border-bottom-color: #000000;
-    border-bottom-style: double;
-
-}
 
 .pending {
     text-align: right;
     color: #DDDDDD;
     width: 100px;
 }
+
