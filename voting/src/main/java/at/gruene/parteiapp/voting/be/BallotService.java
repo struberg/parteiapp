@@ -3,6 +3,7 @@ package at.gruene.parteiapp.voting.be;
 import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
 import at.gruene.parteiapp.platform.be.query.QueryBuilder;
 import at.gruene.parteiapp.voting.be.entities.Ballot;
+import at.gruene.parteiapp.voting.be.entities.BallotNominee;
 import at.gruene.parteiapp.voting.be.entities.BallotUser;
 import at.gruene.platform.idm.api.GruenPrincipal;
 
@@ -103,7 +104,7 @@ public class BallotService {
             throw new IllegalStateException("Cannot add user to closed Ballot");
         }
 
-        Validate.isTrue(!getBallotUser(ballot).stream().anyMatch(u -> u.getUserId().equals(userId)));
+        Validate.isTrue(!getBallotUsers(ballot).stream().anyMatch(u -> u.getUserId().equals(userId)));
         BallotUser ballotUser = new BallotUser();
         ballotUser.setBallot(ballot);
         ballotUser.setUserId(userId);
@@ -117,8 +118,15 @@ public class BallotService {
         em.remove(ballotUser);
     }
 
-    public List<BallotUser> getBallotUser(Ballot ballot) {
+    public List<BallotUser> getBallotUsers(Ballot ballot) {
         TypedQuery<BallotUser> qry = em.createNamedQuery(BallotUser.QRY_FIND_BY_BALLOT, BallotUser.class);
+        qry.setParameter("ballot", ballot);
+
+        return qry.getResultList();
+    }
+
+    public List<BallotNominee> getBallotNominees(Ballot ballot) {
+        TypedQuery<BallotNominee> qry = em.createNamedQuery(BallotNominee.QRY_FIND_BY_BALLOT, BallotNominee.class);
         qry.setParameter("ballot", ballot);
 
         return qry.getResultList();
@@ -146,6 +154,19 @@ public class BallotService {
         else {
             em.persist(ballotUser);
             return ballotUser;
+        }
+    }
+
+    /**
+     * Save or update the BallotNominee to the database if there was any change.
+     */
+    public BallotNominee saveBallotNominee(BallotNominee ballotNominee) {
+        if (isManaged(ballotNominee)) {
+            return em.merge(ballotNominee);
+        }
+        else {
+            em.persist(ballotNominee);
+            return ballotNominee;
         }
     }
 

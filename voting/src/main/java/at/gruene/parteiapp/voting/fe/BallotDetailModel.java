@@ -133,7 +133,8 @@ public class BallotDetailModel implements Serializable {
         }
         // Lists we get from JPA are unmodifiable.
         // So we need to copy this over to be able to add a new user
-        ballotUsers = new ArrayList<>(ballotService.getBallotUser(ballot));
+        ballotNominees = new ArrayList<>(ballotService.getBallotNominees(ballot));
+        ballotUsers = new ArrayList<>(ballotService.getBallotUsers(ballot));
 
         Optional<BallotUser> ballotUser = ballotUsers.stream()
                 .filter(b -> b.getUserId().equals(principal.getName()))
@@ -166,6 +167,8 @@ public class BallotDetailModel implements Serializable {
     public String doSave() {
         if (ballot.getId() == null) {
             ballot = ballotService.createBallot(ballot.getHeldAt(), ballot.getName(), null);
+            this.ballotId = ballot.getId();
+
             return "/ballotDetail.xhtml?ballotId=" + ballot.getId() + "&faces-redirect=true";
         }
         else {
@@ -190,12 +193,44 @@ public class BallotDetailModel implements Serializable {
 
     public String doCancelEditUser() {
         this.editedUser = null;
+
+        // simply load everything from scratch
+        initBallot();
+
         return null;
     }
 
     public String doSaveUser() {
         ballotService.saveBallotUser(editedUser);
         this.editedUser = null;
+        return null;
+    }
+
+    public String doAddNominee() {
+        this.editedNominee = new BallotNominee();
+        this.editedNominee.setBallot(ballot);
+        ballotNominees.add(this.editedNominee);
+        return null;
+    }
+
+    /* user edit */
+    public String doEditNominee(BallotNominee u) {
+        this.editedNominee = u;
+        return null;
+    }
+
+    public String doCancelEditNominee() {
+        this.editedNominee = null;
+
+        // simply load everything from scratch
+        initBallot();
+
+        return null;
+    }
+
+    public String doSaveNominee() {
+        ballotService.saveBallotNominee(editedNominee);
+        this.editedNominee = null;
         return null;
     }
 

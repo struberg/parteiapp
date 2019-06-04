@@ -1,6 +1,7 @@
 package at.gruene.parteiapp.voting.be;
 
 import at.gruene.parteiapp.voting.be.entities.Ballot;
+import at.gruene.parteiapp.voting.be.entities.BallotNominee;
 import at.gruene.parteiapp.voting.be.entities.BallotUser;
 
 import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
@@ -42,9 +43,13 @@ public class BallotServiceTest {
         em.clear();
         Ballot ballot2 = em.find(Ballot.class, ballot.getId());
         assertNotNull(ballot2);
-        List<BallotUser> ballotUser = ballotService.getBallotUser(ballot2);
+        List<BallotUser> ballotUser = ballotService.getBallotUsers(ballot2);
         assertNotNull(ballotUser);
         assertEquals(3, ballotUser.size());
+
+        List<BallotNominee> nominees = ballotService.getBallotNominees(ballot2);
+        assertNotNull(nominees);
+        assertEquals(0, nominees.size());
 
         List<Ballot> newBallots = ballotService.searchBallot(today, today, null, null);
         assertEquals(oldBallots.size()+1, newBallots.size());

@@ -45,9 +45,10 @@
                     </ol>
                 </fieldset>
             </div>
+
             <h:panelGroup id="user-panel" rendered="#{ballotDetail.admin and ballotDetail.ballot.id != null}">
                 <fieldset class="styledFieldset">
-                    <legend>Users</legend>
+                    <legend>Mitarbeiter</legend>
                     <h:dataTable id="userTable" value="#{ballotDetail.ballotUsers}" var="u"
                                  columnClasses="description, description, description">
                         <h:column>
@@ -88,6 +89,46 @@
                     </ol>
                 </fieldset>
             </h:panelGroup>
+
+            <h:panelGroup id="nominee-panel" rendered="#{(ballotDetail.admin or ballotDetail.counter) and ballotDetail.ballot.id != null}">
+                <fieldset class="styledFieldset">
+                    <legend>Nominierte</legend>
+                    <h:dataTable id="nomineeTable" value="#{ballotDetail.ballotNominees}" var="nominee"
+                                 columnClasses="description, description, description">
+                        <h:column>
+                            <f:facet name="header">Kürzel</f:facet>
+                            <h:inputText value="#{nominee.shortKey}" rendered="#{nominee.id == null}"/>
+                            <h:outputText value="#{nominee.shortKey}" rendered="#{nominee.id != null}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            <h:inputText value="#{nominee.name}" rendered="#{nominee.id == null}"/>
+                            <h:outputText value="#{nominee.name}" rendered="#{nominee.id != null}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"></f:facet>
+                            <h:commandLink rendered="#{ballotDetail.admin and ballotDetail.editedNominee == null}" action="#{ballotDetail.doEditNominee(nominee)}">
+                                <h:graphicImage value="resources/images/pencil.png" alt="Nominierte bearbeiten"/>
+                            </h:commandLink>
+                            <h:commandLink rendered="#{ballotDetail.admin and nominee == ballotDetail.editedNominee}" action="#{ballotDetail.doSaveNominee}">
+                                <h:graphicImage value="resources/images/circle-tick.png" alt="Nominierte Änderunen speichern"/>
+                            </h:commandLink>
+                            <h:commandLink rendered="#{ballotDetail.admin and nominee == ballotDetail.editedNominee}" action="#{ballotDetail.doCancelEditNominee}">
+                                <h:graphicImage value="resources/images/circle-cross.png" alt="Nominierte Bearbeiten abbrechen"/>
+                            </h:commandLink>
+
+                        </h:column>
+                    </h:dataTable>
+                    <ol>
+                        <li>
+                            <h:commandLink id="cAddNomineeBtn" action="#{ballotDetail.doAddNominee}" rendered="#{ballotDetail.admin and ballotDetail.editedNominee == null}">
+                                <h:graphicImage value="resources/images/circle-plus.png" alt="Nominierte hinzufügen"/>
+                            </h:commandLink>
+                        </li>
+                    </ol>
+                </fieldset>
+            </h:panelGroup>
+
         </h:form>
     </ui:define>
 </ui:composition>
