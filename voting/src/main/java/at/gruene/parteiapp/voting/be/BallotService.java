@@ -115,6 +115,7 @@ public class BallotService {
     }
 
     public void removeUser(BallotUser ballotUser) {
+        ballotUser = em.find(BallotUser.class, ballotUser);
         em.remove(ballotUser);
     }
 
@@ -170,4 +171,8 @@ public class BallotService {
         }
     }
 
+    public void removeBallotNominee(BallotNominee ballotNominee) {
+        ballotNominee = em.find(BallotNominee.class, ballotNominee.getId());
+        em.remove(ballotNominee);
+    }
 }

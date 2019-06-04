@@ -213,9 +213,15 @@ public class BallotDetailModel implements Serializable {
         return null;
     }
 
-    /* user edit */
-    public String doEditNominee(BallotNominee u) {
-        this.editedNominee = u;
+    /* nominee edit */
+    public String doEditNominee(BallotNominee ballotNominee) {
+        this.editedNominee = ballotNominee;
+        return null;
+    }
+
+    public String doDeleteNominee(BallotNominee ballotNominee) {
+        this.ballotNominees.remove(ballotNominee);
+        ballotService.removeBallotNominee(ballotNominee);
         return null;
     }
 
@@ -231,6 +237,19 @@ public class BallotDetailModel implements Serializable {
     public String doSaveNominee() {
         ballotService.saveBallotNominee(editedNominee);
         this.editedNominee = null;
+        return null;
+    }
+
+    /* Wahlzettel eingeben */
+    public String doStartCounting() {
+        ballot.setStatus(Ballot.BallotStatus.OPEN);
+        ballot = ballotService.updateBallot(ballot);
+        return null;
+    }
+
+    public String doEndCounting() {
+        ballot.setStatus(Ballot.BallotStatus.CLOSED);
+        ballot = ballotService.updateBallot(ballot);
         return null;
     }
 

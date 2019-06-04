@@ -38,9 +38,18 @@
                             </h:inputText>
                         </li>
                         <li>
-                            <h:commandButton id="cEditBtn" value="Bearbeiten" action="#{ballotDetail.doEdit()}" rendered="#{ballotDetail.admin and !ballotDetail.editBallot}"/>
-                            <h:commandButton id="cSaveBtn" value="Speichern" action="#{ballotDetail.doSave()}" rendered="#{ballotDetail.admin and ballotDetail.editBallot}"/>
-                            <h:commandButton id="cCancelBtn" value="Abbrechen" action="#{ballotDetail.doCancel()}" rendered="#{ballotDetail.admin and ballotDetail.editBallot}"/>
+                            <h:commandButton id="cEditBtn" value="Bearbeiten" action="#{ballotDetail.doEdit()}"
+                                             rendered="#{ballotDetail.admin and !ballotDetail.editBallot}"/>
+                            <h:commandButton id="cSaveBtn" value="Speichern" action="#{ballotDetail.doSave()}"
+                                             rendered="#{ballotDetail.admin and ballotDetail.editBallot}"/>
+                            <h:commandButton id="cCancelBtn" value="Abbrechen" action="#{ballotDetail.doCancel()}"
+                                             rendered="#{ballotDetail.admin and ballotDetail.editBallot}"/>
+                        </li>
+                        <li>
+                            <h:commandButton id="cStartCountBtn" value="Wahlzettel eingeben" action="#{ballotDetail.doStartCounting()}"
+                                             rendered="#{ballotDetail.admin and !ballotDetail.editBallot and ballotDetail.ballot.status == 'CREATED'}"/>
+                            <h:commandButton id="cEndCountBtn" value="Wahlzettel Eingabe beenden" action="#{ballotDetail.doEndCounting()}"
+                                             rendered="#{ballotDetail.admin and !ballotDetail.editBallot and ballotDetail.ballot.status == 'OPEN'}"/>
                         </li>
                     </ol>
                 </fieldset>
@@ -109,6 +118,9 @@
                             <f:facet name="header"></f:facet>
                             <h:commandLink rendered="#{ballotDetail.admin and ballotDetail.editedNominee == null}" action="#{ballotDetail.doEditNominee(nominee)}">
                                 <h:graphicImage value="resources/images/pencil.png" alt="Nominierte bearbeiten"/>
+                            </h:commandLink>
+                            <h:commandLink rendered="#{ballotDetail.admin and ballotDetail.editedNominee == null}" action="#{ballotDetail.doDeleteNominee(nominee)}">
+                                <h:graphicImage value="resources/images/circle-minus.png" alt="Nominierte löschen"/>
                             </h:commandLink>
                             <h:commandLink rendered="#{ballotDetail.admin and nominee == ballotDetail.editedNominee}" action="#{ballotDetail.doSaveNominee}">
                                 <h:graphicImage value="resources/images/circle-tick.png" alt="Nominierte Änderunen speichern"/>
