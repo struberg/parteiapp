@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/META-INF/fragments/template.xhtml">
+    <ui:define name="title">#{txt.voting_title}</ui:define>
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="voteId" value="#{voteDetail.voteId}"/>
+            <f:viewParam name="ballotId" value="#{voteDetail.ballotId}"/>
+            <f:viewAction action="#{voteDetail.initVote}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div id="detail-panel">
+
+                <fieldset class="styledFieldset">
+                    <legend>Wahlgang</legend>
+                    <ol>
+                        <li>
+                            <h:outputLabel value="Name der Wahl"/>
+                            <h:outputText id="ballotNameOut" value="#{voteDetail.ballot.name}"/>
+                            am
+
+                            <h:outputText id="ballotDateOut" value="#{voteDetail.ballot.heldAt}">
+                                <f:convertDateTime type="localDate" dateStyle="medium" />
+                            </h:outputText>
+                        </li>
+                    </ol>
+                </fieldset>
+
+                <fieldset class="styledFieldset">
+                    <legend>Wahlzettel</legend>
+
+                    <ol>
+                        <li>
+                            <h:outputLabel value="Wahlzettel Nummer" for="voteSheetNr"/>
+                            <h:inputText id="voteSheetNr" value="#{voteDetail.vote.voteNr}"/>
+                        </li>
+                    </ol>
+                    <p:pickList id="pickList" value="#{voteDetail.picklist}" var="nominee" itemLabel="#{nominee}" itemValue="#{nominee}" >
+                        <f:facet name="sourceCaption">Nominiert</f:facet>
+                        <f:facet name="targetCaption">Gewählt</f:facet>
+                    </p:pickList>
+
+                    <ol>
+                        <li>
+                            <h:commandButton id="cStartCountBtn" value="Wahlzettel speichern" action="#{ballotDetail.doStartCounting()}"/>
+                        </li>
+                    </ol>
+                </fieldset>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

@@ -5,6 +5,7 @@ import at.gruene.parteiapp.platform.be.query.QueryBuilder;
 import at.gruene.parteiapp.voting.be.entities.Ballot;
 import at.gruene.parteiapp.voting.be.entities.BallotNominee;
 import at.gruene.parteiapp.voting.be.entities.BallotUser;
+import at.gruene.parteiapp.voting.be.entities.BallotVote;
 import at.gruene.platform.idm.api.GruenPrincipal;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -174,5 +175,9 @@ public class BallotService {
     public void removeBallotNominee(BallotNominee ballotNominee) {
         ballotNominee = em.find(BallotNominee.class, ballotNominee.getId());
         em.remove(ballotNominee);
+    }
+
+    public BallotVote loadVote(Integer voteId) {
+        return em.find(BallotVote.class, voteId);
     }
 }

@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.apache.deltaspike.jsf.api.message.JsfMessage;
 
 import at.gruene.parteiapp.voting.be.BallotService;
@@ -101,6 +102,10 @@ public class BallotDetailModel implements Serializable {
         return editedNominee;
     }
 
+    /**
+     * Initialisation which gets called via f:viewAction
+     */
+    @Transactional
     public String initBallot() {
         //X TODO security:
 
@@ -251,6 +256,10 @@ public class BallotDetailModel implements Serializable {
         ballot.setStatus(Ballot.BallotStatus.CLOSED);
         ballot = ballotService.updateBallot(ballot);
         return null;
+    }
+
+    public String doEnterVotes() {
+        return "ballotVote.xhtml?voteId=-1&ballotId=" + ballot.getId() + "&faces-redirect=true";
     }
 
 }

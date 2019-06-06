@@ -86,6 +86,12 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>7.0</version>
+        </dependency>
+
         <!-- TEST dependencies -->
         <dependency>
             <groupId>junit</groupId>

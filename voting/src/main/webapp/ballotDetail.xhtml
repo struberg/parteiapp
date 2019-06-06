@@ -46,10 +46,12 @@
                                              rendered="#{ballotDetail.admin and ballotDetail.editBallot}"/>
                         </li>
                         <li>
-                            <h:commandButton id="cStartCountBtn" value="Wahlzettel eingeben" action="#{ballotDetail.doStartCounting()}"
+                            <h:commandButton id="cStartCountBtn" value="Auszählung starten" action="#{ballotDetail.doStartCounting()}"
                                              rendered="#{ballotDetail.admin and !ballotDetail.editBallot and ballotDetail.ballot.status == 'CREATED'}"/>
-                            <h:commandButton id="cEndCountBtn" value="Wahlzettel Eingabe beenden" action="#{ballotDetail.doEndCounting()}"
+                            <h:commandButton id="cEndCountBtn" value="Auszählung beenden" action="#{ballotDetail.doEndCounting()}"
                                              rendered="#{ballotDetail.admin and !ballotDetail.editBallot and ballotDetail.ballot.status == 'OPEN'}"/>
+                            <h:commandButton id="cEnterVote" value="Wahlzettel eingeben" action="#{ballotDetail.doEnterVotes()}"
+                                             rendered="#{ballotDetail.counter and ballotDetail.ballot.status == 'OPEN'}"/>
                         </li>
                     </ol>
                 </fieldset>

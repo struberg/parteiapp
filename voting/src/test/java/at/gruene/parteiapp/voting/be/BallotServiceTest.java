@@ -54,5 +54,23 @@ public class BallotServiceTest {
         List<Ballot> newBallots = ballotService.searchBallot(today, today, null, null);
         assertEquals(oldBallots.size()+1, newBallots.size());
 
+        BallotNominee nomineeA = new BallotNominee();
+        nomineeA.setBallot(ballot2);
+        nomineeA.setShortKey("K");
+        nomineeA.setName("KAINZ Heinrich");
+        ballotService.saveBallotNominee(nomineeA);
+
+        BallotNominee nomineeB = new BallotNominee();
+        nomineeB.setBallot(ballot2);
+        nomineeB.setShortKey("A");
+        nomineeB.setName("ALRICH Susanne");
+        ballotService.saveBallotNominee(nomineeB);
+
+        BallotNominee nomineeC = new BallotNominee();
+        nomineeC.setBallot(ballot2);
+        nomineeC.setShortKey("L");
+        nomineeC.setName("LUSTIG Berta");
+        ballotService.saveBallotNominee(nomineeC);
+
     }
 }

@@ -19,7 +19,7 @@ package at.gruene.parteiapp.voting.fe.msg;
 import org.apache.deltaspike.core.api.message.MessageBundle;
 
 /**
- * typesave messages for ballot views
+ * typesafe messages for ballot views
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
@@ -27,4 +27,6 @@ import org.apache.deltaspike.core.api.message.MessageBundle;
 public interface BallotMessage {
     String noBallotIdGiven();
     String noBallotFound(int ballotId);
+    String noVoteFound(Integer voteId);
+    String ballotNotOpen();
 }

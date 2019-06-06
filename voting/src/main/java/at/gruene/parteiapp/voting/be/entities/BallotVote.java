@@ -3,6 +3,10 @@ package at.gruene.parteiapp.voting.be.entities;
 import javax.persistence.*;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import at.gruene.parteiapp.platform.be.CollumnLength;
 import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
@@ -22,6 +26,9 @@ public class BallotVote implements VersionedEntity {
 
     @ManyToOne
     private Ballot ballot;
+
+    @Column(nullable = false)
+    private Integer voteNr;
 
     /**
      * comma (',') separated list of votes on the single paper ballot.
@@ -59,11 +66,23 @@ public class BallotVote implements VersionedEntity {
         this.ballot = ballot;
     }
 
-    public String getNominees() {
-        return nominees;
+    public Integer getVoteNr() {
+        return voteNr;
     }
 
-    public void setNominees(String nominees) {
+    public void setVoteNr(Integer voteNr) {
+        this.voteNr = voteNr;
+    }
+
+    public List<String> getNominees() {
+        if (nominees == null) {
+            return Collections.emptyList();
+        }
+        String[] nomineeIds = nominees.split(",");
+        return new ArrayList<>(Arrays.asList(nomineeIds));
+    }
+
+    public void setNominees(List<String> nomineeIds) {
         this.nominees = nominees;
     }
 
