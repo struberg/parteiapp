@@ -33,16 +33,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.net.InetAddress;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * <p>LogFilter logs start and end of each Servlet Requests
@@ -143,6 +141,8 @@ public class LogFilter implements Filter {
                 StringBuilder msg = new StringBuilder(100);
 
                 remoteAddress = getRemoteAddress(httpServletRequest);
+                HttpSession session = httpServletRequest.getSession(false);
+                sessionId = session != null ? session.getId() : null;
 
                 setupMdc(sessionId, userId);
 
