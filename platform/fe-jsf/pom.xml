@@ -31,6 +31,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>at.gruene.parteiapp.platform</groupId>
+            <artifactId>platform-idm-api</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>at.gruene.parteiapp.platform</groupId>
+            <artifactId>platform-idm-be</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>
             <version>${myfaces.version}</version>

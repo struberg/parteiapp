@@ -3,6 +3,25 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>voting</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+
+    </security-constraint>
+
+    <login-config>
+        <auth-method>BASIC</auth-method>
+    </login-config>
+    <security-role>
+        <role-name>user</role-name>
+    </security-role>
+
+
     <!--Do not render the "javax.jsf.ViewState" id attribute for
             view state hidden inputs. Necessary for valid XHTML on multiple forms on one page.-->
     <context-param>
@@ -40,5 +59,27 @@
         <param-name>org.apache.myfaces.ERROR_HANDLING</param-name>
         <param-value>true</param-value>
     </context-param>
+
+    <filter>
+        <filter-name>LogFilter</filter-name>
+        <filter-class>at.gruene.parteiapp.platform.fe.jsf.LogFilter</filter-class>
+        <init-param>
+            <param-name>ndc</param-name>
+            <param-value>session,address</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dropurl.0</param-name>
+            <param-value>javax.faces.resource</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dropurl.1</param-name>
+            <param-value>resources</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>LogFilter</filter-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </filter-mapping>
+
 
 </web-app>

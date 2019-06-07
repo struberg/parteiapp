@@ -23,8 +23,11 @@
   =========================== RISE ==================================
 -->
 <tomcat-users>
-<role rolename="manager-gui"/>
-<role rolename="tomee-admin" />
-<user username="user" password="changeit!" roles="manager-gui,tomee-admin"/>
+    <role rolename="user"/>
+
+    <user username="userA" password="start123" roles="user"/>
+    <user username="userB" password="start123" roles="user"/>
+    <user username="userC" password="start123" roles="user"/>
+    <user username="userD" password="start123" roles="user"/>
 </tomcat-users>
 
