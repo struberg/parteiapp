@@ -56,6 +56,7 @@ public class VoteDetailModel implements Serializable {
     private @Inject BallotService ballotService;
 
     private @Inject JsfMessage<BallotMessage> ballotMsg;
+    private List<BallotNominee> nominees;
 
     public Integer getVoteId() {
         return voteId;
@@ -93,6 +94,10 @@ public class VoteDetailModel implements Serializable {
         return picklist;
     }
 
+    public void setPicklist(DualListModel<String> picklist) {
+        this.picklist = picklist;
+    }
+
     /**
      * Initialisation which gets called via f:viewAction
      */
@@ -104,13 +109,16 @@ public class VoteDetailModel implements Serializable {
             ballotMsg.addError().noBallotIdGiven();
             return null;
         }
-        ballot = ballotService.loadBallot(ballotId);
+        if (ballot == null || !ballot.getId().equals(ballotId)) {
+            // only reload ballot data if needed
+            ballot = ballotService.loadBallot(ballotId);
 
-        List<BallotNominee> nominees = ballotService.getBallotNominees(ballot);
-        this.allSortedNominees = nominees.stream()
-                .map(n -> n.getName())
-                .sorted()
-                .collect(Collectors.toList());
+            nominees = ballotService.getBallotNominees(ballot);
+            this.allSortedNominees = nominees.stream()
+                    .map(n -> n.getName())
+                    .sorted()
+                    .collect(Collectors.toList());
+        }
 
         if (voteId == -1) {
             if (ballot.getStatus() != Ballot.BallotStatus.OPEN) {
@@ -135,7 +143,7 @@ public class VoteDetailModel implements Serializable {
         }
 
         // casted votes are stored as comma separated list
-        castedVotes = new ArrayList<>(vote.getNominees());
+        castedVotes = new ArrayList<>(vote.getCastedVotes().stream().map(vId -> findNomineeName(vId)).collect(Collectors.toList()));
 
         picklist = new DualListModel<>(allSortedNominees, castedVotes);
 
@@ -146,5 +154,51 @@ public class VoteDetailModel implements Serializable {
         return null;
     }
 
+    public String doSaveVote() {
+        this.castedVotes = picklist.getTarget();
+        if (castedVotes.isEmpty()) {
+            ballotMsg.addError().atLeastOneVoteNeeded();
+            return null;
+        }
 
+        List<Integer> castedVoteNomineeIds = castedVotes.stream()
+                .map(nomineeName -> findNomineeId(nomineeName) )
+                .collect(Collectors.toList());
+        vote.setCastedVotes(castedVoteNomineeIds);
+
+        ballotService.saveVote(vote);
+
+        // reset most bean fields
+        ballotId = null;
+        voteId = null;
+
+        // enter next paper ballot sheet
+        return "ballotVote.xhtml?voteId=-1&ballotId=" + ballot.getId() + "&faces-redirect=true";
+    }
+
+    private Integer findNomineeId(String nomineeName) {
+        return nominees.stream()
+                .filter(n -> n.getName().equals(nomineeName))
+                .findFirst()
+                .map(n -> n.getId())
+                .get();
+    }
+
+    private String findNomineeName(Integer vId) {
+        return nominees.stream()
+                .filter(n -> n.getId().equals(vId))
+                .findFirst()
+                .map(n -> n.getName())
+                .get();
+    }
+
+
+    /**
+     * This paper ballot sheet is illegal
+     * @return
+     */
+    public String doMarkIllegalVote() {
+        //X TODO wie verfahren wir mit ungueltigen Wahlzetteln?
+        return null;
+    }
 }

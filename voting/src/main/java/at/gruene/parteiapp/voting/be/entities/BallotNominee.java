@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
 
@@ -32,13 +33,14 @@ public class BallotNominee implements VersionedEntity {
     private Integer optLock;
 
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Ballot ballot;
 
     /**
      * name of the nominee
      */
     @Column(nullable = false)
+    @NotNull
     private String name;
 
     /**

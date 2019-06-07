@@ -118,16 +118,20 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header"></f:facet>
-                            <h:commandLink rendered="#{ballotDetail.admin and ballotDetail.editedNominee == null}" action="#{ballotDetail.doEditNominee(nominee)}">
+                            <h:commandLink action="#{ballotDetail.doEditNominee(nominee)}"
+                                           rendered="#{ballotDetail.admin and ballotDetail.editedNominee == null and ballotDetail.ballot.status == 'CREATED'}">
                                 <h:graphicImage value="resources/images/pencil.png" alt="Nominierte bearbeiten"/>
                             </h:commandLink>
-                            <h:commandLink rendered="#{ballotDetail.admin and ballotDetail.editedNominee == null}" action="#{ballotDetail.doDeleteNominee(nominee)}">
+                            <h:commandLink action="#{ballotDetail.doDeleteNominee(nominee)}"
+                                           rendered="#{ballotDetail.admin and ballotDetail.editedNominee == null and ballotDetail.ballot.status == 'CREATED'}">
                                 <h:graphicImage value="resources/images/circle-minus.png" alt="Nominierte löschen"/>
                             </h:commandLink>
-                            <h:commandLink rendered="#{ballotDetail.admin and nominee == ballotDetail.editedNominee}" action="#{ballotDetail.doSaveNominee}">
+                            <h:commandLink action="#{ballotDetail.doSaveNominee}"
+                                           rendered="#{ballotDetail.admin and nominee == ballotDetail.editedNominee}">
                                 <h:graphicImage value="resources/images/circle-tick.png" alt="Nominierte Änderunen speichern"/>
                             </h:commandLink>
-                            <h:commandLink rendered="#{ballotDetail.admin and nominee == ballotDetail.editedNominee}" action="#{ballotDetail.doCancelEditNominee}">
+                            <h:commandLink action="#{ballotDetail.doCancelEditNominee}"
+                                           rendered="#{ballotDetail.admin and nominee == ballotDetail.editedNominee}">
                                 <h:graphicImage value="resources/images/circle-cross.png" alt="Nominierte Bearbeiten abbrechen"/>
                             </h:commandLink>
 
@@ -135,7 +139,8 @@
                     </h:dataTable>
                     <ol>
                         <li>
-                            <h:commandLink id="cAddNomineeBtn" action="#{ballotDetail.doAddNominee}" rendered="#{ballotDetail.admin and ballotDetail.editedNominee == null}">
+                            <h:commandLink id="cAddNomineeBtn" action="#{ballotDetail.doAddNominee}"
+                                           rendered="#{ballotDetail.admin and ballotDetail.editedNominee == null and ballotDetail.ballot.status == 'CREATED'}">
                                 <h:graphicImage value="resources/images/circle-plus.png" alt="Nominierte hinzufügen"/>
                             </h:commandLink>
                         </li>

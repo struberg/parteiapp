@@ -11,6 +11,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import at.gruene.parteiapp.platform.be.CollumnLength;
 import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
@@ -34,7 +35,7 @@ public class BallotUser implements VersionedEntity {
     @Version
     private Integer optLock;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name="BALLOT_ID")
     private Ballot ballot;
 
@@ -42,6 +43,7 @@ public class BallotUser implements VersionedEntity {
      * user id from LDAP.
      */
     @Column(name="USERID", length = CollumnLength.USERID, nullable = false)
+    @NotNull
     private String userId;
 
     /**

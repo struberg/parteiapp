@@ -42,8 +42,9 @@
 
                     <ol>
                         <li>
-                            <h:outputLabel value="Wahlzettel Nummer" for="voteSheetNr"/>
-                            <h:inputText id="voteSheetNr" value="#{voteDetail.vote.voteNr}"/>
+                            <h:outputLabel value="Wahlzettel Nummer" for="voteSheetNr" styleClass="required"/>
+                            <h:inputText id="voteSheetNr" value="#{voteDetail.vote.voteNr}" label="Wahlzettel Nummer"/>
+                            <h:message for="voteSheetNr" errorClass="invalid"/>
                         </li>
                     </ol>
                     <p:pickList id="pickList" value="#{voteDetail.picklist}" var="nominee" itemLabel="#{nominee}" itemValue="#{nominee}" >
@@ -53,7 +54,7 @@
 
                     <ol>
                         <li>
-                            <h:commandButton id="cStartCountBtn" value="Wahlzettel speichern" action="#{ballotDetail.doStartCounting()}"/>
+                            <h:commandButton id="cSaveVoteBtn" value="Wahlzettel speichern" action="#{voteDetail.doSaveVote()}"/>
                         </li>
                     </ol>
                 </fieldset>

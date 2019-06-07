@@ -1,12 +1,13 @@
 package at.gruene.parteiapp.voting.be.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import at.gruene.parteiapp.platform.be.CollumnLength;
 import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
@@ -24,18 +25,20 @@ public class BallotVote implements VersionedEntity {
     @Version
     private Integer optLock;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Ballot ballot;
 
     @Column(nullable = false)
+    @NotNull
     private Integer voteNr;
 
     /**
      * comma (',') separated list of votes on the single paper ballot.
      * Ordered with highest first.
+     * Each entry is a {@link BallotNominee#getId()}
      */
     @Column(length = 4000)
-    private String nominees;
+    private String castedVotes;
 
     /**
      * The userId who entered the vote into the system
@@ -74,16 +77,25 @@ public class BallotVote implements VersionedEntity {
         this.voteNr = voteNr;
     }
 
-    public List<String> getNominees() {
-        if (nominees == null) {
+    public List<Integer> getCastedVotes() {
+        if (castedVotes == null) {
             return Collections.emptyList();
         }
-        String[] nomineeIds = nominees.split(",");
-        return new ArrayList<>(Arrays.asList(nomineeIds));
+        String[] parts = castedVotes.split(",");
+        List<Integer> nomineeIds = new ArrayList<>(parts.length);
+        for (String nomineeId : parts) {
+            nomineeIds.add(Integer.valueOf(nomineeId));
+        }
+        return nomineeIds;
     }
 
-    public void setNominees(List<String> nomineeIds) {
-        this.nominees = nominees;
+    public void setCastedVotes(List<Integer> castedVotes) {
+        if (castedVotes ==null || castedVotes.isEmpty()) {
+            this.castedVotes = null;
+        }
+
+        this.castedVotes = String.join(",",
+                castedVotes.stream().map( i -> Integer.toString(i)).collect(Collectors.toList()));
     }
 
     public String getCreatedBy() {

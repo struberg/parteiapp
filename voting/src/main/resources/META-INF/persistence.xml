@@ -10,6 +10,7 @@
         <class>at.gruene.parteiapp.voting.be.entities.BallotVote</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <validation-mode>CALLBACK</validation-mode>
 
         <properties>
             <property name="openjpa.Log" value="DefaultLevel=WARN, Runtime=INFO, Tool=INFO, SQL=TRACE"/>

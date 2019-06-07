@@ -180,4 +180,14 @@ public class BallotService {
     public BallotVote loadVote(Integer voteId) {
         return em.find(BallotVote.class, voteId);
     }
+
+    public BallotVote saveVote(BallotVote vote) {
+        if (isManaged(vote)) {
+            return em.merge(vote);
+        }
+        else {
+            em.persist(vote);
+            return vote;
+        }
+    }
 }
