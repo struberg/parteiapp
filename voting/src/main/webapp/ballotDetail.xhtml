@@ -85,7 +85,7 @@
                             <h:commandLink rendered="#{ballotDetail.admin and u == ballotDetail.editedUser}" action="#{ballotDetail.doSaveUser}">
                                 <h:graphicImage value="resources/images/circle-tick.png" alt="Benutzer Änderunen speichern"/>
                             </h:commandLink>
-                            <h:commandLink rendered="#{ballotDetail.admin and u == ballotDetail.editedUser}" action="#{ballotDetail.doCancelEditUser}">
+                            <h:commandLink rendered="#{ballotDetail.admin and u == ballotDetail.editedUser}" action="#{ballotDetail.doCancelEditUser}" immediate="true">
                                 <h:graphicImage value="resources/images/circle-cross.png" alt="Benutzer Bearbeiten abbrechen"/>
                             </h:commandLink>
 
@@ -131,7 +131,8 @@
                                 <h:graphicImage value="resources/images/circle-tick.png" alt="Nominierte Änderunen speichern"/>
                             </h:commandLink>
                             <h:commandLink action="#{ballotDetail.doCancelEditNominee}"
-                                           rendered="#{ballotDetail.admin and nominee == ballotDetail.editedNominee}">
+                                           rendered="#{ballotDetail.admin and nominee == ballotDetail.editedNominee}"
+                                           immediate="true">
                                 <h:graphicImage value="resources/images/circle-cross.png" alt="Nominierte Bearbeiten abbrechen"/>
                             </h:commandLink>
 

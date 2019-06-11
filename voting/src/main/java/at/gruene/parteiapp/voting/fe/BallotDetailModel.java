@@ -197,6 +197,10 @@ public class BallotDetailModel implements Serializable {
     }
 
     public String doCancelEditUser() {
+        if (this.editedUser.getId() == null) {
+            // cancel adding a user
+            this.ballotUsers.remove(this.editedUser);
+        }
         this.editedUser = null;
 
         // simply load everything from scratch
@@ -231,6 +235,10 @@ public class BallotDetailModel implements Serializable {
     }
 
     public String doCancelEditNominee() {
+        if (this.editedNominee.getId() == null) {
+            // cancel while adding a nominee
+            this.ballotNominees.remove(this.editedNominee);
+        }
         this.editedNominee = null;
 
         // simply load everything from scratch
