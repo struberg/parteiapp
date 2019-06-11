@@ -3,6 +3,9 @@ package at.gruene.parteiapp.voting.be;
 import at.gruene.parteiapp.voting.be.entities.Ballot;
 import at.gruene.parteiapp.voting.be.entities.BallotNominee;
 import at.gruene.parteiapp.voting.be.entities.BallotUser;
+import at.gruene.platform.idm.api.GruenPrincipal;
+import at.gruene.platform.idm.api.IdmService;
+import at.gruene.platform.idm.be.PrincipalProducer;
 
 import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
 import org.junit.Test;
@@ -25,12 +28,18 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(CdiTestRunner.class)
 public class BallotServiceTest {
 
-    private @Inject BallotService ballotService;
+    private @Inject PrincipalProducer principalProducer;
+    private @Inject IdmService idmService;
 
+    private @Inject BallotService ballotService;
     private @Inject EntityManager em;
 
     @Test
     public void testCreateBallot() {
+
+        GruenPrincipal principal = idmService.getUser("userA");
+        principalProducer.setPrincipal(principal);
+
         LocalDate today = LocalDate.now();
         List<Ballot> oldBallots = ballotService.searchBallot(today, today, null, null);
 

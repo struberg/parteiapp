@@ -22,13 +22,10 @@
                     <div id="headContainer">
                         <!-- TODO: Links + Datum! -->
                         <div id="mainNavigation">
-                            <h:outputLink value="index.html">Home</h:outputLink>
-<!--
-                            <h:form rendered="#{user.loggedIn}">
-                                <h:outputText value="#{user.viewName}"/>&#0160;
+                            <h:form>
+                                <h:outputText value="#{user.name}"/>&#0160;
                                 <h:commandLink value="logout" action="#{user.logout}" />
                             </h:form>
--->
                         </div>
                         <!-- /MainNavigation -->
                     </div>
@@ -37,6 +34,7 @@
                     <div id="appContainer">
                         <div id="menuContainer">
                             <!-- TODO add menu -->
+                            <h:outputLink value="index.html">Home</h:outputLink>
                         </div>
                         <!-- real content on the white-board. -->
                         <div id="contentContainer">

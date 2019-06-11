@@ -64,10 +64,6 @@
         <filter-name>LogFilter</filter-name>
         <filter-class>at.gruene.parteiapp.platform.fe.jsf.LogFilter</filter-class>
         <init-param>
-            <param-name>ndc</param-name>
-            <param-value>session,address</param-value>
-        </init-param>
-        <init-param>
             <param-name>dropurl.0</param-name>
             <param-value>javax.faces.resource</param-value>
         </init-param>
@@ -81,5 +77,18 @@
         <url-pattern>*.xhtml</url-pattern>
     </filter-mapping>
 
+
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>at.gruene.parteiapp.platform.fe.jsf.LoginFilter</filter-class>
+        <init-param>
+            <param-name>dropurl.0</param-name>
+            <param-value>javax.faces.resource</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
 
 </web-app>
