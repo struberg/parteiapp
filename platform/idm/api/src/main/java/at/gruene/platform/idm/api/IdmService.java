@@ -14,25 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.gruene.parteiapp.platform.fe.jsf;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
-
+package at.gruene.platform.idm.api;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-@ApplicationScoped
-@Named
-public class AppSettings {
-    private String applicationName;
+public interface IdmService {
 
-    public String getApplicationName() {
-        return applicationName;
-    }
-
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
-    }
+    /**
+     * Get the user with all it's roles from the underlying IDM backend.
+     * E.g. LDAP
+     * @return the filled user principal or {@code null} if no user with this userId got found.
+     */
+    GruenPrincipal getUser(String userId);
 }

@@ -146,10 +146,12 @@ public class LogFilter implements Filter {
 
                 setupMdc(sessionId, userId);
 
-                msg.append("request start ").append(method).append(' ').append(url)
-                        .append(" remote address:").append(remoteAddress)
-                        .append(" UA=").append(agent);
-                log.info(msg.toString());
+                if (log.isDebugEnabled()) {
+                    msg.append("request start ").append(method).append(' ').append(url)
+                            .append(" remote address:").append(remoteAddress)
+                            .append(" UA=").append(agent);
+                    log.debug(msg.toString());
+                }
 
                 if (threadBean != null) {
                     startCpu = threadBean.getCurrentThreadCpuTime();

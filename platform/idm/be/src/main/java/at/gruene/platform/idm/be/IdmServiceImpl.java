@@ -14,25 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.gruene.parteiapp.platform.fe.jsf;
+package at.gruene.platform.idm.be;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
+import java.util.Collections;
 
+import at.gruene.platform.idm.api.GruenPrincipal;
+import at.gruene.platform.idm.api.IdmService;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-@ApplicationScoped
-@Named
-public class AppSettings {
-    private String applicationName;
+public class IdmServiceImpl implements IdmService {
 
-    public String getApplicationName() {
-        return applicationName;
-    }
+    @Override
+    public GruenPrincipal getUser(String userId) {
+        //X TODO this is currently just a mock impl
+        GruenPrincipal principal = new GruenPrincipal(userId, userId, Collections.emptyList());
 
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
+        return principal;
     }
 }
