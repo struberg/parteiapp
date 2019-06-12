@@ -3,53 +3,54 @@ package at.gruene.parteiapp.voting.be.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import at.gruene.parteiapp.platform.be.CollumnLength;
 import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
 
 /**
  * A single vote on a ballot
  */
 @Entity
-public class BallotVote implements VersionedEntity {
+@Table(name = "BALLOT_VOTE",
+    uniqueConstraints = {
+        @UniqueConstraint(name="U_VOTENR", columnNames = {"BALLOT_ID","VOTE_NR"})
+    })
+public class BallotVote extends AuditedEntity implements VersionedEntity {
 
     @Id
     @GeneratedValue
+    @Column(name="ID")
     private Integer id;
 
     @Version
+    @Column(name="OPTLOCK")
     private Integer optLock;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name="BALLOT_ID")
     private Ballot ballot;
 
-    @Column(nullable = false)
+    @Column(name="VOTE_NR", nullable = false)
     @NotNull
     private Integer voteNr;
+
+    /**
+     * If a paper ballot sheet is illegal then a reason must be recorded.
+     */
+    @Column(name="INVALID_REASON", length = 255)
+    private String invalidVoteReason;
 
     /**
      * comma (',') separated list of votes on the single paper ballot.
      * Ordered with highest first.
      * Each entry is a {@link BallotNominee#getId()}
      */
-    @Column(length = 4000)
+    @Column(name="CASTED_VOTES", length = 4000)
     private String castedVotes;
 
-    /**
-     * The userId who entered the vote into the system
-     */
-    @Column(length= CollumnLength.USERID)
-    private String createdBy;
-
-    /**
-     * The Timestamp when this vote entry was created
-     */
-    private OffsetDateTime createdAt;
 
     @Override
     public Integer getId() {
@@ -77,6 +78,22 @@ public class BallotVote implements VersionedEntity {
         this.voteNr = voteNr;
     }
 
+    /**
+     * Whether this paper ballot sheet is not
+     * @return
+     */
+    public boolean isInvalid() {
+        return this.invalidVoteReason != null && !invalidVoteReason.isEmpty();
+    }
+
+    public String getInvalidVoteReason() {
+        return invalidVoteReason;
+    }
+
+    public void setInvalidVoteReason(String illegalReason) {
+        this.invalidVoteReason = illegalReason;
+    }
+
     public List<Integer> getCastedVotes() {
         if (castedVotes == null) {
             return Collections.emptyList();
@@ -98,19 +115,7 @@ public class BallotVote implements VersionedEntity {
                 castedVotes.stream().map( i -> Integer.toString(i)).collect(Collectors.toList()));
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
 
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(OffsetDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }

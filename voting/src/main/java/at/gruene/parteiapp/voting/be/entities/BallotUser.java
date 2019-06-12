@@ -21,18 +21,21 @@ import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
         @NamedQuery(name = BallotUser.QRY_FIND_BY_BALLOT,
                     query = "select u from BallotUser as u where u.ballot=:ballot")
 })
-@Table(uniqueConstraints = {
+@Table(name = "BALLOT_USER",
+    uniqueConstraints = {
         @UniqueConstraint(name="UC_USER", columnNames = {"BALLOT_ID", "USERID"})
 })
-public class BallotUser implements VersionedEntity {
+public class BallotUser extends AuditedEntity implements VersionedEntity {
 
     public final static String QRY_FIND_BY_BALLOT = "BallotUserFindByBallot";
 
     @Id
     @GeneratedValue
+    @Column(name="ID")
     private Integer id;
 
     @Version
+    @Column(name="OPTLOCK")
     private Integer optLock;
 
     @ManyToOne(optional = false)

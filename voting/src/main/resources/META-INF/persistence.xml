@@ -4,6 +4,7 @@
     <persistence-unit name="voting" transaction-type="RESOURCE_LOCAL">
         <non-jta-data-source>VOTING</non-jta-data-source>
 
+        <class>at.gruene.parteiapp.voting.be.entities.AuditedEntity</class>
         <class>at.gruene.parteiapp.voting.be.entities.Ballot</class>
         <class>at.gruene.parteiapp.voting.be.entities.BallotUser</class>
         <class>at.gruene.parteiapp.voting.be.entities.BallotNominee</class>

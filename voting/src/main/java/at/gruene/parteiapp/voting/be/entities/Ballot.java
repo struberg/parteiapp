@@ -29,7 +29,8 @@ import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
 @Entity
-public class Ballot implements VersionedEntity {
+@Table(name="BALLOT")
+public class Ballot extends AuditedEntity implements VersionedEntity {
 
     /**
      * Status of the ballot.
@@ -56,22 +57,33 @@ public class Ballot implements VersionedEntity {
 
     @Id
     @GeneratedValue
+    @Column(name="ID")
     private Integer id;
 
     @Version
+    @Column(name="OPTLOCK")
     private Integer optLock;
 
-    @Column(length = 255, nullable = false)
+    @Column(name = "BALLOTNAME", length = 255, nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name="HELD_AT", nullable = false)
     private LocalDate heldAt;
 
-    @Column(nullable = false)
+    @Column(name="BALLOT_STATUS", nullable = false)
     @Enumerated(EnumType.STRING)
     private BallotStatus status;
 
+    /**
+     * timestamp when the counting got started
+     */
+    @Column(name = "POLL_OPENED")
     private OffsetDateTime pollOpened;
+
+    /**
+     * timestamp when the poll got closed and the counting is ended.
+     */
+    @Column(name = "POLL_CLOSED")
     private OffsetDateTime pollClosed;
 
     @Override
