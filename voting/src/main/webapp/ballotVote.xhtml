@@ -5,7 +5,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">>
 
 <ui:composition template="/META-INF/fragments/template.xhtml">
     <ui:define name="title">#{txt.voting_title}</ui:define>
@@ -43,18 +44,33 @@
                     <ol>
                         <li>
                             <h:outputLabel value="Wahlzettel Nummer" for="voteSheetNr" styleClass="required"/>
-                            <h:inputText id="voteSheetNr" value="#{voteDetail.vote.voteNr}" label="Wahlzettel Nummer"/>
+                            <h:inputText id="voteSheetNr" value="#{voteDetail.vote.voteNr}" label="Wahlzettel Nummer" tabindex="1" a:autofocus="true"/>
                             <h:message for="voteSheetNr" errorClass="invalid"/>
                         </li>
+                        <h:panelGroup rendered="#{voteDetail.shortKeysAvailable}">
+                            <li>
+                                <h:outputLabel value="direkt Wahleingabe" for="direktInput"/>
+                                <h:inputText id="direktInput" value="#{voteDetail.directInput}" label="direkte Wahleingabe" tabindex="2"
+                                             onkeypress="if (event.keyCode == 13) { return false; }">
+                                    <f:ajax event="valueChange" execute="@this" render="pickList" listener="#{voteDetail.updatePickList}"/>
+                                </h:inputText>
+                                <h:message for="direktInput" errorClass="invalid"/>
+                            </li>
+                        </h:panelGroup>
+                        <li>
+                            <h:outputLabel value="Ungültig weil" for="invalidVoteSheet"/>
+                            <h:inputText id="invalidVoteSheet" value="#{voteDetail.vote.invalidVoteReason}" label="Ungültig weil" tabindex="3"/>
+                            <h:message for="invalidVoteSheet" errorClass="invalid"/>
+                        </li>
                     </ol>
-                    <p:pickList id="pickList" value="#{voteDetail.picklist}" var="nominee" itemLabel="#{nominee}" itemValue="#{nominee}" >
+                    <p:pickList id="pickList" value="#{voteDetail.picklist}" var="nominee" itemLabel="#{nominee}" itemValue="#{nominee}" tabindex="4" >
                         <f:facet name="sourceCaption">Nominiert</f:facet>
                         <f:facet name="targetCaption">Gewählt</f:facet>
                     </p:pickList>
 
                     <ol>
                         <li>
-                            <h:commandButton id="cSaveVoteBtn" value="Wahlzettel speichern" action="#{voteDetail.doSaveVote()}"/>
+                            <h:commandButton id="cSaveVoteBtn" value="Wahlzettel speichern" action="#{voteDetail.doSaveVote()}" tabindex="5" />
                         </li>
                     </ol>
                 </fieldset>

@@ -29,6 +29,7 @@ public interface BallotMessage {
     String noBallotFound(int ballotId);
     String noVoteFound(Integer voteId);
     String ballotNotOpen();
-
-    String atLeastOneVoteNeeded();
+    String atLeastOneVoteOrInvalidNeeded();
+    String exactlyOneVoteOrInvalidNeeded();
+    String invalidShortKey(String key);
 }
