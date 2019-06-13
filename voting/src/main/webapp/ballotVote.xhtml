@@ -27,7 +27,7 @@
                     <legend>Wahlgang</legend>
                     <ol>
                         <li>
-                            <h:outputLabel value="Name der Wahl"/>
+                            <h:outputLabel value="Name der Wahl" for="ballotNameOut"/>
                             <h:outputText id="ballotNameOut" value="#{voteDetail.ballot.name}"/>
                             am
 
@@ -49,23 +49,27 @@
                         </li>
                         <h:panelGroup rendered="#{voteDetail.shortKeysAvailable}">
                             <li>
-                                <h:outputLabel value="direkt Wahleingabe" for="direktInput"/>
-                                <h:inputText id="direktInput" value="#{voteDetail.directInput}" label="direkte Wahleingabe" tabindex="2"
-                                             onkeypress="if (event.keyCode == 13) { return false; }">
+                                <h:outputLabel value="direkt Wahleingabe" for="directInput"/>
+                                <h:inputText id="directInput" value="#{voteDetail.directInput}" label="direkte Wahleingabe" tabindex="2"
+                                             onkeypress="if (event.keyCode == 13) { return false; }"
+                                             title="Geben sie die Kurzkennzeichen der nominierten als Liste ein, also zB: 12 3 4 27">
                                     <f:ajax event="valueChange" execute="@this" render="pickList" listener="#{voteDetail.updatePickList}"/>
                                 </h:inputText>
-                                <h:message for="direktInput" errorClass="invalid"/>
+                                <h:message for="directInput" errorClass="invalid"/>
                             </li>
                         </h:panelGroup>
                         <li>
                             <h:outputLabel value="Ungültig weil" for="invalidVoteSheet"/>
-                            <h:inputText id="invalidVoteSheet" value="#{voteDetail.vote.invalidVoteReason}" label="Ungültig weil" tabindex="3"/>
+                            <h:inputText id="invalidVoteSheet" value="#{voteDetail.vote.invalidVoteReason}" label="Ungültig weil" tabindex="3"
+                                         title="Wenn der Wahlzettel ungültig ist, muß hier der Grund eingegeben werden"/>
                             <h:message for="invalidVoteSheet" errorClass="invalid"/>
                         </li>
                     </ol>
                     <p:pickList id="pickList" value="#{voteDetail.picklist}" var="nominee" itemLabel="#{nominee}" itemValue="#{nominee}" tabindex="4" >
                         <f:facet name="sourceCaption">Nominiert</f:facet>
                         <f:facet name="targetCaption">Gewählt</f:facet>
+                        <p:ajax event="reorder" process="@this" update="directInput" listener="#{voteDetail.updateDirectInput}"/>
+                        <p:ajax event="transfer" process="@this" update="directInput" listener="#{voteDetail.updateDirectInput}"/>
                     </p:pickList>
 
                     <ol>
