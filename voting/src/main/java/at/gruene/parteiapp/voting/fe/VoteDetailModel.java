@@ -19,11 +19,14 @@ package at.gruene.parteiapp.voting.fe;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.apache.deltaspike.jsf.api.message.JsfMessage;
@@ -57,6 +60,9 @@ public class VoteDetailModel implements Serializable {
 
     private @Inject JsfMessage<BallotMessage> ballotMsg;
     private List<BallotNominee> nominees;
+
+    private String directInput;
+    private boolean shortKeysAvailable;
 
     public Integer getVoteId() {
         return voteId;
@@ -98,6 +104,10 @@ public class VoteDetailModel implements Serializable {
         this.picklist = picklist;
     }
 
+    public boolean isShortKeysAvailable() {
+        return shortKeysAvailable;
+    }
+
     /**
      * Initialisation which gets called via f:viewAction
      */
@@ -112,11 +122,14 @@ public class VoteDetailModel implements Serializable {
         if (ballot == null || !ballot.getId().equals(ballotId)) {
             // only reload ballot data if needed
             ballot = ballotService.loadBallot(ballotId);
-
             nominees = ballotService.getBallotNominees(ballot);
+
+            this.shortKeysAvailable = nominees.stream()
+                    .anyMatch(n -> StringUtils.isNoneEmpty(n.getShortKey()));
+
             this.allSortedNominees = nominees.stream()
-                    .map(n -> n.getName())
-                    .sorted()
+                    .map(n -> getNomineeName(n))
+                .sorted()
                     .collect(Collectors.toList());
         }
 
@@ -125,11 +138,22 @@ public class VoteDetailModel implements Serializable {
                 ballotMsg.addError().ballotNotOpen();
                 return "ballotList.xhtml?faces-redirect=true";
             }
+
+            Integer newVoteNr = null;
+
+            if (vote != null) {
+                // if there was a previous vote entered, then we automatically prefill the next paper ballot sheet number
+                newVoteNr = vote.getVoteNr() + 1;
+            }
+
+
             // create new BallotVote
             vote = new BallotVote();
             vote.setBallot(ballot);
+            vote.setVoteNr(newVoteNr);
 
             isEditVote = true;
+            this.directInput = null;
             castedVotes = new ArrayList<>();
 
             picklist = new DualListModel<>(allSortedNominees, castedVotes);
@@ -144,7 +168,7 @@ public class VoteDetailModel implements Serializable {
 
         // casted votes are stored as comma separated list
         castedVotes = new ArrayList<>(vote.getCastedVotes().stream().map(vId -> findNomineeName(vId)).collect(Collectors.toList()));
-
+        this.directInput = calculateDirectInput(vote.getCastedVotes());
         picklist = new DualListModel<>(allSortedNominees, castedVotes);
 
         // start in read mode
@@ -154,15 +178,33 @@ public class VoteDetailModel implements Serializable {
         return null;
     }
 
+    private String calculateDirectInput(List<Integer> castedVotes) {
+        if (castedVotes == null || castedVotes.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (Integer castedVote : castedVotes) {
+            BallotNominee nominee = nominees.stream().filter(n -> n.getId().equals(castedVote)).findFirst().get();
+            sb.append(nominee.getShortKey()).append(",");
+        }
+
+        return sb.toString();
+    }
+
     public String doSaveVote() {
         this.castedVotes = picklist.getTarget();
-        if (castedVotes.isEmpty()) {
-            ballotMsg.addError().atLeastOneVoteNeeded();
+        if (castedVotes.isEmpty() && StringUtils.isEmpty(vote.getInvalidVoteReason())) {
+            ballotMsg.addError().atLeastOneVoteOrInvalidNeeded();
+            return null;
+        }
+        if (!castedVotes.isEmpty() && StringUtils.isNotEmpty(vote.getInvalidVoteReason())) {
+            ballotMsg.addError().exactlyOneVoteOrInvalidNeeded();
             return null;
         }
 
         List<Integer> castedVoteNomineeIds = castedVotes.stream()
-                .map(nomineeName -> findNomineeId(nomineeName) )
+                .map(nomineeName -> findNomineeIdByName(nomineeName) )
                 .collect(Collectors.toList());
         vote.setCastedVotes(castedVoteNomineeIds);
 
@@ -176,29 +218,79 @@ public class VoteDetailModel implements Serializable {
         return "ballotVote.xhtml?voteId=-1&ballotId=" + ballot.getId() + "&faces-redirect=true";
     }
 
-    private Integer findNomineeId(String nomineeName) {
+
+    /**
+     * update the selection List in the pickList
+     */
+    public void updatePickList(AjaxBehaviorEvent ajaxBehaviorEvent) {
+        evaluatePickList();
+    }
+
+    /**
+     * @return true if all was fine, false if there was a warning detected
+     */
+    private boolean evaluatePickList() {
+        boolean ok = true;
+        this.castedVotes.clear();
+        if (StringUtils.isNotEmpty(directInput)) {
+            String[] keys = StringUtils.split(directInput," ,-");
+            for (String key : keys) {
+                if (StringUtils.isNotEmpty(key)) {
+                    Optional<String> nomineeNameByShortKey = findNomineeNameByShortKey(key);
+                    if (!nomineeNameByShortKey.isPresent()) {
+                        ballotMsg.addWarn().invalidShortKey(key);
+                        ok = false;
+                    }
+                    else {
+                        castedVotes.add(nomineeNameByShortKey.get());
+                    }
+                }
+            }
+        }
+
+        return ok;
+    }
+
+
+    private Integer findNomineeIdByName(String nomineeName) {
         return nominees.stream()
-                .filter(n -> n.getName().equals(nomineeName))
+                .filter(n -> getNomineeName(n).equals(nomineeName))
                 .findFirst()
                 .map(n -> n.getId())
                 .get();
+    }
+
+    private Optional<String> findNomineeNameByShortKey(String shortKey) {
+        return nominees.stream()
+                .filter(n -> shortKey.equalsIgnoreCase(n.getShortKey()))
+                .findFirst()
+                .map(n -> getNomineeName(n));
     }
 
     private String findNomineeName(Integer vId) {
         return nominees.stream()
                 .filter(n -> n.getId().equals(vId))
                 .findFirst()
-                .map(n -> n.getName())
+                .map(n -> getNomineeName(n))
                 .get();
     }
 
 
-    /**
-     * This paper ballot sheet is illegal
-     * @return
-     */
-    public String doMarkIllegalVote() {
-        //X TODO wie verfahren wir mit ungueltigen Wahlzetteln?
-        return null;
+    public String getDirectInput() {
+        return directInput;
     }
+
+    public void setDirectInput(String directInput) {
+        this.directInput = directInput;
+    }
+
+    private String getNomineeName(BallotNominee nominee) {
+        if (shortKeysAvailable) {
+            return "(" + nominee.getShortKey() + ") " + nominee.getName();
+        }
+        else {
+            return nominee.getName();
+        }
+    }
+
 }
