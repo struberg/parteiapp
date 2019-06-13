@@ -190,4 +190,11 @@ public class BallotService {
             return vote;
         }
     }
+
+    public List<BallotVote> getBallotVotes(Ballot ballot) {
+        TypedQuery<BallotVote> qry = em.createNamedQuery(BallotVote.QRY_FIND_BY_BALLOT, BallotVote.class);
+        qry.setParameter("ballot", ballot);
+
+        return qry.getResultList();
+    }
 }

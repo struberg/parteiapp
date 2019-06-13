@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/META-INF/fragments/template.xhtml">
+    <ui:define name="title">#{txt.voting_title}</ui:define>
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="ballotId" value="#{voteList.ballotId}"/>
+            <f:viewAction action="#{voteList.initVoteList}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div id="detail-panel">
+                <h:dataTable id="votes" value="#{voteList.voteSheets}" var="voteSheet"
+                             columnClasses="description, description, description">
+                    <h:column>
+                        <f:facet name="header">VoteNr</f:facet>
+                        <h:link outcome="/ballotVote.xhtml" value="#{voteSheet.voteNr}">
+                            <f:param name="ballotId" value="#{voteList.ballot.id}"/>
+                            <f:param name="voteId" value="#{voteSheet.id}"/>
+                        </h:link>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Ungueltig</f:facet>
+                        <h:graphicImage value="resources/images/message-warning.png" alt="Ungültige Stimmkarte" rendered="#{voteSheet.invalid}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Wahltext</f:facet>
+                        <h:outputText value="#{voteSheet.voteString}"/>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

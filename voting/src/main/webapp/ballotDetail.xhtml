@@ -39,11 +39,13 @@
                         </li>
                         <li>
                             <h:commandButton id="cEditBtn" value="Bearbeiten" action="#{ballotDetail.doEdit()}"
-                                             rendered="#{ballotDetail.admin and !ballotDetail.editBallot}"/>
+                                             rendered="#{ballotDetail.admin and !ballotDetail.editBallot and ballotDetail.ballot.status == 'CREATED'}"/>
                             <h:commandButton id="cSaveBtn" value="Speichern" action="#{ballotDetail.doSave()}"
                                              rendered="#{ballotDetail.admin and ballotDetail.editBallot}"/>
                             <h:commandButton id="cCancelBtn" value="Abbrechen" action="#{ballotDetail.doCancel()}"
                                              rendered="#{ballotDetail.admin and ballotDetail.editBallot}"/>
+                            <h:commandButton id="cListBtn" value="Wahlzettel anzeigen" action="#{ballotDetail.doViewVotes()}"
+                                             rendered="#{ballotDetail.ballot.status != 'CREATED'}"/>
                         </li>
                         <li>
                             <h:commandButton id="cStartCountBtn" value="Auszählung starten" action="#{ballotDetail.doStartCounting()}"
