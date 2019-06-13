@@ -52,17 +52,21 @@ public class VoteDetailModel implements Serializable {
     private BallotVote vote;
     private boolean isEditVote;
 
+    private List<BallotNominee> nominees;
     private List<String> allSortedNominees;
+
+    private String directInput;
+    private boolean shortKeysAvailable;
+
+    private List<String> availableVotes;
     private List<String> castedVotes;
+
     private DualListModel<String> picklist;
 
     private @Inject BallotService ballotService;
 
     private @Inject JsfMessage<BallotMessage> ballotMsg;
-    private List<BallotNominee> nominees;
 
-    private String directInput;
-    private boolean shortKeysAvailable;
 
     public Integer getVoteId() {
         return voteId;
@@ -133,6 +137,8 @@ public class VoteDetailModel implements Serializable {
                     .collect(Collectors.toList());
         }
 
+        this.availableVotes = new ArrayList<>(allSortedNominees);
+
         if (voteId == -1) {
             if (ballot.getStatus() != Ballot.BallotStatus.OPEN) {
                 ballotMsg.addError().ballotNotOpen();
@@ -141,7 +147,7 @@ public class VoteDetailModel implements Serializable {
 
             Integer newVoteNr = null;
 
-            if (vote != null) {
+            if (vote != null && vote.getVoteNr() != null) {
                 // if there was a previous vote entered, then we automatically prefill the next paper ballot sheet number
                 newVoteNr = vote.getVoteNr() + 1;
             }
@@ -155,8 +161,8 @@ public class VoteDetailModel implements Serializable {
             isEditVote = true;
             this.directInput = null;
             castedVotes = new ArrayList<>();
+            picklist = new DualListModel<>(availableVotes, castedVotes);
 
-            picklist = new DualListModel<>(allSortedNominees, castedVotes);
             return null;
         }
         vote = ballotService.loadVote(voteId);
@@ -169,7 +175,7 @@ public class VoteDetailModel implements Serializable {
         // casted votes are stored as comma separated list
         castedVotes = new ArrayList<>(vote.getCastedVotes().stream().map(vId -> findNomineeName(vId)).collect(Collectors.toList()));
         this.directInput = calculateDirectInput(vote.getCastedVotes());
-        picklist = new DualListModel<>(allSortedNominees, castedVotes);
+        picklist = new DualListModel<>(availableVotes, castedVotes);
 
         // start in read mode
         isEditVote = false;
@@ -178,15 +184,16 @@ public class VoteDetailModel implements Serializable {
         return null;
     }
 
-    private String calculateDirectInput(List<Integer> castedVotes) {
-        if (castedVotes == null || castedVotes.isEmpty()) {
+    private String calculateDirectInput(List<Integer> castedVoteIds) {
+        if (castedVoteIds == null || castedVoteIds.isEmpty()) {
             return null;
         }
 
         StringBuilder sb = new StringBuilder();
-        for (Integer castedVote : castedVotes) {
+        for (Integer castedVote : castedVoteIds) {
             BallotNominee nominee = nominees.stream().filter(n -> n.getId().equals(castedVote)).findFirst().get();
             sb.append(nominee.getShortKey()).append(",");
+            availableVotes.remove(getNomineeName(nominee));
         }
 
         return sb.toString();
@@ -221,17 +228,14 @@ public class VoteDetailModel implements Serializable {
 
     /**
      * update the selection List in the pickList
+     * from the data entered in {@link #directInput}
      */
     public void updatePickList(AjaxBehaviorEvent ajaxBehaviorEvent) {
-        evaluatePickList();
-    }
-
-    /**
-     * @return true if all was fine, false if there was a warning detected
-     */
-    private boolean evaluatePickList() {
-        boolean ok = true;
+        // fill the picklist fresh from the direct input
         this.castedVotes.clear();
+        this.availableVotes.clear();
+        this.availableVotes.addAll(allSortedNominees);
+
         if (StringUtils.isNotEmpty(directInput)) {
             String[] keys = StringUtils.split(directInput," ,-");
             for (String key : keys) {
@@ -239,18 +243,31 @@ public class VoteDetailModel implements Serializable {
                     Optional<String> nomineeNameByShortKey = findNomineeNameByShortKey(key);
                     if (!nomineeNameByShortKey.isPresent()) {
                         ballotMsg.addWarn().invalidShortKey(key);
-                        ok = false;
                     }
                     else {
                         castedVotes.add(nomineeNameByShortKey.get());
+                        availableVotes.remove(nomineeNameByShortKey.get());
                     }
                 }
             }
         }
-
-        return ok;
     }
 
+    /**
+     * update the selection List in the pickList
+     * from the data entered in {@link #directInput}
+     */
+    public void updateDirectInput(AjaxBehaviorEvent ajaxBehaviorEvent) {
+        StringBuilder sb = new StringBuilder();
+        castedVotes = picklist.getTarget();
+        for (String castedVote : castedVotes) {
+            BallotNominee nominee = nominees.stream().filter(n -> getNomineeName(n).equals(castedVote)).findFirst().get();
+            sb.append(nominee.getShortKey()).append(",");
+            availableVotes.remove(getNomineeName(nominee));
+        }
+
+        this.directInput = sb.toString();
+    }
 
     private Integer findNomineeIdByName(String nomineeName) {
         return nominees.stream()
