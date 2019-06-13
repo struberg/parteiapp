@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -17,14 +16,12 @@ import at.gruene.parteiapp.platform.be.CollumnLength;
 import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
 
 @Entity
-@NamedQueries( {
-        @NamedQuery(name = BallotUser.QRY_FIND_BY_BALLOT,
-                    query = "select u from BallotUser as u where u.ballot=:ballot")
-})
 @Table(name = "BALLOT_USER",
     uniqueConstraints = {
         @UniqueConstraint(name="UC_USER", columnNames = {"BALLOT_ID", "USERID"})
 })
+@NamedQuery(name = BallotUser.QRY_FIND_BY_BALLOT,
+        query = "select u from BallotUser as u where u.ballot=:ballot")
 public class BallotUser extends AuditedEntity implements VersionedEntity {
 
     public final static String QRY_FIND_BY_BALLOT = "BallotUserFindByBallot";

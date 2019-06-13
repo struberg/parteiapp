@@ -16,8 +16,138 @@
  */
 package at.gruene.parteiapp.voting.fe;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
+import org.apache.deltaspike.jsf.api.message.JsfMessage;
+
+import at.gruene.parteiapp.voting.be.BallotService;
+import at.gruene.parteiapp.voting.be.entities.Ballot;
+import at.gruene.parteiapp.voting.be.entities.BallotNominee;
+import at.gruene.parteiapp.voting.be.entities.BallotVote;
+import at.gruene.parteiapp.voting.fe.msg.BallotMessage;
+
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class VoteListModel {
+@Named("voteList")
+@ViewAccessScoped
+public class VoteListModel implements Serializable {
+
+    private Integer ballotId;
+    private Ballot ballot;
+    private List<BallotNominee> nominees;
+    private Map<Integer, BallotNominee> nomineesById;
+    private List<VoteLine> voteSheets;
+
+    private @Inject BallotService ballotService;
+    private @Inject JsfMessage<BallotMessage> ballotMsg;
+    private boolean shortKeysAvailable;
+
+    /**
+     * Initialisation which gets called via f:viewAction
+     */
+    @Transactional
+    public String initVoteList() {
+        //X TODO security:
+
+        if (ballotId == null) {
+            ballotMsg.addError().noBallotIdGiven();
+            return null;
+        }
+        if (ballot == null || !ballot.getId().equals(ballotId)) {
+            // only reload ballot data if needed
+            ballot = ballotService.loadBallot(ballotId);
+            nominees = ballotService.getBallotNominees(ballot);
+
+            nomineesById = nominees.stream()
+                    .collect(Collectors.toMap(BallotNominee::getId, Function.identity()));
+
+            this.shortKeysAvailable = nominees.stream()
+                    .anyMatch(n -> StringUtils.isNoneEmpty(n.getShortKey()));
+        }
+
+        List<BallotVote> ballotVotes = ballotService.getBallotVotes(ballot);
+        voteSheets = ballotVotes.stream()
+                .map(VoteLine::new)
+                .collect(Collectors.toList());
+
+        return null;
+    }
+
+    public Integer getBallotId() {
+        return ballotId;
+    }
+
+    public void setBallotId(Integer ballotId) {
+        this.ballotId = ballotId;
+    }
+
+    public Ballot getBallot() {
+        return ballot;
+    }
+
+    public List<VoteLine> getVoteSheets() {
+        return voteSheets;
+    }
+
+    public String calculateDirectInput(List<Integer> castedVoteIds) {
+        if (castedVoteIds == null || castedVoteIds.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (Integer castedVote : castedVoteIds) {
+            BallotNominee nominee = nomineesById.get(castedVote);
+            sb.append(nominee.getShortKey()).append(",");
+        }
+
+        return sb.toString();
+    }
+
+
+    public class VoteLine implements Serializable {
+        private final Integer id;
+        private final Integer voteNr;
+        private final boolean invalid;
+        private final String voteString;
+
+        VoteLine(BallotVote vote) {
+            this.id = vote.getId();
+            this.voteNr = vote.getVoteNr();
+            this.invalid = StringUtils.isNotEmpty(vote.getInvalidVoteReason());
+
+            if (invalid) {
+                this.voteString = vote.getInvalidVoteReason();
+            }
+            else {
+                this.voteString = calculateDirectInput(vote.getCastedVotes());
+            }
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public Integer getVoteNr() {
+            return voteNr;
+        }
+
+        public boolean isInvalid() {
+            return invalid;
+        }
+
+        public String getVoteString() {
+            return voteString;
+        }
+    }
 }

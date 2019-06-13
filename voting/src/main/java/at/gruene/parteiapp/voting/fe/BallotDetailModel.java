@@ -270,4 +270,7 @@ public class BallotDetailModel implements Serializable {
         return "ballotVote.xhtml?voteId=-1&ballotId=" + ballot.getId() + "&faces-redirect=true";
     }
 
+    public String doViewVotes() {
+        return "ballotVoteList.xhtml?ballotId=" + ballot.getId() + "&faces-redirect=true";
+    }
 }

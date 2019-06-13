@@ -18,7 +18,11 @@ import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
     uniqueConstraints = {
         @UniqueConstraint(name="U_VOTENR", columnNames = {"BALLOT_ID","VOTE_NR"})
     })
+@NamedQuery(name = BallotVote.QRY_FIND_BY_BALLOT,
+        query = "select v from BallotVote as v where v.ballot=:ballot order by v.voteNr asc")
 public class BallotVote extends AuditedEntity implements VersionedEntity {
+
+    public final static String QRY_FIND_BY_BALLOT = "BallotVoteFindByBallot";
 
     @Id
     @GeneratedValue
