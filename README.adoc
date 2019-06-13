@@ -1,0 +1,77 @@
+= Grüne Österreich ParteiApp
+
+Dieses Projekt beinhaltet wiederverwendbare Komponenten und damit impelentierte Einzelapplikationen.
+
+
+== Eingesetzte Technologie
+
+Dieses Projekt ist Java basisert und benötig mindestens ein installiertes JDK8.
+Bei Java Versionen > größer 8 müssen ev zusätzliche dependencies (JAXB, etc) hinzugefügt werden.
+
+== Entwicklungsschritte
+
+Die verwendeten Technologien sind:
+* CDI
+* JPA
+* JSF2
+* Apache TomEE als Application Server
+* Apache Maven als build management
+
+Compilieren des Programms mit:
+
+ %> mvn clean install
+
+Starten der Einzelapplikationen im entsprechenden folder (e.g. `voting`) mit:
+
+ %> mvn clean install tomee:run
+
+Der debug Modus kann folgendermaßen aktiviert werden.
+Die Applikation kann anschließend per remote port 5005 debugged werden:
+
+ %> mvn clean install tomee:debug
+
+
+== Einzelapplikationen
+
+=== Voting
+In der 80. Landesversammlung der Grünen Wien wurde beschlossen ab der 81. LVS die Methodik STV einzusetzen.
+Da die Auswertung wesentlich komplexer is als bei einer Listenauswertung macht es Sinn dies elektronisch zu unterstützen.
+
+==== Ablauf der Wahl
+
+Jede Wahl hat 3 Status:
+
+ 1. `CREATED` - Die Daten der Wahl können bearbeitet werden.
+ 1. `OPEN` - Der Auszählvorgang wurde gestartet. Nominierte und Benutzer können nicht mehr geändert werden
+ 1. `CLOSED` - Alle Wahlkarten wurden ausgezählt, das Ergebnis kann ermittelt werden.
+
+==== Vorbereitung der Wahl
+
+Der Ablauf beginnt beim Anlegen einer Wahl, zB "LVS-81".
+Der Benutzer der diese Anlage vornimmt ist automatisch der Hauptadministrator.
+Als ersten Schritt wird er weitere Benutzer für diese Wahl berechtigen.
+Diese Benutzer können entweder als Administrator order als Auszähler (Counter) berechtigt werden.
+
+Als zweiter Schritt werden die Nominierten erfaßt.
+Bei mehr als 5 Nominierten ist es sinnvoll für jeden davon auch ein Kurzkennzeichen zu vergeben.
+Dies kann zB die Listennummer auf dem Stimmzettel sein.
+
+==== Auszählung der Wahl
+
+Wenn die Wahlkarten eingesammelt werden ist der erste Schritt sie mit eindeutigen Nummern zu versehen.
+Dies kann durch handschriftliche Nummerierung erfolgen oder durch einen Stempel der automatisch höher zählt.
+Es sollte darauf geachtet werden, daß keine Lücken im Nummernkreis entstehen!
+Dies ist notwendig, damit vor Abschluß des Zählvorgangs auf eine volltständige Eingebe überprüft werden kann.
+
+Die nummerierten Wahlzettel werden auf die Auszählenden verteilt.
+Sie können nach Drücken des Buttons"Wahlzettel eingeben" erfaßt werden.
+
+Zuerst muß immer die Wahlzettel Nummer ausgefüllt werden.
+Die Eingabe erfolgt entweder als Liste der Kürzel im Feld "direkt Wahleingabe".
+Beistrich oder Leerzeichen fungieren hierbei als Trennzeichen.
+Alternativ können die Gewählten Optionen auch mit Drag&Drop mittels der Maus ausgewählt werden.
+
+Zum Speichern entweder den Knopf "Wahlzettel speichern" oder einfach die Enter Taste drücken.
+Der Wahlzettel wird gespeichert und die Seite zur Eingabe des nächsten Wahlzettels vorbereitet.
+Dazu wird die vorherige Wahlzettelnummer automatisch um 1 erhöht.
+Es macht also Sinn die Wahlzettel in aufsteigender Reihenfolge einzugeben.
