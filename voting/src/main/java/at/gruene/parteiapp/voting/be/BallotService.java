@@ -116,6 +116,9 @@ public class BallotService {
     }
 
     public void removeUser(BallotUser ballotUser) {
+        if (Ballot.BallotStatus.CLOSED == ballotUser.getBallot().getStatus()) {
+            throw new IllegalStateException("Cannot remove user from a closed Ballot");
+        }
         ballotUser = em.find(BallotUser.class, ballotUser);
         em.remove(ballotUser);
     }
@@ -150,6 +153,9 @@ public class BallotService {
      * Save or update the BallotUser to the database if there was any change.
      */
     public BallotUser saveBallotUser(BallotUser ballotUser) {
+        if (Ballot.BallotStatus.CLOSED == ballotUser.getBallot().getStatus()) {
+            throw new IllegalStateException("Cannot update user of a closed Ballot");
+        }
         if (isManaged(ballotUser)) {
             return em.merge(ballotUser);
         }
