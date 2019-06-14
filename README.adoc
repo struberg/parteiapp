@@ -75,3 +75,37 @@ Zum Speichern entweder den Knopf "Wahlzettel speichern" oder einfach die Enter T
 Der Wahlzettel wird gespeichert und die Seite zur Eingabe des nächsten Wahlzettels vorbereitet.
 Dazu wird die vorherige Wahlzettelnummer automatisch um 1 erhöht.
 Es macht also Sinn die Wahlzettel in aufsteigender Reihenfolge einzugeben.
+
+
+
+== Datenbank Setup
+
+This step is only required for running/testing on PostgreSQL!
+
+=== Initially creating the DB
+
+First if you do not have installed a copy of PostgreSQL, download PostgreSQL from the https://www.postgresql.org/download[PostgreSQL Website]
+
+[NOTE]
+
+add the psql command to your path. +
+on Mac osX this can simply be done by adding
+
+[source,bin]
+----
+export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
+----
+
+to your .bash_profile
+After you have installed PostgreSQL run these 2 commands to setup your database.
+
+[source,sql,numbered]
+----
+create user parteiapp with password 'parteiapp'; # <1>
+create database parteiapp owner parteiapp; # <2>
+\connect parteiapp
+create schema parteiapp authorization parteiapp;
+grant all on database parteiapp to parteiapp;
+----
+<1> creates the user we are running with
+<2> creates the database for our application

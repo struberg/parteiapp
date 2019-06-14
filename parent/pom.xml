@@ -55,7 +55,6 @@
 
         <openjpa.version>3.1.0</openjpa.version>
         <openjpa.skipenhance>true</openjpa.skipenhance>
-        <database.vendor>h2</database.vendor>
 
         <openjpa.connectionProperties>
             driverClassName=${database.driver.name},
@@ -65,7 +64,7 @@
         </openjpa.connectionProperties>
 
         <h2.version>1.4.195</h2.version>
-        <postgres-connector.version>9.4.1209.jre7</postgres-connector.version>
+        <postgres-connector.version>42.2.5</postgres-connector.version>
 
         <!--
         H2 requires an absolute path, to be able to run multiple builds in parallel we need one path per build
@@ -149,6 +148,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <database.vendor>h2</database.vendor>
+
                 <database.driver.name>${h2.database.driver.name}</database.driver.name>
                 <database.connection.url>${h2.database.connection.url}</database.connection.url>
                 <database.user>${h2.database.user}</database.user>
@@ -160,6 +161,8 @@
         <profile>
             <id>h2server</id>
             <properties>
+                <database.vendor>h2</database.vendor>
+
                 <h2.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/zeptadb</h2.database.connection.url>
                 <h2.zepta-run.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/zeptarundb</h2.zepta-run.database.connection.url>
                 <h2.camunda.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/camundadb</h2.camunda.database.connection.url>
@@ -169,6 +172,8 @@
         <profile>
             <id>postgres</id>
             <properties>
+                <database.vendor>postgres</database.vendor>
+
                 <database.driver.name>${postgres.database.driver.name}</database.driver.name>
                 <database.connection.url>${postgres.database.connection.url}</database.connection.url>
                 <database.user>${postgres.database.user}</database.user>
