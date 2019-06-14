@@ -72,12 +72,12 @@
                         <h:column>
                             <f:facet name="header">Administrator</f:facet>
                             <h:selectBooleanCheckbox value="#{u.admin}" rendered="#{u == ballotDetail.editedUser}"/>
-                            <h:graphicImage rendered="#{u != ballotDetail.editedUser and u.admin}" value="resources/images/message-tick.png"/>
+                            <h:graphicImage rendered="#{u != ballotDetail.editedUser and u.admin}" value="resources/images/message-tick.png" alt="Ist Administrator"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">Zähler</f:facet>
                             <h:selectBooleanCheckbox value="#{u.counter}" rendered="#{u == ballotDetail.editedUser}"/>
-                            <h:graphicImage rendered="#{u != ballotDetail.editedUser and u.counter}" value="resources/images/message-tick.png"/>
+                            <h:graphicImage rendered="#{u != ballotDetail.editedUser and u.counter}" value="resources/images/message-tick.png" alt="Ist Auszähler"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header"></f:facet>
@@ -85,7 +85,7 @@
                                 <h:graphicImage value="resources/images/pencil.png" alt="Benutzer bearbeiten"/>
                             </h:commandLink>
                             <h:commandLink rendered="#{ballotDetail.admin and u == ballotDetail.editedUser}" action="#{ballotDetail.doSaveUser}">
-                                <h:graphicImage value="resources/images/circle-tick.png" alt="Benutzer Änderunen speichern"/>
+                                <h:graphicImage value="resources/images/circle-tick.png" alt="Benutzer Änderungen speichern"/>
                             </h:commandLink>
                             <h:commandLink rendered="#{ballotDetail.admin and u == ballotDetail.editedUser}" action="#{ballotDetail.doCancelEditUser}" immediate="true">
                                 <h:graphicImage value="resources/images/circle-cross.png" alt="Benutzer Bearbeiten abbrechen"/>
@@ -110,13 +110,13 @@
                                  columnClasses="description, description, description">
                         <h:column>
                             <f:facet name="header">Kürzel</f:facet>
-                            <h:inputText value="#{nominee.shortKey}" rendered="#{nominee.id == null}"/>
-                            <h:outputText value="#{nominee.shortKey}" rendered="#{nominee.id != null}"/>
+                            <h:inputText value="#{nominee.shortKey}" rendered="#{nominee == ballotDetail.editedNominee}"/>
+                            <h:outputText value="#{nominee.shortKey}" rendered="#{nominee != ballotDetail.editedNominee}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">Name</f:facet>
-                            <h:inputText value="#{nominee.name}" rendered="#{nominee.id == null}"/>
-                            <h:outputText value="#{nominee.name}" rendered="#{nominee.id != null}"/>
+                            <h:inputText value="#{nominee.name}" rendered="#{nominee == ballotDetail.editedNominee}"/>
+                            <h:outputText value="#{nominee.name}" rendered="#{nominee != ballotDetail.editedNominee}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header"></f:facet>
