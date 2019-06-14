@@ -177,7 +177,7 @@ public class BallotDetailModel implements Serializable {
             return "/ballotDetail.xhtml?ballotId=" + ballot.getId() + "&faces-redirect=true";
         }
         else {
-            ballotService.updateBallot(ballot);
+            ballotService.saveBallot(ballot);
         }
         isEditBallot = false;
         return null;
@@ -256,13 +256,13 @@ public class BallotDetailModel implements Serializable {
     /* Wahlzettel eingeben */
     public String doStartCounting() {
         ballot.setStatus(Ballot.BallotStatus.OPEN);
-        ballot = ballotService.updateBallot(ballot);
+        ballot = ballotService.saveBallot(ballot);
         return null;
     }
 
     public String doEndCounting() {
         ballot.setStatus(Ballot.BallotStatus.CLOSED);
-        ballot = ballotService.updateBallot(ballot);
+        ballot = ballotService.saveBallot(ballot);
         return null;
     }
 

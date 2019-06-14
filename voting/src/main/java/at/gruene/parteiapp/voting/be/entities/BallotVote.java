@@ -20,9 +20,12 @@ import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
     })
 @NamedQuery(name = BallotVote.QRY_FIND_BY_BALLOT,
         query = "select v from BallotVote as v where v.ballot=:ballot order by v.voteNr asc")
+@NamedQuery(name = BallotVote.QRY_FIND_BY_BALLOT_VOTENR,
+        query = "select v from BallotVote as v where v.ballot=:ballot and v.voteNr=:voteNr")
 public class BallotVote extends AuditedEntity implements VersionedEntity {
 
     public final static String QRY_FIND_BY_BALLOT = "BallotVoteFindByBallot";
+    public final static String QRY_FIND_BY_BALLOT_VOTENR = "BallotVoteFindByBallotVoteNr";
 
     @Id
     @GeneratedValue

@@ -223,6 +223,10 @@ public class VoteDetailModel implements Serializable {
             ballotMsg.addError().exactlyOneVoteOrInvalidNeeded();
             return null;
         }
+        if (ballotService.loadVote(ballot, vote.getVoteNr()) != null) {
+            ballotMsg.addError().shortKeyAlreadyExists(vote.getVoteNr());
+            return null;
+        }
 
         List<Integer> castedVoteNomineeIds = castedVotes.stream()
                 .map(nomineeName -> findNomineeIdByName(nomineeName) )

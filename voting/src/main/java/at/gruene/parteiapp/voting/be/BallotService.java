@@ -11,6 +11,7 @@ import at.gruene.platform.idm.api.GruenPrincipal;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import java.time.LocalDate;
@@ -87,8 +88,14 @@ public class BallotService {
      *
      * @param ballot
      */
-    public Ballot updateBallot(Ballot ballot) {
-        return em.merge(ballot);
+    public Ballot saveBallot(Ballot ballot) {
+        if (isManaged(ballot)) {
+            return em.merge(ballot);
+        }
+        else {
+            em.persist(ballot);
+            return ballot;
+        }
     }
 
 
@@ -169,6 +176,9 @@ public class BallotService {
      * Save or update the BallotNominee to the database if there was any change.
      */
     public BallotNominee saveBallotNominee(BallotNominee ballotNominee) {
+        if (Ballot.BallotStatus.CLOSED == ballotNominee.getBallot().getStatus()) {
+            throw new IllegalStateException("Cannot modify nominee for closed Ballot");
+        }
         if (isManaged(ballotNominee)) {
             return em.merge(ballotNominee);
         }
@@ -179,12 +189,28 @@ public class BallotService {
     }
 
     public void removeBallotNominee(BallotNominee ballotNominee) {
+        if (Ballot.BallotStatus.CLOSED == ballotNominee.getBallot().getStatus()) {
+            throw new IllegalStateException("Cannot remove nominee from closed Ballot");
+        }
         ballotNominee = em.find(BallotNominee.class, ballotNominee.getId());
         em.remove(ballotNominee);
     }
 
     public BallotVote loadVote(Integer voteId) {
         return em.find(BallotVote.class, voteId);
+    }
+
+    public BallotVote loadVote(Ballot ballot, Integer voteNr) {
+        TypedQuery<BallotVote> qry = em.createNamedQuery(BallotVote.QRY_FIND_BY_BALLOT_VOTENR, BallotVote.class);
+        qry.setParameter("ballot", ballot);
+        qry.setParameter("voteNr", voteNr);
+
+        try {
+            return qry.getSingleResult();
+        }
+        catch (NoResultException e) {
+            return null;
+        }
     }
 
     public BallotVote saveVote(BallotVote vote) {

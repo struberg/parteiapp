@@ -32,4 +32,5 @@ public interface BallotMessage {
     String atLeastOneVoteOrInvalidNeeded();
     String exactlyOneVoteOrInvalidNeeded();
     String invalidShortKey(String key);
+    String shortKeyAlreadyExists(Integer voteNr);
 }
