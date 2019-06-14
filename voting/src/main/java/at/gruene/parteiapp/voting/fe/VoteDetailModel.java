@@ -223,8 +223,11 @@ public class VoteDetailModel implements Serializable {
             ballotMsg.addError().exactlyOneVoteOrInvalidNeeded();
             return null;
         }
-        if (ballotService.loadVote(ballot, vote.getVoteNr()) != null) {
-            ballotMsg.addError().shortKeyAlreadyExists(vote.getVoteNr());
+
+        // avoid two paper ballot sheets with the same voteNr in the DB
+        BallotVote voteWithVoteNr = ballotService.loadVote(ballot, vote.getVoteNr());
+        if (voteWithVoteNr != null && !voteWithVoteNr.getId().equals(vote.getId())) {
+            ballotMsg.addError().voteWithVoteNrAlreadyExists(vote.getVoteNr());
             return null;
         }
 
@@ -265,8 +268,13 @@ public class VoteDetailModel implements Serializable {
                         ballotMsg.addWarn().invalidShortKey(key);
                     }
                     else {
-                        castedVotes.add(nomineeNameByShortKey.get());
-                        availableVotes.remove(nomineeNameByShortKey.get());
+                        if (castedVotes.contains(nomineeNameByShortKey.get())) {
+                            ballotMsg.addWarn().duplicateShortKey(key);
+                        }
+                        else {
+                            castedVotes.add(nomineeNameByShortKey.get());
+                            availableVotes.remove(nomineeNameByShortKey.get());
+                        }
                     }
                 }
             }
