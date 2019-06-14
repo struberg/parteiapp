@@ -49,6 +49,7 @@ public class VoteDetailModel implements Serializable {
     private Integer ballotId;
 
     private Ballot ballot;
+
     private BallotVote vote;
     private boolean isEditVote;
 
@@ -62,6 +63,11 @@ public class VoteDetailModel implements Serializable {
     private List<String> castedVotes;
 
     private DualListModel<String> picklist;
+
+    /**
+     * The previously entered paper ballot sheet
+     */
+    private BallotVote lastVote;
 
     private @Inject BallotService ballotService;
 
@@ -110,6 +116,10 @@ public class VoteDetailModel implements Serializable {
 
     public boolean isShortKeysAvailable() {
         return shortKeysAvailable;
+    }
+
+    public BallotVote getLastVote() {
+        return lastVote;
     }
 
     /**
@@ -165,6 +175,10 @@ public class VoteDetailModel implements Serializable {
 
             return null;
         }
+        else {
+            lastVote = null;
+        }
+
         vote = ballotService.loadVote(voteId);
 
         if (vote == null) {
@@ -216,6 +230,8 @@ public class VoteDetailModel implements Serializable {
         vote.setCastedVotes(castedVoteNomineeIds);
 
         ballotService.saveVote(vote);
+
+        lastVote = vote;
 
         // reset most bean fields
         ballotId = null;

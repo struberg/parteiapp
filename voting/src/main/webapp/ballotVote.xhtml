@@ -27,17 +27,25 @@
                     <legend>Wahlgang</legend>
                     <ol>
                         <li>
-                            <h:outputLabel value="Name der Wahl" for="ballotNameOut"/>
-                            <h:outputLabel value="Name der Wahl" for="ballotNameOut"/>
+                            <h:outputLabel value="Name der Wahl" for="ballotNameOut"/>&nbsp;
                             <h:link id="ballotNameOut" outcome="/ballotDetail.xhtml" value="#{voteDetail.ballot.name}">
                                 <f:param name="ballotId" value="#{voteDetail.ballot.id}"/>
                             </h:link>
-                            am
-
+                        </li>
+                        <li>am&nbsp;
                             <h:outputText id="ballotDateOut" value="#{voteDetail.ballot.heldAt}">
                                 <f:convertDateTime type="localDate" dateStyle="medium" />
                             </h:outputText>
                         </li>
+                        <h:panelGroup rendered="#{voteDetail.lastVote    != null}">
+                            <li>
+                                <h:outputLabel value="Letzter Stimmzettel" for="lastVote"/>&nbsp;
+                                <h:link id="lastVote" outcome="/ballotVote.xhtml" value="#{voteDetail.lastVote.voteNr}">
+                                    <f:param name="ballotId" value="#{voteDetail.ballot.id}"/>
+                                    <f:param name="voteId" value="#{voteDetail.lastVote .id}"/>
+                                </h:link>
+                            </li>
+                        </h:panelGroup>
                     </ol>
                 </fieldset>
 
