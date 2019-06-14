@@ -234,6 +234,11 @@
                         <artifactId>h2</artifactId>
                         <version>${h2.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${postgres-connector.version}</version>
+                    </dependency>
                 </dependencies>
             </plugin>
 
@@ -300,6 +305,7 @@
 
                     <libs>
                         <lib>com.h2database:h2:${h2.version}</lib>
+                        <lib>org.postgresql:postgresql:${postgres-connector.version}</lib>
 
                         <lib>remove:myfaces-*</lib>
                         <lib>org.apache.myfaces.core:myfaces-api:${myfaces.version}</lib>

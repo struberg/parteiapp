@@ -65,6 +65,7 @@
         </openjpa.connectionProperties>
 
         <h2.version>1.4.195</h2.version>
+        <postgres-connector.version>9.4.1209.jre7</postgres-connector.version>
 
         <!--
         H2 requires an absolute path, to be able to run multiple builds in parallel we need one path per build
@@ -85,6 +86,12 @@
         <h2.database.user>sa</h2.database.user>
         <h2.database.password />
         <h2.database.onError.action>abort</h2.database.onError.action>
+
+        <postgres.database.driver.name>org.postgresql.Driver</postgres.database.driver.name>
+        <postgres.database.connection.url>jdbc:postgresql://localhost:5432/parteiapp</postgres.database.connection.url>
+        <postgres.database.user>parteiapp</postgres.database.user>
+        <postgres.database.password>parteiapp</postgres.database.password>
+        <postgres.database.onError.action>abort</postgres.database.onError.action>
 
     </properties>
 
@@ -137,15 +144,6 @@
 
     <profiles>
         <profile>
-            <id>h2server</id>
-            <properties>
-                <h2.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/zeptadb</h2.database.connection.url>
-                <h2.zepta-run.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/zeptarundb</h2.zepta-run.database.connection.url>
-                <h2.camunda.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/camundadb</h2.camunda.database.connection.url>
-            </properties>
-        </profile>
-
-        <profile>
             <id>h2</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -156,6 +154,26 @@
                 <database.user>${h2.database.user}</database.user>
                 <database.password>${h2.database.password}</database.password>
                 <database.onError.action>${h2.database.onError.action}</database.onError.action>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>h2server</id>
+            <properties>
+                <h2.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/zeptadb</h2.database.connection.url>
+                <h2.zepta-run.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/zeptarundb</h2.zepta-run.database.connection.url>
+                <h2.camunda.database.connection.url>jdbc:h2:tcp://localhost:${h2.database.base.port}${h2.database.base.path}/camundadb</h2.camunda.database.connection.url>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>postgres</id>
+            <properties>
+                <database.driver.name>${postgres.database.driver.name}</database.driver.name>
+                <database.connection.url>${postgres.database.connection.url}</database.connection.url>
+                <database.user>${postgres.database.user}</database.user>
+                <database.password>${postgres.database.password}</database.password>
+                <database.onError.action>${postgres.database.onError.action}</database.onError.action>
             </properties>
         </profile>
     </profiles>
