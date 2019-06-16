@@ -482,12 +482,12 @@ table.datatable td {
 }
 table.datatable th {
     border: 1px solid #D3D3D3;
-    background-color: #D3D3D3;
+    background-color: #E3F3E3;
 }
-.datatable .datatable-even {
+table.datatable .row-even {
     background: white;
 }
-.datatable .datatable-odd {
+table.datatable .row-odd {
     background: #F5FAFD;
 }
 

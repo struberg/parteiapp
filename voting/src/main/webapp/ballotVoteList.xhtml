@@ -46,7 +46,8 @@
         <div id="detail-panel">
             <h:dataTable id="votes" value="#{voteList.voteSheets}" var="voteSheet"
                          styleClass="datatable"
-                         columnClasses="shortInput, shortInput, mediumInput, largeInput">
+                         columnClasses="shortInput, shortInput, mediumInput, largeInput"
+                         rowClasses="row-even,row-odd">
                 <h:column>
                     <f:facet name="header">Nr</f:facet>
                     <h:link outcome="/ballotVote.xhtml" value="#{voteSheet.voteNr}">
