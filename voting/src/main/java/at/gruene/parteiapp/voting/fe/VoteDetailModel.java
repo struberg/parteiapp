@@ -142,8 +142,8 @@ public class VoteDetailModel implements Serializable {
                     .anyMatch(n -> StringUtils.isNoneEmpty(n.getShortKey()));
 
             this.allSortedNominees = nominees.stream()
+                    .sorted( (a,b) -> compareNominees(a,b))
                     .map(n -> getNomineeName(n))
-                .sorted()
                     .collect(Collectors.toList());
         }
 
@@ -198,7 +198,33 @@ public class VoteDetailModel implements Serializable {
         return null;
     }
 
+    private int compareNominees(BallotNominee a, BallotNominee b) {
+        if (!shortKeysAvailable) {
+            return a.getName().compareTo(b.getName());
+        }
+
+        // otherwise sort by shortKeys
+        if (StringUtils.isNumeric(a.getShortKey()) && StringUtils.isNumeric(b.getShortKey())) {
+            Integer aN = Integer.valueOf(a.getShortKey());
+            Integer bN = Integer.valueOf(b.getShortKey());
+
+            return aN.compareTo(bN);
+        }
+        if (StringUtils.isNumeric(a.getShortKey())) {
+            return 1;
+        }
+        if (StringUtils.isNumeric(b.getShortKey())) {
+            return -1;
+        }
+
+        return a.getShortKey().compareTo(b.getShortKey());
+    }
+
     private String calculateDirectInput(List<Integer> castedVoteIds) {
+        if (!shortKeysAvailable) {
+            return null;
+        }
+
         if (castedVoteIds == null || castedVoteIds.isEmpty()) {
             return null;
         }
