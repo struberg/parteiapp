@@ -49,6 +49,9 @@ public class VoteListModel implements Serializable {
     private Map<Integer, BallotNominee> nomineesById;
     private List<VoteLine> voteSheets;
 
+    private Integer maxVoteNr = null;
+    private Integer amountBallotSheets = null;
+
     private @Inject BallotService ballotService;
     private @Inject JsfMessage<BallotMessage> ballotMsg;
     private boolean shortKeysAvailable;
@@ -80,6 +83,11 @@ public class VoteListModel implements Serializable {
         voteSheets = ballotVotes.stream()
                 .map(VoteLine::new)
                 .collect(Collectors.toList());
+
+        maxVoteNr = ballotVotes.stream()
+                .map(v -> v.getVoteNr().intValue())
+                .reduce(Integer::max).orElse(null);
+        amountBallotSheets = voteSheets.size();
 
         return null;
     }
@@ -129,6 +137,14 @@ public class VoteListModel implements Serializable {
         }
 
         return sb.toString();
+    }
+
+    public Integer getMaxVoteNr() {
+        return maxVoteNr;
+    }
+
+    public Integer getAmountBallotSheets() {
+        return amountBallotSheets;
     }
 
 

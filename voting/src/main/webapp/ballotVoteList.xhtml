@@ -32,6 +32,14 @@
                         <f:convertDateTime type="localDate" dateStyle="medium" />
                     </h:outputText>
                 </li>
+                <li>
+                    <h:outputLabel for="maxVoteNr" value="Höchste Wahlzettelnummer"/>
+                    <h:outputText id="maxVoteNr" value="#{voteList.maxVoteNr}"/>
+                </li>
+                <li>
+                    <h:outputLabel for="sumBallotSheets" value="Anzahl Wahlzettel"/>
+                    <h:outputText id="sumBallotSheets" value="#{voteList.amountBallotSheets}"/>
+                </li>
             </ol>
         </fieldset>
 
