@@ -17,6 +17,7 @@
 package at.gruene.parteiapp.voting.fe;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -80,9 +81,19 @@ public class VoteListModel implements Serializable {
         }
 
         List<BallotVote> ballotVotes = ballotService.getBallotVotes(ballot);
-        voteSheets = ballotVotes.stream()
-                .map(VoteLine::new)
-                .collect(Collectors.toList());
+        if (!ballotVotes.isEmpty()) {
+            // first sheet is either 0 or 1, depending where the vote numbering starts
+            int nextSheetNr = Integer.min(ballotVotes.get(0).getVoteNr(), 1) + 1;
+
+            voteSheets = new ArrayList<>(ballotVotes.size());
+            for (BallotVote v : ballotVotes) {
+                if (v.getVoteNr() > nextSheetNr) {
+                    voteSheets.add(new VoteLine(nextSheetNr, v.getVoteNr() - 1));
+                }
+                voteSheets.add(new VoteLine(v));
+                nextSheetNr = v.getVoteNr() + 1;
+            }
+        }
 
         maxVoteNr = ballotVotes.stream()
                 .map(v -> v.getVoteNr().intValue())
@@ -169,6 +180,21 @@ public class VoteListModel implements Serializable {
                 this.shortKeys = calculateShortKeys(castedVotes);
                 this.voteString = calculateVoteString(castedVotes);
             }
+        }
+
+        /**
+         * A VoteLine which represents a 'hole' in the entered paper ballot sheets.
+         * That means there is something still not entered into the system.
+         *
+         * @param missingStart
+         * @param missingEnd
+         */
+        VoteLine(int missingStart, int missingEnd) {
+            this.id = null;
+            this.voteNr = null;
+            this.invalid = false;
+            this.shortKeys = null;
+            this.voteString = ballotMsg.get().missingPaperBallotSheets(missingStart, missingEnd);
         }
 
         public Integer getId() {

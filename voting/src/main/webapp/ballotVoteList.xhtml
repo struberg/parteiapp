@@ -50,15 +50,15 @@
                          rowClasses="row-even,row-odd">
                 <h:column>
                     <f:facet name="header">Nr</f:facet>
-                    <h:link outcome="/ballotVote.xhtml" value="#{voteSheet.voteNr}">
+                    <h:link outcome="/ballotVote.xhtml" value="#{voteSheet.voteNr}" rendered="#{voteSheet.voteNr != null}">
                         <f:param name="ballotId" value="#{voteList.ballot.id}"/>
                         <f:param name="voteId" value="#{voteSheet.id}"/>
                     </h:link>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Ungueltig</f:facet>
-
                     <h:graphicImage value="resources/images/message-warning.png" alt="Ungültige Stimmkarte" rendered="#{voteSheet.invalid}"/>
+                    <h:graphicImage value="resources/images/message-cross.png" alt="Fehlende Stimmkarten" rendered="#{voteSheet.voteNr == null}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Kürzel</f:facet>

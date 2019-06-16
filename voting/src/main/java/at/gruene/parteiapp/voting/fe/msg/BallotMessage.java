@@ -34,4 +34,6 @@ public interface BallotMessage {
     String invalidShortKey(String key);
     String voteWithVoteNrAlreadyExists(Integer voteNr);
     String duplicateShortKey(String key);
+
+    String missingPaperBallotSheets(int missingStart, int missingEnd);
 }
