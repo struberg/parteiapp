@@ -63,7 +63,8 @@
                 <fieldset class="styledFieldset">
                     <legend>Mitarbeiter</legend>
                     <h:dataTable id="userTable" value="#{ballotDetail.ballotUsers}" var="u"
-                                 columnClasses="description, description, description">
+                                 styleClass="datatable"
+                                 columnClasses="largeInput, smallInput, smallInput, smallInput">
                         <h:column>
                             <f:facet name="header">userId</f:facet>
                             <h:inputText value="#{u.userId}" rendered="#{u.id == null}"/>
@@ -107,7 +108,8 @@
                 <fieldset class="styledFieldset">
                     <legend>Nominierte</legend>
                     <h:dataTable id="nomineeTable" value="#{ballotDetail.ballotNominees}" var="nominee"
-                                 columnClasses="description, description, description">
+                                 styleClass="datatable"
+                                 columnClasses="shortInput, xlargeInput, shortInput">
                         <h:column>
                             <f:facet name="header">Kürzel</f:facet>
                             <h:inputText value="#{nominee.shortKey}" rendered="#{nominee == ballotDetail.editedNominee}"/>

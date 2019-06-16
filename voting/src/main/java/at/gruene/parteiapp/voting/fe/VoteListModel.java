@@ -100,7 +100,10 @@ public class VoteListModel implements Serializable {
         return voteSheets;
     }
 
-    public String calculateDirectInput(List<Integer> castedVoteIds) {
+    public String calculateShortKeys(List<Integer> castedVoteIds) {
+        if (!shortKeysAvailable) {
+            return null;
+        }
         if (castedVoteIds == null || castedVoteIds.isEmpty()) {
             return null;
         }
@@ -114,11 +117,26 @@ public class VoteListModel implements Serializable {
         return sb.toString();
     }
 
+    public String calculateVoteString(List<Integer> castedVoteIds) {
+        if (castedVoteIds == null || castedVoteIds.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (Integer castedVote : castedVoteIds) {
+            BallotNominee nominee = nomineesById.get(castedVote);
+            sb.append(nominee.getName()).append(", ");
+        }
+
+        return sb.toString();
+    }
+
 
     public class VoteLine implements Serializable {
         private final Integer id;
         private final Integer voteNr;
         private final boolean invalid;
+        private final String shortKeys;
         private final String voteString;
 
         VoteLine(BallotVote vote) {
@@ -127,10 +145,13 @@ public class VoteListModel implements Serializable {
             this.invalid = StringUtils.isNotEmpty(vote.getInvalidVoteReason());
 
             if (invalid) {
+                this.shortKeys = null;
                 this.voteString = vote.getInvalidVoteReason();
             }
             else {
-                this.voteString = calculateDirectInput(vote.getCastedVotes());
+                List<Integer> castedVotes = vote.getCastedVotes();
+                this.shortKeys = calculateShortKeys(castedVotes);
+                this.voteString = calculateVoteString(castedVotes);
             }
         }
 
@@ -144,6 +165,10 @@ public class VoteListModel implements Serializable {
 
         public boolean isInvalid() {
             return invalid;
+        }
+
+        public String getShortKeys() {
+            return shortKeys;
         }
 
         public String getVoteString() {

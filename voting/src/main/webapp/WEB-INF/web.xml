@@ -55,10 +55,12 @@
     </context-param>
 
     <!-- turn this off for production -->
+<!--
     <context-param>
         <param-name>org.apache.myfaces.ERROR_HANDLING</param-name>
         <param-value>true</param-value>
     </context-param>
+-->
 
     <filter>
         <filter-name>LogFilter</filter-name>

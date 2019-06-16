@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
 <ui:composition template="/META-INF/fragments/template.xhtml">
     <ui:define name="title">#{txt.voting_title}</ui:define>
@@ -13,43 +14,44 @@
             <div id="overview">
                 <h2>Wahlgänge</h2>
 
-                <h:panelGroup id="searchPanel">
-                    <fieldset class="styledFieldset">
-                        <legend>Wahlgänge suchen</legend>
-                        <ol>
-                            <li>
-                                <h:outputLabel for="searchFrom" value="Von"/>
-                                <h:inputText styleClass="largeInput" id="searchFrom" value="#{ballots.searchFrom}">
-                                    <f:convertDateTime type="localDate" dateStyle="medium" />
-                                </h:inputText>
-                            </li>
-                            <li>
-                                <h:outputLabel for="searchUntil" value="Bis"/>
-                                <h:inputText styleClass="largeInput" id="searchUntil" value="#{ballots.searchUntil}">
-                                    <f:convertDateTime type="localDate" dateStyle="medium" />
-                                </h:inputText>
-                            </li>
-                            <li>
-                                <h:commandButton id="cSearchBtn" value="Suchen" action="#{ballots.doSearch}"/>
-                            </li>
-                        </ol>
-                    </fieldset>
-                </h:panelGroup>
+                <fieldset class="styledFieldset">
+                    <legend>Wahlgänge suchen</legend>
+                    <ol>
+                        <li>
+                            <h:outputLabel for="searchFrom" value="Von"/>
+                            <h:inputText styleClass="smallInput" id="searchFrom" value="#{ballots.searchFrom}">
+                                <f:convertDateTime type="localDate" dateStyle="medium" />
+                            </h:inputText>
+                        </li>
+                        <li>
+                            <h:outputLabel for="searchUntil" value="Bis"/>
+                            <h:inputText styleClass="smallInput" id="searchUntil" value="#{ballots.searchUntil}">
+                                <f:convertDateTime type="localDate" dateStyle="medium" />
+                            </h:inputText>
+                        </li>
+                        <li>
+                            <h:commandButton id="cSearchBtn" value="Suchen" action="#{ballots.doSearch}"/>
+                        </li>
+                    </ol>
+                </fieldset>
 
-                <h:dataTable id="votes" value="#{ballots.ballots}" var="b"
-                             columnClasses="description, description">
-                    <h:column>
-                        <f:facet name="header">Name</f:facet>
-                        <h:link outcome="/ballotDetail.xhtml" value="#{b.name}">
-                            <f:param name="ballotId" value="#{b.id}"/>
-                        </h:link>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Wahldatum</f:facet>
-                        <h:outputText value="#{b.heldAt}"/>
-                    </h:column>
-                </h:dataTable>
-                <h:commandButton value="Abstimmung anlegen" action="#{ballots.doCreateBallot}"/>
+                <h:panelGroup id="result" rendered="#{ballots.ballots != null and ballots.ballots.size() > 0}">
+                    <h:dataTable id="votes" value="#{ballots.ballots}" var="b"
+                                 styleClass="datatable"
+                                 columnClasses="mediumInput, largeInput">
+                        <h:column>
+                            <f:facet name="header">Wahldatum</f:facet>
+                            <h:outputText value="#{b.heldAt}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            <h:link outcome="/ballotDetail.xhtml" value="#{b.name}">
+                                <f:param name="ballotId" value="#{b.id}"/>
+                            </h:link>
+                        </h:column>
+                    </h:dataTable>
+                    <h:commandButton value="Abstimmung anlegen" action="#{ballots.doCreateBallot}"/>
+                </h:panelGroup>
 
             </div>
         </h:form>

@@ -273,12 +273,36 @@ fieldset li label.required:after {
     padding-top: 3px;
 }
 
+/* input field dimensions */
+.shortInput {
+    width: 30px !important;
+}
+
+.smallInput {
+    width: 90px !important;
+}
+
+.mediumInput {
+    width: 145px !important;
+}
+
+.largeInput {
+    width: 245px !important;
+}
+
+.xlargeInput {
+    width: 350px !important;
+}
+
+
+
+
+
 /* various messages */
 #globalMessagesPanel .infoMessage,
 #globalMessagesPanel .errorMessage,
 #globalMessagesPanel .warnMessage,
-#globalMessagesPanel .successMessage
- {
+#globalMessagesPanel .successMessage {
     padding: 11px 10px 11px 49px;
     font-weight: bold;
     font-size: 12px;
@@ -347,6 +371,7 @@ input[type=password]{
 }
 
 input[type="text"]:focus,
+input[type="number"]:focus,
 input[type="password"]:focus,
 textarea:focus {
     border-color: gray !important;
@@ -372,6 +397,7 @@ input[type=text].invalidInput {
 }
 
 input[type=text][disabled=disabled],
+input[type=number][disabled=disabled],
 textarea[disabled=disabled],
 input[type=password][disabled=disabled] {
     background-color: #f7f7f7 !important;
@@ -431,10 +457,37 @@ table, p {
     width: 300px;
 }
 
-
 .pending {
     text-align: right;
     color: #DDDDDD;
     width: 100px;
+}
+
+
+.ui-picklist-source,
+.ui-picklist-target {
+    height: 100% !important;
+    min-height: 200px;
+    max-height: 400px;
+}
+
+
+/* datatables */
+table.datatable,
+table.datatable th,
+table.datatable td {
+    border: 1px solid #D3D3D3;
+    border-collapse: collapse;
+    color: #494949;
+}
+table.datatable th {
+    border: 1px solid #D3D3D3;
+    background-color: #D3D3D3;
+}
+.datatable .datatable-even {
+    background: white;
+}
+.datatable .datatable-odd {
+    background: #F5FAFD;
 }
 

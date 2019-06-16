@@ -36,7 +36,6 @@ public class BallotServiceTest {
 
     @Test
     public void testCreateBallot() {
-
         GruenPrincipal principal = idmService.getUser("userA");
         principalProducer.setPrincipal(principal);
 
@@ -81,5 +80,56 @@ public class BallotServiceTest {
         nomineeC.setName("LUSTIG Berta");
         ballotService.saveBallotNominee(nomineeC);
 
+    }
+    
+    @Test
+    public void testLongBallot() throws Exception {
+
+        GruenPrincipal principal = idmService.getUser("userA");
+        principalProducer.setPrincipal(principal);
+
+        LocalDate today = LocalDate.now();
+
+        Ballot ballot = ballotService.createBallot(LocalDate.now(),
+                "testLws-" + UUID.randomUUID(), "LOW");
+        ballotService.addUser(ballot, "testUsr2", true);
+        
+        addNominee(ballot, "1", "Eva Blimlinger");
+        addNominee(ballot, "2", "Barbara Boll");
+        addNominee(ballot, "3", "Georg Bürstmayr");
+        addNominee(ballot, "4", "Meri Disoski");
+        addNominee(ballot, "5", "Ewa Dziedzic");
+        addNominee(ballot, "6", "Georg Egger");
+        addNominee(ballot, "7", "Faika El-Nagashi");
+        addNominee(ballot, "8", "Lukas Hammer");
+        addNominee(ballot, "9", "Wolfgang Kainrath");
+        addNominee(ballot, "10", "Christina Kastner-Frank");
+        addNominee(ballot, "11", "Daniela Kickl");
+        addNominee(ballot, "12", "Alev Korun");
+        addNominee(ballot, "13", "Markus Koza");
+        addNominee(ballot, "14", "Martha-Sophie Krumpeck");
+        addNominee(ballot, "15", "Bernhard Lahner");
+        addNominee(ballot, "16", "Maria Lackner");
+        addNominee(ballot, "17", "Martin Margulies");
+        addNominee(ballot, "18", "Sigrid Maurer");
+        addNominee(ballot, "19", "Elmar Mayer-Baldasseron");
+        addNominee(ballot, "20", "Ornette Novotny");
+        addNominee(ballot, "21", "Wolfgang Orgler");
+        addNominee(ballot, "22", "Markus Reichhart");
+        addNominee(ballot, "23", "Dominik Rein");
+        addNominee(ballot, "24", "Noah Schönhart");
+        addNominee(ballot, "25", "Gerhard Schrenk");
+        addNominee(ballot, "26", "Felix Stadler");
+        addNominee(ballot, "27", "Johannes Stöckler");
+        addNominee(ballot, "28", "Florian Tschebul");
+        addNominee(ballot, "29", "Lukas Wurz");
+    }
+
+    private void addNominee(Ballot ballot, String shortKey, String name) {
+        BallotNominee nominee = new BallotNominee();
+        nominee.setBallot(ballot);
+        nominee.setShortKey(shortKey);
+        nominee.setName(name);
+        ballotService.saveBallotNominee(nominee);
     }
 }

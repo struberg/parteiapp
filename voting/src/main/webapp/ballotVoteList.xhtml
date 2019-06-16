@@ -17,28 +17,50 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form>
-            <div id="detail-panel">
-                <h:dataTable id="votes" value="#{voteList.voteSheets}" var="voteSheet"
-                             columnClasses="description, description, description">
-                    <h:column>
-                        <f:facet name="header">VoteNr</f:facet>
-                        <h:link outcome="/ballotVote.xhtml" value="#{voteSheet.voteNr}">
-                            <f:param name="ballotId" value="#{voteList.ballot.id}"/>
-                            <f:param name="voteId" value="#{voteSheet.id}"/>
-                        </h:link>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Ungueltig</f:facet>
-                        <h:graphicImage value="resources/images/message-warning.png" alt="Ungültige Stimmkarte" rendered="#{voteSheet.invalid}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Wahltext</f:facet>
-                        <h:outputText value="#{voteSheet.voteString}"/>
-                    </h:column>
-                </h:dataTable>
-            </div>
-        </h:form>
+        <fieldset class="styledFieldset">
+            <legend>Wahlgang</legend>
+            <ol>
+                <li>
+                    <h:outputLabel value="Name der Wahl" for="ballotNameOut"/>&nbsp;
+                    <h:link id="ballotNameOut" outcome="/ballotDetail.xhtml" value="#{voteList.ballot.name}">
+                        <f:param name="ballotId" value="#{voteList.ballot.id}"/>
+                    </h:link>
+                </li>
+                <li>
+                    <h:outputLabel for="ballotDate" value="Datum der Wahl"/>
+                    <h:outputText id="ballotDate" value="#{voteList.ballot.heldAt}">
+                        <f:convertDateTime type="localDate" dateStyle="medium" />
+                    </h:outputText>
+                </li>
+            </ol>
+        </fieldset>
+
+        <div id="detail-panel">
+            <h:dataTable id="votes" value="#{voteList.voteSheets}" var="voteSheet"
+                         styleClass="datatable"
+                         columnClasses="shortInput, shortInput, mediumInput, largeInput">
+                <h:column>
+                    <f:facet name="header">Nr</f:facet>
+                    <h:link outcome="/ballotVote.xhtml" value="#{voteSheet.voteNr}">
+                        <f:param name="ballotId" value="#{voteList.ballot.id}"/>
+                        <f:param name="voteId" value="#{voteSheet.id}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Ungueltig</f:facet>
+
+                    <h:graphicImage value="resources/images/message-warning.png" alt="Ungültige Stimmkarte" rendered="#{voteSheet.invalid}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Kürzel</f:facet>
+                    <h:outputText value="#{voteSheet.shortKeys}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Wahltext</f:facet>
+                    <h:outputText value="#{voteSheet.voteString}"/>
+                </h:column>
+            </h:dataTable>
+        </div>
     </ui:define>
 </ui:composition>
 </html>

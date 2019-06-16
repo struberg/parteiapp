@@ -136,6 +136,19 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- purely for debugging myfaces if needed-->
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-api</artifactId>
+            <version>${myfaces.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-impl</artifactId>
+            <version>${myfaces.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
@@ -317,7 +330,7 @@
                         <lib>com.h2database:h2:${h2.version}</lib>
                         <lib>org.postgresql:postgresql:${postgres-connector.version}</lib>
 
-                        <lib>remove:myfaces-*</lib>
+                        <lib>remove:myfaces-</lib>
                         <lib>org.apache.myfaces.core:myfaces-api:${myfaces.version}</lib>
                         <lib>org.apache.myfaces.core:myfaces-impl:${myfaces.version}</lib>
 

@@ -105,6 +105,7 @@ public class LogFilter implements Filter {
         boolean dropped = false;
 
         String url = "";
+        String ajax = "";
         String method = "";
         String agent = null;
 
@@ -146,12 +147,19 @@ public class LogFilter implements Filter {
 
                 setupMdc(sessionId, userId);
 
-                if (log.isDebugEnabled()) {
-                    msg.append("request start ").append(method).append(' ').append(url)
-                            .append(" remote address:").append(remoteAddress)
-                            .append(" UA=").append(agent);
-                    log.debug(msg.toString());
+                if (httpServletRequest.getParameter("javax.faces.partial.ajax") != null) {
+                    ajax = " ajax";
+                    String source = httpServletRequest.getParameter("javax.faces.source");
+                    if (source != null) {
+                        ajax += "=" + source;
+                    }
                 }
+                StringBuilder methodUrlAjax = new StringBuilder().append(method).append(" ").append(url).append(ajax);
+
+                msg.append("request start ").append(methodUrlAjax.toString()).append(' ').append(url)
+                        .append(" remote address:").append(remoteAddress)
+                        .append(" UA=").append(agent);
+                log.debug(msg.toString());
 
                 if (threadBean != null) {
                     startCpu = threadBean.getCurrentThreadCpuTime();

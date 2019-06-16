@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">>
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
 <ui:composition template="/META-INF/fragments/template.xhtml">
     <ui:define name="title">#{txt.voting_title}</ui:define>
@@ -32,8 +32,9 @@
                                 <f:param name="ballotId" value="#{voteDetail.ballot.id}"/>
                             </h:link>
                         </li>
-                        <li>am&nbsp;
-                            <h:outputText id="ballotDateOut" value="#{voteDetail.ballot.heldAt}">
+                        <li>
+                            <h:outputLabel for="ballotDate" value="Datum der Wahl"/>
+                            <h:outputText id="ballotDate" value="#{voteDetail.ballot.heldAt}">
                                 <f:convertDateTime type="localDate" dateStyle="medium" />
                             </h:outputText>
                         </li>
@@ -55,13 +56,14 @@
                     <ol>
                         <li>
                             <h:outputLabel value="Wahlzettel Nummer" for="voteSheetNr" styleClass="required"/>
-                            <h:inputText id="voteSheetNr" value="#{voteDetail.vote.voteNr}" label="Wahlzettel Nummer" tabindex="1" a:autofocus="true"/>
+                            <h:inputText id="voteSheetNr" value="#{voteDetail.vote.voteNr}" label="Wahlzettel Nummer" tabindex="1" a:autofocus="true" a:type="number"/>
                             <h:message for="voteSheetNr" errorClass="invalid"/>
                         </li>
                         <h:panelGroup rendered="#{voteDetail.shortKeysAvailable}">
                             <li>
                                 <h:outputLabel value="direkt Wahleingabe" for="directInput"/>
-                                <h:inputText id="directInput" value="#{voteDetail.directInput}" label="direkte Wahleingabe" tabindex="2"
+                                <h:inputText id="directInput" value="#{voteDetail.directInput}" styleClass="xlargeInput"
+                                             label="direkte Wahleingabe" tabindex="2"
                                              onkeypress="if (event.keyCode == 13) { return false; }"
                                              title="Geben sie die Kurzkennzeichen der nominierten als Liste ein, also zB: 12 3 4 27">
                                     <f:ajax event="valueChange" execute="@this" render="pickList" listener="#{voteDetail.updatePickList}"/>
@@ -71,7 +73,8 @@
                         </h:panelGroup>
                         <li>
                             <h:outputLabel value="Ungültig weil" for="invalidVoteSheet"/>
-                            <h:inputText id="invalidVoteSheet" value="#{voteDetail.vote.invalidVoteReason}" label="Ungültig weil" tabindex="3"
+                            <h:inputText id="invalidVoteSheet" value="#{voteDetail.vote.invalidVoteReason}" styleClass="xlargeInput"
+                                         label="Ungültig weil" tabindex="3"
                                          title="Wenn der Wahlzettel ungültig ist, muß hier der Grund eingegeben werden"/>
                             <h:message for="invalidVoteSheet" errorClass="invalid"/>
                         </li>
