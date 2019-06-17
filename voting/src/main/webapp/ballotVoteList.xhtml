@@ -17,31 +17,36 @@
     </ui:define>
 
     <ui:define name="content">
-        <fieldset class="styledFieldset">
-            <legend>Wahlgang</legend>
-            <ol>
-                <li>
-                    <h:outputLabel value="Name der Wahl" for="ballotNameOut"/>&nbsp;
-                    <h:link id="ballotNameOut" outcome="/ballotDetail.xhtml" value="#{voteList.ballot.name}">
-                        <f:param name="ballotId" value="#{voteList.ballot.id}"/>
-                    </h:link>
-                </li>
-                <li>
-                    <h:outputLabel for="ballotDate" value="Datum der Wahl"/>
-                    <h:outputText id="ballotDate" value="#{voteList.ballot.heldAt}">
-                        <f:convertDateTime type="localDate" dateStyle="medium" />
-                    </h:outputText>
-                </li>
-                <li>
-                    <h:outputLabel for="maxVoteNr" value="Höchste Wahlzettelnummer"/>
-                    <h:outputText id="maxVoteNr" value="#{voteList.maxVoteNr}"/>
-                </li>
-                <li>
-                    <h:outputLabel for="sumBallotSheets" value="Anzahl Wahlzettel"/>
-                    <h:outputText id="sumBallotSheets" value="#{voteList.amountBallotSheets}"/>
-                </li>
-            </ol>
-        </fieldset>
+        <h:form>
+            <fieldset class="styledFieldset">
+                <legend>Wahlgang</legend>
+                <ol>
+                    <li>
+                        <h:outputLabel value="Name der Wahl" for="ballotNameOut"/>&nbsp;
+                        <h:link id="ballotNameOut" outcome="/ballotDetail.xhtml" value="#{voteList.ballot.name}">
+                            <f:param name="ballotId" value="#{voteList.ballot.id}"/>
+                        </h:link>
+                    </li>
+                    <li>
+                        <h:outputLabel for="ballotDate" value="Datum der Wahl"/>
+                        <h:outputText id="ballotDate" value="#{voteList.ballot.heldAt}">
+                            <f:convertDateTime type="localDate" dateStyle="medium" />
+                        </h:outputText>
+                    </li>
+                    <li>
+                        <h:outputLabel for="maxVoteNr" value="Höchste Wahlzettelnummer"/>
+                        <h:outputText id="maxVoteNr" value="#{voteList.maxVoteNr}"/>
+                    </li>
+                    <li>
+                        <h:outputLabel for="sumBallotSheets" value="Anzahl Wahlzettel"/>
+                        <h:outputText id="sumBallotSheets" value="#{voteList.amountBallotSheets}"/>
+                    </li>
+                    <li>
+                        <h:commandLink immediate="true" action="#{voteList.downloadVotes}">Wahlzettel download</h:commandLink>
+                    </li>
+                </ol>
+            </fieldset>
+        </h:form>
 
         <div id="detail-panel">
             <h:dataTable id="votes" value="#{voteList.voteSheets}" var="voteSheet"

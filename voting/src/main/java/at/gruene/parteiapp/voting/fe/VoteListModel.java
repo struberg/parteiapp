@@ -35,6 +35,7 @@ import at.gruene.parteiapp.voting.be.BallotService;
 import at.gruene.parteiapp.voting.be.entities.Ballot;
 import at.gruene.parteiapp.voting.be.entities.BallotNominee;
 import at.gruene.parteiapp.voting.be.entities.BallotVote;
+import at.gruene.parteiapp.voting.be.util.JsfDownload;
 import at.gruene.parteiapp.voting.fe.msg.BallotMessage;
 
 /**
@@ -48,6 +49,8 @@ public class VoteListModel implements Serializable {
     private Ballot ballot;
     private List<BallotNominee> nominees;
     private Map<Integer, BallotNominee> nomineesById;
+    private List<BallotVote> ballotVotes;
+
     private List<VoteLine> voteSheets;
 
     private Integer maxVoteNr = null;
@@ -80,7 +83,7 @@ public class VoteListModel implements Serializable {
                     .anyMatch(n -> StringUtils.isNoneEmpty(n.getShortKey()));
         }
 
-        List<BallotVote> ballotVotes = ballotService.getBallotVotes(ballot);
+        ballotVotes = ballotService.getBallotVotes(ballot);
         if (!ballotVotes.isEmpty()) {
             // first sheet is either 0 or 1, depending where the vote numbering starts
             int nextSheetNr = Integer.min(ballotVotes.get(0).getVoteNr(), 1) + 1;
@@ -156,6 +159,24 @@ public class VoteListModel implements Serializable {
 
     public Integer getAmountBallotSheets() {
         return amountBallotSheets;
+    }
+
+    public String downloadVotes() {
+        StringBuilder content = new StringBuilder(4096);
+
+        for (BallotVote ballotVote : ballotVotes) {
+            content.append(ballotVote.getVoteNr());
+            for (Integer castedVote : ballotVote.getCastedVotes()) {
+                // quick and dirty for now.
+                content.append(";")
+                        .append(nomineesById.get(castedVote).getName());
+            }
+
+            content.append("\n");
+        }
+
+        JsfDownload.streamFileDownload(content.toString(), "text/csv", ballot.getName() + "_votes.csv");
+        return null;
     }
 
 
