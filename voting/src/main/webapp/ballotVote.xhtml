@@ -66,7 +66,7 @@
                                              label="direkte Wahleingabe" tabindex="2"
                                              onkeypress="if (event.keyCode == 13) { return false; }"
                                              title="Geben sie die Kurzkennzeichen der nominierten als Liste ein, also zB: 12 3 4 27">
-                                    <f:ajax event="valueChange" execute="@this" render="pickList" listener="#{voteDetail.updatePickList}"/>
+                                    <f:ajax event="valueChange" execute="@this" render="pickList globalMessagesPanel" listener="#{voteDetail.updatePickList}"/>
                                 </h:inputText>
                                 <h:message for="directInput" errorClass="invalid"/>
                             </li>
