@@ -86,7 +86,7 @@ public class VoteListModel implements Serializable {
         ballotVotes = ballotService.getBallotVotes(ballot);
         if (!ballotVotes.isEmpty()) {
             // first sheet is either 0 or 1, depending where the vote numbering starts
-            int nextSheetNr = Integer.min(ballotVotes.get(0).getVoteNr(), 1) + 1;
+            int nextSheetNr = Integer.min(ballotVotes.get(0).getVoteNr(), 1);
 
             voteSheets = new ArrayList<>(ballotVotes.size());
             for (BallotVote v : ballotVotes) {
@@ -101,7 +101,7 @@ public class VoteListModel implements Serializable {
         maxVoteNr = ballotVotes.stream()
                 .map(v -> v.getVoteNr().intValue())
                 .reduce(Integer::max).orElse(null);
-        amountBallotSheets = voteSheets.size();
+        amountBallotSheets = ballotVotes.size();
 
         return null;
     }

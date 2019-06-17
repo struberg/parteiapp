@@ -56,7 +56,7 @@
                     <ol>
                         <li>
                             <h:outputLabel value="Wahlzettel Nummer" for="voteSheetNr" styleClass="required"/>
-                            <h:inputText id="voteSheetNr" value="#{voteDetail.vote.voteNr}" label="Wahlzettel Nummer" tabindex="1" a:autofocus="true" a:type="number"/>
+                            <h:inputText id="voteSheetNr" value="#{voteDetail.vote.voteNr}" label="Wahlzettel Nummer" tabindex="1" a:autofocus="true"/>
                             <h:message for="voteSheetNr" errorClass="invalid"/>
                         </li>
                         <h:panelGroup rendered="#{voteDetail.shortKeysAvailable}">
