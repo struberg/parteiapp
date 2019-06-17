@@ -166,6 +166,10 @@ public class VoteListModel implements Serializable {
 
         for (BallotVote ballotVote : ballotVotes) {
             content.append(ballotVote.getVoteNr());
+            if (ballotVote.isInvalid()) {
+                continue;
+            }
+            
             for (Integer castedVote : ballotVote.getCastedVotes()) {
                 // quick and dirty for now.
                 content.append(";")
