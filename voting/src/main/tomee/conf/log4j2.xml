@@ -5,7 +5,7 @@
 <!--
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %X %c %msg%n"/>
 -->
-            <PatternLayout pattern="%%d{ISO8601} %-5level [%t]: nodeId=%X{nodeId} sessId=%X{sessionId} %c{2} - %msg%n"/>
+            <PatternLayout pattern="%d{ISO8601} %-5level [%t]: nodeId=%X{nodeId} sessId=%X{sessionId} %c{2} - %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
