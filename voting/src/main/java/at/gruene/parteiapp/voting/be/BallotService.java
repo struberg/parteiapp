@@ -34,6 +34,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Manage metadata of the ballots.
@@ -42,6 +44,7 @@ import org.apache.deltaspike.jpa.api.transaction.Transactional;
 @ApplicationScoped
 @Transactional
 public class BallotService {
+    private static final Logger log = LoggerFactory.getLogger(BallotService.class);
 
     private @Inject GruenPrincipal user;
 
@@ -74,6 +77,8 @@ public class BallotService {
 
         em.persist(admin1);
 
+        log.info("Creating Ballot {} held on {}", ballotTitle, ballotDate);
+
         return ballot;
     }
 
@@ -104,6 +109,7 @@ public class BallotService {
      * @param ballot
      */
     public Ballot saveBallot(Ballot ballot) {
+        log.info("Saving Ballot {}", ballot.getName());
         if (isManaged(ballot)) {
             return em.merge(ballot);
         }
@@ -135,6 +141,8 @@ public class BallotService {
         ballotUser.setAdmin(isAdmin);
 
         em.persist(ballotUser);
+
+        log.info("User added to Ballot {}, userId={}", ballot.getName(), userId);
     }
 
     public void removeUser(BallotUser ballotUser) {
@@ -143,6 +151,8 @@ public class BallotService {
         }
         ballotUser = em.find(BallotUser.class, ballotUser);
         em.remove(ballotUser);
+
+        log.info("User removed from Ballot {}, userId={}", ballotUser.getBallot().getName(), ballotUser.getUserId());
     }
 
     public List<BallotUser> getBallotUsers(Ballot ballot) {
@@ -178,6 +188,10 @@ public class BallotService {
         if (Ballot.BallotStatus.CLOSED == ballotUser.getBallot().getStatus()) {
             throw new IllegalStateException("Cannot update user of a closed Ballot");
         }
+        log.info("User updated in Ballot {}, userId={} admin={}, counter={}",
+                ballotUser.getBallot().getName(), ballotUser.getUserId(),
+                ballotUser.isAdmin(), ballotUser.isCounter());
+
         if (isManaged(ballotUser)) {
             return em.merge(ballotUser);
         }
@@ -194,6 +208,11 @@ public class BallotService {
         if (Ballot.BallotStatus.CLOSED == ballotNominee.getBallot().getStatus()) {
             throw new IllegalStateException("Cannot modify nominee for closed Ballot");
         }
+
+        log.info("Nominee updated in Ballot {}, nomineeId={} nomineeName={} shortKey={}",
+                ballotNominee.getBallot().getName(), ballotNominee.getId(),
+                ballotNominee.getName(), ballotNominee.getShortKey());
+
         if (isManaged(ballotNominee)) {
             return em.merge(ballotNominee);
         }
@@ -207,6 +226,10 @@ public class BallotService {
         if (Ballot.BallotStatus.CLOSED == ballotNominee.getBallot().getStatus()) {
             throw new IllegalStateException("Cannot remove nominee from closed Ballot");
         }
+        log.info("Nominee removed from Ballot {}, nomineeId={} nomineeName={} shortKey={}",
+                ballotNominee.getBallot().getName(), ballotNominee.getId(),
+                ballotNominee.getName(), ballotNominee.getShortKey());
+
         ballotNominee = em.find(BallotNominee.class, ballotNominee.getId());
         em.remove(ballotNominee);
     }
@@ -229,6 +252,9 @@ public class BallotService {
     }
 
     public BallotVote saveVote(BallotVote vote) {
+        log.info("Saving paper ballot sheet for Ballot={} voteId={} voteNr={} votes={}",
+                vote.getBallot().getName(), vote.getId(), vote.getVoteNr(), vote.getCastedVotes());
+
         if (isManaged(vote)) {
             return em.merge(vote);
         }

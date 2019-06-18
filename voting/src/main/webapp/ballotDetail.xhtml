@@ -109,7 +109,7 @@
                     <legend>Nominierte</legend>
                     <h:dataTable id="nomineeTable" value="#{ballotDetail.ballotNominees}" var="nominee"
                                  styleClass="datatable"
-                                 columnClasses="shortInput, xlargeInput, shortInput">
+                                 columnClasses="shortInput, xlargeInput, smallInput">
                         <h:column>
                             <f:facet name="header">Kürzel</f:facet>
                             <h:inputText value="#{nominee.shortKey}" rendered="#{nominee == ballotDetail.editedNominee}"/>

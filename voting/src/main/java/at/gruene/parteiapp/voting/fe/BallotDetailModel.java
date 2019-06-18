@@ -27,6 +27,8 @@ import javax.inject.Named;
 import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.apache.deltaspike.jsf.api.message.JsfMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import at.gruene.parteiapp.voting.be.BallotService;
 import at.gruene.parteiapp.voting.be.entities.Ballot;
@@ -43,6 +45,8 @@ import at.gruene.platform.idm.api.GruenPrincipal;
 @Named("ballotDetail")
 @ViewAccessScoped
 public class BallotDetailModel implements Serializable {
+    private static final Logger log = LoggerFactory.getLogger(BallotDetailModel.class);
+
     private Integer ballotId;
     private Ballot ballot;
     private boolean isAdmin;
@@ -256,12 +260,18 @@ public class BallotDetailModel implements Serializable {
     public String doStartCounting() {
         ballot.setStatus(Ballot.BallotStatus.OPEN);
         ballot = ballotService.saveBallot(ballot);
+
+        log.info("Counting started for Ballot {}", ballot.getName());
+
         return null;
     }
 
     public String doEndCounting() {
         ballot.setStatus(Ballot.BallotStatus.CLOSED);
         ballot = ballotService.saveBallot(ballot);
+
+        log.info("Counting ended for Ballot {}", ballot.getName());
+
         return null;
     }
 
