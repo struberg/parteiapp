@@ -12,15 +12,17 @@ public class GruenPrincipal implements Principal {
     private String name;
     private String viewName;
     private List<String> orgUnits;
+    private List<String> permissions;
 
     // for proxying
     public GruenPrincipal() {
     }
 
-    public GruenPrincipal(String name, String viewName, List<String> orgUnits) {
+    public GruenPrincipal(String name, String viewName, List<String> orgUnits, List<String> permissions) {
         this.name = name;
         this.viewName = viewName;
         this.orgUnits = orgUnits;
+        this.permissions = permissions;
     }
 
     public String getName() {
@@ -36,6 +38,10 @@ public class GruenPrincipal implements Principal {
      */
     public List<String> getOrgUnits() {
         return orgUnits;
+    }
+
+    public List<String> getPermissions() {
+        return permissions;
     }
 
     public boolean equals(Object o) {

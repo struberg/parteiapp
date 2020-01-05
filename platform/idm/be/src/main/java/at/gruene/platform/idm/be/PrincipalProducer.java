@@ -1,6 +1,5 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * Copyright Author and Authors. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -40,7 +39,7 @@ public class PrincipalProducer {
     public static final GruenPrincipal ANONYMOUS;
 
     static {
-        ANONYMOUS = new GruenPrincipal("anonym", "Anonym", Collections.EMPTY_LIST);
+        ANONYMOUS = new GruenPrincipal("anonym", "Anonym", Collections.EMPTY_LIST, Collections.EMPTY_LIST);
     }
 
 
