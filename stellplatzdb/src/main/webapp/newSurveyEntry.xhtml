@@ -65,17 +65,12 @@
                                 <h:message for="totalNrInside" errorClass="invalid"/>
                             </li>
                             <li>
-                                <h:outputLabel for="usedLocalInside" value="Benutzt Anrainerkennzeichen"/>
-                                <h:inputText id="usedLocalInside" value="#{newsurvey.surveyEntry.totalNrInside}"
-                                             title="Anzahl der besetzten Tiefgaragenstellplätze mit Anrainerkennzeichen. Also zB W wenn die Umfrage für Wien ist"/>
+                                <h:outputLabel for="usedLocalInside" value="Davon Benutzt"/>
+                                <h:inputText id="usedLocalInside" value="#{newsurvey.surveyEntry.usedLocalsInside}"
+                                             title="Anzahl der besetzten Tiefgaragenstellplätze."/>
                                 <h:message for="usedLocalInside" errorClass="invalid"/>
                             </li>
-                            <li>
-                                <h:outputLabel for="usedAbroadInside" value="Benutzt Fremdkennzeichen"/>
-                                <h:inputText id="usedAbroadInside" value="#{newsurvey.surveyEntry.totalNrInside}"
-                                             title="Anzahl der besetzten Tiefgaragenstellplätze mit Fremdkennzeichen. Also alles was nicht W ist, wenn die Umfrage für Wien ist"/>
-                                <h:message for="usedAbroadInside" errorClass="invalid"/>
-                            </li>
+
                         </ol>
 
                         <legend>Parkplatzdaten Innenhof</legend>
@@ -87,16 +82,10 @@
                                 <h:message for="totalNrCourtyard" errorClass="invalid"/>
                             </li>
                             <li>
-                                <h:outputLabel for="usedLocalCourtyard" value="Benutzt Anrainerkennzeichen"/>
-                                <h:inputText id="usedLocalCourtyard" value="#{newsurvey.surveyEntry.totalNrCourtyard}"
-                                             title="Anzahl der besetzten Hofstellplätze mit Anrainerkennzeichen. Also zB W wenn die Umfrage für Wien ist."/>
+                                <h:outputLabel for="usedLocalCourtyard" value="Davon benutzt"/>
+                                <h:inputText id="usedLocalCourtyard" value="#{newsurvey.surveyEntry.usedLocalsCourtyard}"
+                                             title="Anzahl der besetzten Hofstellplätze"/>
                                 <h:message for="usedLocalCourtyard" errorClass="invalid"/>
-                            </li>
-                            <li>
-                                <h:outputLabel for="usedAbroadCourtyard" value="Benutzt Fremdkennzeichen"/>
-                                <h:inputText id="usedAbroadCourtyard" value="#{newsurvey.surveyEntry.totalNrCourtyard}"
-                                             title="Anzahl der besetzten Hofstellplätze mit Fremdkennzeichen. Also alles was nicht W ist, wenn die Umfrage für Wien ist."/>
-                                <h:message for="usedAbroadCourtyard" errorClass="invalid"/>
                             </li>
                         </ol>
                         <ol>
@@ -107,7 +96,7 @@
                     </fieldset>
                 </h:panelGroup>
                 <h:panelGroup id="surveyStored" rendered="#{newsurvey.surveyStored}">
-                    <h2>Ihre Daten wurden gespeichert, Danke für die eingegebene Information!</h2>
+                    <h2>Danke für Ihre Mithilfe, Ihre Daten wurden erfolgreich gespeichert!</h2>
                 </h:panelGroup>
             </div>
         </h:form>

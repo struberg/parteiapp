@@ -92,7 +92,9 @@ public class NewSurveyModel implements Serializable {
     }
 
     public String saveSurveyEntry() {
-        surveyEntryService.save(surveyEntry);
+        if (!surveyStored) {
+            surveyEntryService.save(surveyEntry);
+        }
 
         surveyStored = true;
         return null;
