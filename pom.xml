@@ -44,5 +44,6 @@
         <module>parent</module>
         <module>platform</module>
         <module>voting</module>
+        <module>stellplatzdb</module>
     </modules>
 </project>

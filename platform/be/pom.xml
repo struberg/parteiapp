@@ -26,4 +26,26 @@
 
     <artifactId>platform-be</artifactId>
 
+    <properties>
+        <openjpa.sqlAction>build</openjpa.sqlAction>
+        <openjpa.skipenhance>false</openjpa.skipenhance>
+        <openjpa.includes>at/gruene/parteiapp/platform/be/entities/*Entity.class</openjpa.includes>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>at.gruene.parteiapp.platform</groupId>
+            <artifactId>platform-idm-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

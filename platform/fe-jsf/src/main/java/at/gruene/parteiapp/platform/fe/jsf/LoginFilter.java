@@ -28,6 +28,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.NotAuthorizedException;
 
 import at.gruene.platform.idm.api.GruenPrincipal;
 import at.gruene.platform.idm.api.IdmService;
@@ -44,7 +45,7 @@ import at.gruene.platform.idm.be.PrincipalProducer;
  * <code>
  *   <filter>
  *       <filter-name>LoginFilter</filter-name>
- *       <filter-class>at.sozvers.zepta.core.felib.idm.LoginFilter</filter-class>
+ *       <filter-class>at.gruene.parteiapp.platform.fe.jsf.LoginFilter</filter-class>
  *       <init-param>
  *           <param-name>dropurl.0</param-name>
  *           <param-value>/VAADIN/</param-value>
@@ -86,20 +87,28 @@ public class LoginFilter implements Filter {
 
         String loggedInUserId = servletRequest.getRemoteUser();
 
-        if (loggedInUserId == null || loggedInUserId.isEmpty()) {
-            // TODO redirect to login site and set backUrl cookie
-            servletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
-            return;
-        }
+        GruenPrincipal principal;
+        if (loggedInUserId != null && !loggedInUserId.isEmpty()) {
+            principal = idmService.getUser(loggedInUserId);
 
-        GruenPrincipal principal = idmService.getUser(loggedInUserId);
-        if (principal == null) {
+            if (principal == null) {
+                servletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
+                return;
+            }
+        }
+        else {
             principal = PrincipalProducer.ANONYMOUS;
         }
+
         principalProducer.setPrincipal(principal);
 
         try {
             chain.doFilter(request, response);
+        }
+        catch (NotAuthorizedException nae) {
+            // TODO redirect to login site and set backUrl cookie
+            servletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
+            return;
         }
         finally {
             principalProducer.clearPrincipal();

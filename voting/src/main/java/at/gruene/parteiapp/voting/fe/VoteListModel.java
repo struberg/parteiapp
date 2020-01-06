@@ -34,7 +34,7 @@ import at.gruene.parteiapp.voting.be.BallotService;
 import at.gruene.parteiapp.voting.be.entities.Ballot;
 import at.gruene.parteiapp.voting.be.entities.BallotNominee;
 import at.gruene.parteiapp.voting.be.entities.BallotVote;
-import at.gruene.parteiapp.voting.be.util.JsfDownload;
+import at.gruene.parteiapp.voting.fe.util.JsfDownload;
 import at.gruene.parteiapp.voting.fe.msg.BallotMessage;
 
 /**

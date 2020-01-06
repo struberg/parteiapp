@@ -20,6 +20,7 @@ import java.time.OffsetDateTime;
 
 import javax.persistence.*;
 
+import at.gruene.parteiapp.platform.be.entities.AuditedEntity;
 import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
 
 /**

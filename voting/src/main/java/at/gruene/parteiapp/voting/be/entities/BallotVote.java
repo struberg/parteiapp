@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import at.gruene.parteiapp.platform.be.entities.AuditedEntity;
 import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
 
 /**

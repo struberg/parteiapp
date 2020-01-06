@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="/META-INF/fragments/template.xhtml">
+    <ui:define name="title">#{txt.survey_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div id="overview">
+                <h2>Umfragen</h2>
+                <h:dataTable id="surves" value="#{surveyList.surveys}" var="s"
+                             styleClass="datatable"
+                             columnClasses="largeInput">
+                    <h:column>
+                        <f:facet name="header">Umfrage</f:facet>
+                        <h:link outcome="/newSurveyEntry.xhtml" value="#{s.surveyName}">
+                            <f:param name="sId" value="#{s.id}"/>
+                        </h:link>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

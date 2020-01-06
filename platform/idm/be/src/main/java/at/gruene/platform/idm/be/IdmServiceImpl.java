@@ -16,6 +16,12 @@
 package at.gruene.platform.idm.be;
 
 import java.util.Collections;
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+
+import org.apache.deltaspike.core.api.config.Config;
+import org.apache.deltaspike.core.api.config.ConfigResolver;
 
 import at.gruene.platform.idm.api.GruenPrincipal;
 import at.gruene.platform.idm.api.IdmService;
@@ -23,12 +29,16 @@ import at.gruene.platform.idm.api.IdmService;
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
+@ApplicationScoped
 public class IdmServiceImpl implements IdmService {
+
+    private static Config config = ConfigResolver.getConfig();
 
     @Override
     public GruenPrincipal getUser(String userId) {
         //X TODO this is currently just a mock impl
-        GruenPrincipal principal = new GruenPrincipal(userId, userId, Collections.emptyList(), Collections.emptyList());
+        List<String> permissions = config.resolve("parteiapp.permission." + userId).asList().withDefault(Collections.emptyList()).getValue();
+        GruenPrincipal principal = new GruenPrincipal(userId, userId, Collections.emptyList(), permissions);
 
         return principal;
     }

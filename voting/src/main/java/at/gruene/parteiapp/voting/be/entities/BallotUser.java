@@ -27,7 +27,8 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
-import at.gruene.parteiapp.platform.be.CollumnLength;
+import at.gruene.parteiapp.platform.be.entities.ColumnLength;
+import at.gruene.parteiapp.platform.be.entities.AuditedEntity;
 import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
 
 /**
@@ -60,7 +61,7 @@ public class BallotUser extends AuditedEntity implements VersionedEntity {
     /**
      * user id from LDAP.
      */
-    @Column(name="USERID", length = CollumnLength.USERID, nullable = false)
+    @Column(name="USERID", length = ColumnLength.USERID, nullable = false)
     @NotNull
     private String userId;
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="stellplatzdb" transaction-type="RESOURCE_LOCAL">
+        <non-jta-data-source>STELLPLATZDB</non-jta-data-source>
+
+        <class>at.gruene.parteiapp.platform.be.entities.AuditedEntity</class>
+        <class>at.gruene.parteiapp.stellplatzdb.be.entities.Survey</class>
+        <class>at.gruene.parteiapp.stellplatzdb.be.entities.SurveyEntry</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <validation-mode>CALLBACK</validation-mode>
+
+        <properties>
+            <property name="openjpa.Log" value="DefaultLevel=WARN, Runtime=INFO, Tool=INFO, SQL=TRACE"/>
+            <property name="openjpa.DetachState" value="loaded(DetachedStateField=true)"/>
+            <property name="openjpa.Compatibility" value="IgnoreDetachedStateFieldForProxySerialization=true"/>
+            <property name="openjpa.jdbc.MappingDefaults"
+                      value="ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict"/>
+
+            <!-- use class per table strategy -->
+            <property name="openjpa.Sequence" value="class-table(Table=SEQUENCES, Increment=20, InitialValue=10000)"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>

@@ -20,10 +20,10 @@ import java.io.Serializable;
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public interface BaseEntity extends Serializable {
+public interface BaseEntity<ID_TYPE> extends Serializable {
 
     /**
      * @return the id of the entity
      */
-    Integer getId();
+    ID_TYPE getId();
 }

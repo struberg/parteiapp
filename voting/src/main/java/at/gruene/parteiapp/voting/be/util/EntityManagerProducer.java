@@ -37,13 +37,11 @@ public class EntityManagerProducer {
     @Produces
     @Default
     @RequestScoped
-    public EntityManager createEntityManager()
-    {
+    public EntityManager createEntityManager() {
         return entityManagerFactory.createEntityManager();
     }
 
-    public void dispose(@Disposes @Default EntityManager entityManager)
-    {
+    public void dispose(@Disposes @Default EntityManager entityManager) {
         entityManager.close();
     }
 }

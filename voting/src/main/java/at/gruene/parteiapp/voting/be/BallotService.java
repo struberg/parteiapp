@@ -15,7 +15,7 @@
  */
 package at.gruene.parteiapp.voting.be;
 
-import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
+import at.gruene.parteiapp.platform.be.EntityService;
 import at.gruene.parteiapp.platform.be.query.QueryBuilder;
 import at.gruene.parteiapp.voting.be.entities.Ballot;
 import at.gruene.parteiapp.voting.be.entities.BallotNominee;
@@ -43,12 +43,13 @@ import org.slf4j.LoggerFactory;
  */
 @ApplicationScoped
 @Transactional
-public class BallotService {
+public class BallotService extends EntityService {
     private static final Logger log = LoggerFactory.getLogger(BallotService.class);
 
     private @Inject GruenPrincipal user;
 
     private @Inject EntityManager em;
+
 
     /**
      * Create a Ballot
@@ -169,10 +170,6 @@ public class BallotService {
         return qry.getResultList();
     }
 
-
-    protected <T extends VersionedEntity > boolean isManaged (T entity){
-        return entity != null && entity.getId() != null;
-    }
 
     /**
      * load a Ballot with the given Id
