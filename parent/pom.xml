@@ -100,6 +100,7 @@
             <groupId>org.apache.tomee</groupId>
             <artifactId>javaee-api</artifactId>
             <version>${javaee-api.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -125,6 +126,7 @@
             <groupId>org.apache.deltaspike.cdictrl</groupId>
             <artifactId>deltaspike-cdictrl-api</artifactId>
             <version>${deltaspike.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.deltaspike.cdictrl</groupId>

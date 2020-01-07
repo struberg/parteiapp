@@ -40,7 +40,7 @@ public class NewSurveyModel implements Serializable {
     private @Inject SurveyEntryService surveyEntryService;
     private @Inject SurveyService surveyService;
 
-    private @Inject JsfMessage<SurveyMessage> ballotMsg;
+    private @Inject JsfMessage<SurveyMessage> surveyMsg;
 
 
     private String surveyId;
@@ -93,6 +93,9 @@ public class NewSurveyModel implements Serializable {
 
     public String saveSurveyEntry() {
         if (!surveyStored) {
+            if (surveyEntry.getTotalNrInside() == null && surveyEntry.getTotalNrCourtyard() == null) {
+                surveyMsg.addError().atLeastOneNumberRequired();
+            }
             surveyEntryService.save(surveyEntry);
         }
 

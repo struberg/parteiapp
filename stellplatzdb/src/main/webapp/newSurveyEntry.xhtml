@@ -38,14 +38,16 @@
                             <li>
                                 <h:outputLabel for="street" value="Straße"/>
                                 <h:inputText id="street" styleClass="largeInput" value="#{newsurvey.surveyEntry.street}"
-                                             title="Straße ohne Hausnummer"/>
+                                             title="Straße ohne Hausnummer."
+                                             label="Straße"/>
                                 <h:message for="street" errorClass="invalid"/>
                             </li>
                             <li>
-                                <h:outputLabel for="houseNr" value="Hausnummer"/>
+                                <h:outputLabel for="houseNr" value="Hausnummer" />
                                 <h:inputText id="houseNr" value="#{newsurvey.surveyEntry.houseNr}"
-                                             title="Hausnummer ohne Türnummer"/>
-                                <h:message for="houseNr" errorClass="invalid"/>
+                                             title="Hausnummer ohne Türnummer"
+                                             label="Hausnummer"/>
+                                <h:message for="houseNr" errorClass="invalid" />
                             </li>
                             <li>
                                 <h:outputLabel for="housingUnits" value="Anzahl Wohneinheiten"/>
