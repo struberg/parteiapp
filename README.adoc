@@ -104,9 +104,15 @@ After you have installed PostgreSQL run these 2 commands to setup your database.
 create user parteiapp with password 'parteiapp'; # <1>
 create database parteiapp owner parteiapp; # <2>
 \connect parteiapp
-create schema parteiapp authorization parteiapp;
+create schema voting authorization parteiapp; # <3>
 grant all on database parteiapp to parteiapp;
 ----
 <1> creates the user we are running with
 <2> creates the database for our application
-=======
+<3> creates a schema for each logical deployable.
+
+For working with that schema you have to switch to it via:
+[source,sql,numbered]
+----
+SET search_path TO voting;
+----
