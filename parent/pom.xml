@@ -87,7 +87,7 @@
         <h2.database.onError.action>abort</h2.database.onError.action>
 
         <postgres.database.driver.name>org.postgresql.Driver</postgres.database.driver.name>
-        <postgres.database.connection.url>jdbc:postgresql://localhost:5432/parteiapp</postgres.database.connection.url>
+        <postgres.database.connection.url>jdbc:postgresql://localhost:5432/parteiapp?currentSchema=${project.artifactId}</postgres.database.connection.url>
         <postgres.database.user>parteiapp</postgres.database.user>
         <postgres.database.password>parteiapp</postgres.database.password>
         <postgres.database.onError.action>abort</postgres.database.onError.action>

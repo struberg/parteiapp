@@ -1,3 +1,3 @@
--- drop schema if exists parteiapp cascade;
---create schema parteiapp;
---set search_path=parteiapp;
+drop schema if exists stellplatzdb cascade;
+create schema stellplatzdb;
+set search_path=stellplatzdb;

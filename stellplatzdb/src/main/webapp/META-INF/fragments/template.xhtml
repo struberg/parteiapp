@@ -22,6 +22,7 @@
                     <div id="headContainer">
                         <h:graphicImage value="images/gruene_at_logo.png" alt="Gruene logo" id="logo"  height="100%"/>
                         <!-- TODO: Links + Datum! -->
+                        <h:outputLink value="index.html">Home</h:outputLink>
                         <div id="mainNavigation">
                             <h:form>
                                 <h:outputText value="#{user.name}"/>&#0160;
@@ -33,10 +34,6 @@
                     <!-- /headContainer -->
 
                     <div id="appContainer">
-                        <div id="menuContainer">
-                            <!-- TODO add menu -->
-                            <h:outputLink value="index.html">Home</h:outputLink>
-                        </div>
                         <!-- real content on the white-board. -->
                         <div id="contentContainer">
                             <h:messages id="globalMessagesPanel" globalOnly="true" errorClass="errorMessage"

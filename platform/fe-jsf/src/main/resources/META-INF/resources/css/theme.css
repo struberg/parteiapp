@@ -60,6 +60,10 @@ IMG {
     TOP: 0px;
 }
 
+#logo {
+    padding: 5px;
+}
+
 #headContainer {
     BORDER-TOP-WIDTH: 0px;
     BORDER-LEFT-WIDTH: 0px;
@@ -99,7 +103,7 @@ IMG {
 }
 
 #contentContainer {
-    MARGIN: 15px 5px 5px 205px;
+    MARGIN: 15px 5px 5px 15px;
     position: relative;
     WIDTH: 690px;
     display: block;

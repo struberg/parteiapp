@@ -26,13 +26,15 @@
                         <ol>
                             <li>
                                 <h:outputLabel for="bic" value="Postleitzahl"/>
-                                <h:inputText id="bic" value="#{newsurvey.surveyEntry.bic}"/>
+                                <h:inputText id="bic" value="#{newsurvey.surveyEntry.bic}"
+                                             label="Postleitzahl"/>
                                 <h:message for="bic" errorClass="invalid"/>
                             </li>
                             <li>
                                 <h:outputLabel for="city" value="Gemeinde/Stadt"/>
                                 <h:inputText id="city" styleClass="largeInput" value="#{newsurvey.surveyEntry.city}"
-                                             title="zB Wien"/>
+                                             title="zB Wien"
+                                             label="Gemeinde"/>
                                 <h:message for="city" errorClass="invalid"/>
                             </li>
                             <li>
@@ -56,6 +58,14 @@
                                 <h:message for="housingUnits" errorClass="invalid"/>
                             </li>
 
+                            <li>
+                                <h:outputLabel for="date" value="Daten erhoben am"/>
+                                <h:inputText id="date" a:type="date" value="#{newsurvey.surveyEntry.countedAt}"
+                                             label="Datum">
+                                    <f:convertDateTime type="localDate" pattern="yyyy-MM-dd"/>
+                                </h:inputText>
+                                <h:message for="date" errorClass="invalid"/>
+                            </li>
                         </ol>
 
                         <legend>Parkplatzdaten inhaus (Tiefgarage)</legend>

@@ -1,0 +1,2 @@
+insert into SURVEY (ID, ACTIVE, DEFAULT_BIC, DEFAULT_CITY, OPEN_FROM, OPEN_UNTIL, SURVEY_NAME, OPTLOCK)
+VALUES ( 'favoriten2020', true, '1100', 'Wien', '2020-01-01', '2020-06-01', 'Stellplatzumfrage Favoriten 2020', 1);

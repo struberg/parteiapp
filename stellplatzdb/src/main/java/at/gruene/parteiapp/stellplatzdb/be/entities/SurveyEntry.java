@@ -15,6 +15,8 @@
  */
 package at.gruene.parteiapp.stellplatzdb.be.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -79,6 +81,12 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
     @Column(name = "SUM_HOUSING_UNITS")
     private Integer totalHousingUnits;
 
+    /**
+     * At which day the data got collected.
+     */
+    @NotNull
+    @Column(name = "COUNTED_AT", nullable = false)
+    private LocalDate countedAt;
 
     @Column(name = "REMOTE_IP", length = ColumnLength.MEDIUM_TEXT)
     private String remoteIp;
@@ -130,6 +138,20 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
      */
     @Column(name = "USED_ABROAD_COURTYARD")
     private Integer usedAbroadCourtyard;
+
+    /**
+     * When did the entry got verified;
+     * If this field is NULL then this data may or may not be correct.
+     */
+    @Column(name = "VERIFIED_AT")
+    private LocalDate verifiedAt;
+
+    /**
+     * UserId of the person who verified that entry.
+     * @see #verifiedAt
+     */
+    @Column(name = "VERIFIED_BY", length = ColumnLength.USERID)
+    private LocalDate verifiedBy;
 
 
     @Override
@@ -206,6 +228,14 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
         this.totalNrInside = totalNrInside;
     }
 
+    public LocalDate getCountedAt() {
+        return countedAt;
+    }
+
+    public void setCountedAt(LocalDate countedAt) {
+        this.countedAt = countedAt;
+    }
+
     public Integer getUsedLocalsInside() {
         return usedLocalsInside;
     }
@@ -252,5 +282,21 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
 
     public void setTotalHousingUnits(Integer totalHousingUnits) {
         this.totalHousingUnits = totalHousingUnits;
+    }
+
+    public LocalDate getVerifiedAt() {
+        return verifiedAt;
+    }
+
+    public void setVerifiedAt(LocalDate verifiedAt) {
+        this.verifiedAt = verifiedAt;
+    }
+
+    public LocalDate getVerifiedBy() {
+        return verifiedBy;
+    }
+
+    public void setVerifiedBy(LocalDate verifiedBy) {
+        this.verifiedBy = verifiedBy;
     }
 }
