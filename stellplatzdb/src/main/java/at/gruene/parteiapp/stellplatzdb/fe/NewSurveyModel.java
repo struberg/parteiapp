@@ -17,6 +17,9 @@
 package at.gruene.parteiapp.stellplatzdb.fe;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -74,6 +77,9 @@ public class NewSurveyModel implements Serializable {
         if (survey.getDefaultCity() != null) {
             surveyEntry.setCity(survey.getDefaultCity());
         }
+
+        surveyEntry.setCountedAt(LocalDate.now());
+
 
         surveyStored = false;
         return null;

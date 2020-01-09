@@ -32,14 +32,14 @@
                             </li>
                             <li>
                                 <h:outputLabel for="city" value="Gemeinde/Stadt"/>
-                                <h:inputText id="city" styleClass="largeInput" value="#{newsurvey.surveyEntry.city}"
+                                <h:inputText id="city" styleClass="xlargeInput" value="#{newsurvey.surveyEntry.city}"
                                              title="zB Wien"
                                              label="Gemeinde"/>
                                 <h:message for="city" errorClass="invalid"/>
                             </li>
                             <li>
                                 <h:outputLabel for="street" value="Straße"/>
-                                <h:inputText id="street" styleClass="largeInput" value="#{newsurvey.surveyEntry.street}"
+                                <h:inputText id="street" styleClass="xlargeInput" value="#{newsurvey.surveyEntry.street}"
                                              title="Straße ohne Hausnummer."
                                              label="Straße"/>
                                 <h:message for="street" errorClass="invalid"/>
@@ -64,7 +64,11 @@
                                              label="Datum">
                                     <f:convertDateTime type="localDate" pattern="yyyy-MM-dd"/>
                                 </h:inputText>
+                                <h:inputText id="time" a:type="time" value="#{newsurvey.surveyEntry.countedAtTime}">
+                                    <f:converter converterId="parteiapp.TimeConverter"/>
+                                </h:inputText>
                                 <h:message for="date" errorClass="invalid"/>
+                                <h:message for="time" errorClass="invalid"/>
                             </li>
                         </ol>
 
@@ -100,6 +104,18 @@
                                 <h:message for="usedLocalCourtyard" errorClass="invalid"/>
                             </li>
                         </ol>
+
+                        <legend>Freier Kommentar</legend>
+                        <ol>
+                            <li>
+                                <h:outputLabel for="comment" value="Freier Kommentar"/>
+                                <h:inputTextarea id="comment" styleClass="mediumTextarea"
+                                                 value="#{newsurvey.surveyEntry.userComment}"
+                                                 title="Sonstige freie Bemerkungen die für die Datenbank wichtig sein könnte."/>
+                                <h:message for="comment" errorClass="invalid"/>
+                            </li>
+                        </ol>
+
                         <ol>
                             <li>
                                 <h:commandButton id="cAddSurveyEntryBtn" action="#{newsurvey.saveSurveyEntry}" value="Daten Speichern"/>
@@ -108,7 +124,7 @@
                     </fieldset>
                 </h:panelGroup>
                 <h:panelGroup id="surveyStored" rendered="#{newsurvey.surveyStored}">
-                    <h2>Danke für Ihre Mithilfe, Ihre Daten wurden erfolgreich gespeichert!</h2>
+                    <h2>Danke für Ihre Mithilfe, die Daten wurden erfolgreich gespeichert!</h2>
                 </h:panelGroup>
             </div>
         </h:form>

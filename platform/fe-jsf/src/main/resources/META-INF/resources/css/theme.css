@@ -298,7 +298,10 @@ fieldset li label.required:after {
     width: 350px !important;
 }
 
-
+.mediumTextarea {
+    width: 350px !important;
+    height: 4em;
+}
 
 
 

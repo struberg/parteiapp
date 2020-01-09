@@ -36,13 +36,11 @@
         <param-value>200</param-value>
     </context-param>
 
-    <!-- turn this off for production -->
-<!--
+    <!-- turn error handling off for production -->
     <context-param>
         <param-name>org.apache.myfaces.ERROR_HANDLING</param-name>
-        <param-value>true</param-value>
+        <param-value>false</param-value>
     </context-param>
--->
 
     <filter>
         <filter-name>LogFilter</filter-name>

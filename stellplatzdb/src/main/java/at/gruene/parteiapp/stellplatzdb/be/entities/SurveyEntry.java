@@ -21,6 +21,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -38,9 +39,6 @@ import at.gruene.parteiapp.platform.be.entities.VersionedEntity;
 @Entity
 @Table(name = "SURVEY_ENTRY")
 public class SurveyEntry extends AuditedEntity implements VersionedEntity {
-    /**
-     * The id must be unique and is a short token
-     */
     @Id
     @GeneratedValue
     @Column(name="ID")
@@ -85,8 +83,12 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
      * At which day the data got collected.
      */
     @NotNull
-    @Column(name = "COUNTED_AT", nullable = false)
+    @Column(name = "COUNTED_AT_DATE", nullable = false)
     private LocalDate countedAt;
+
+    @NotNull
+    @Column(name = "COUNTED_AT_TIME", nullable = false)
+    private Integer countedAtTime;
 
     @Column(name = "REMOTE_IP", length = ColumnLength.MEDIUM_TEXT)
     private String remoteIp;
@@ -140,6 +142,12 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
     private Integer usedAbroadCourtyard;
 
     /**
+     * An optional comment by the user who enters the survey
+     */
+    @Column(name = "USER_COMMENT", length = ColumnLength.LARGE_TEXT)
+    private String userComment;
+
+    /**
      * When did the entry got verified;
      * If this field is NULL then this data may or may not be correct.
      */
@@ -153,6 +161,13 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
     @Column(name = "VERIFIED_BY", length = ColumnLength.USERID)
     private LocalDate verifiedBy;
 
+    /**
+     * When the surveyEntry gets verified it will also get assigned
+     * to an official building location.
+     */
+    @ManyToOne
+    @JoinColumn(name = "VERIFIEDBUILDING_ID")
+    private Building verifiedBuilding;
 
     @Override
     public Integer getId() {
@@ -212,6 +227,30 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
         this.houseNr = houseNr;
     }
 
+    public Integer getTotalHousingUnits() {
+        return totalHousingUnits;
+    }
+
+    public void setTotalHousingUnits(Integer totalHousingUnits) {
+        this.totalHousingUnits = totalHousingUnits;
+    }
+
+    public LocalDate getCountedAt() {
+        return countedAt;
+    }
+
+    public void setCountedAt(LocalDate countedAt) {
+        this.countedAt = countedAt;
+    }
+
+    public Integer getCountedAtTime() {
+        return countedAtTime;
+    }
+
+    public void setCountedAtTime(Integer countedAtTime) {
+        this.countedAtTime = countedAtTime;
+    }
+
     public String getRemoteIp() {
         return remoteIp;
     }
@@ -226,14 +265,6 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
 
     public void setTotalNrInside(Integer totalNrInside) {
         this.totalNrInside = totalNrInside;
-    }
-
-    public LocalDate getCountedAt() {
-        return countedAt;
-    }
-
-    public void setCountedAt(LocalDate countedAt) {
-        this.countedAt = countedAt;
     }
 
     public Integer getUsedLocalsInside() {
@@ -276,12 +307,12 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
         this.usedAbroadCourtyard = usedAbroadCourtyard;
     }
 
-    public Integer getTotalHousingUnits() {
-        return totalHousingUnits;
+    public String getUserComment() {
+        return userComment;
     }
 
-    public void setTotalHousingUnits(Integer totalHousingUnits) {
-        this.totalHousingUnits = totalHousingUnits;
+    public void setUserComment(String userComment) {
+        this.userComment = userComment;
     }
 
     public LocalDate getVerifiedAt() {
@@ -298,5 +329,13 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
 
     public void setVerifiedBy(LocalDate verifiedBy) {
         this.verifiedBy = verifiedBy;
+    }
+
+    public Building getVerifiedBuilding() {
+        return verifiedBuilding;
+    }
+
+    public void setVerifiedBuilding(Building verifiedBuilding) {
+        this.verifiedBuilding = verifiedBuilding;
     }
 }
