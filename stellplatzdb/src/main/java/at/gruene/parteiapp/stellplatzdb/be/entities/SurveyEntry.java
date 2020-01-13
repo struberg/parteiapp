@@ -147,6 +147,16 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
     @Column(name = "USER_COMMENT", length = ColumnLength.LARGE_TEXT)
     private String userComment;
 
+    @NotNull
+    @Column(name = "STATUS", nullable = false)
+    private SurveyEntryStatus status;
+
+    /**
+     * Additional text which can be entered by the person who verifies that entry.
+     */
+    @Column(name = "STATUS_TEXT", length = ColumnLength.LARGE_TEXT)
+    private String statusText;
+
     /**
      * When did the entry got verified;
      * If this field is NULL then this data may or may not be correct.
@@ -168,6 +178,8 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
     @ManyToOne
     @JoinColumn(name = "VERIFIEDBUILDING_ID")
     private Building verifiedBuilding;
+
+
 
     @Override
     public Integer getId() {
@@ -337,5 +349,21 @@ public class SurveyEntry extends AuditedEntity implements VersionedEntity {
 
     public void setVerifiedBuilding(Building verifiedBuilding) {
         this.verifiedBuilding = verifiedBuilding;
+    }
+
+    public SurveyEntryStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SurveyEntryStatus status) {
+        this.status = status;
+    }
+
+    public String getStatusText() {
+        return statusText;
+    }
+
+    public void setStatusText(String statusText) {
+        this.statusText = statusText;
     }
 }

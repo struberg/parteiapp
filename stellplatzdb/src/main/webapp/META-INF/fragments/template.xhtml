@@ -16,38 +16,33 @@
     </h:head>
     <h:body>
         <ds:windowId/>
-        <div id="parteiapp">
-            <div id="home">
-                <div id="mainContainer">
-                    <div id="headContainer">
-                        <h:graphicImage value="/images/gruene_at_logo.png" alt="Gruene logo" id="logo"  height="100%"/>
-                        <!-- TODO: Links + Datum! -->
-                        <h:outputLink value="index.html">Home</h:outputLink>
-                        <div id="mainNavigation">
-                            <h:form>
-                                <h:outputText value="#{user.name}"/>&#0160;
-                                <h:commandLink value="logout" action="#{user.logout}" rendered="#{user.id != 'anonym'}"/>
-                            </h:form>
-                        </div>
-                        <!-- /MainNavigation -->
-                    </div>
-                    <!-- /headContainer -->
-
-                    <div id="appContainer">
-                        <!-- real content on the white-board. -->
-                        <div id="contentContainer">
-                            <h:messages id="globalMessagesPanel" globalOnly="true" errorClass="errorMessage"
-                                        infoClass="infoMessage" warnClass="warnMessage" fatalClass="errorMessage"/>
-                            <ui:insert name="content"/>
-                        </div>
-                        <!-- /contentContainer -->
-                    </div>
+        <div id="mainContainer">
+            <div id="headContainer">
+                <div id="logo">
+                    <a href="https://www.gruene.at">
+                        <h:graphicImage id="mainlogo" value="/images/gruene_at_logo.png" alt="Gruene logo"  height="100%"/>
+                    </a>
                 </div>
-                <!-- /contentContainer -->
+                <div id="breadcrumbs">
+                    <h:outputLink value="index.html">Home</h:outputLink>
+                </div>
+                <div id="userinfo">
+                    <h:form>
+                        <h:outputText value="#{user.name}"/>&#0160;
+                        <h:commandLink value="logout" action="#{user.logout}" rendered="#{user.id != 'anonym'}"/>
+                    </h:form>
+                </div>
             </div>
-            <!-- /mainContainer -->
-        </div>
 
+            <div id="appContainer">
+                <!-- real content on the white-board. -->
+                <div id="contentContainer">
+                    <h:messages id="globalMessagesPanel" globalOnly="true" errorClass="errorMessage"
+                                infoClass="infoMessage" warnClass="warnMessage" fatalClass="errorMessage"/>
+                    <ui:insert name="content"/>
+                </div>
+            </div>
+        </div>
     </h:body>
 </f:view>
 </html>

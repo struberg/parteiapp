@@ -41,50 +41,32 @@ IMG {
     BORDER-RIGHT-WIDTH: 0px
 }
 
-#parteiapp {
-    BACKGROUND-POSITION: center top;
-    MIN-WIDTH: 790px;
-    Z-INDEX: 1;
-    MIN-HEIGHT: 500px;
-    WIDTH: 100%;
-    BACKGROUND-REPEAT: repeat-x;
-    POSITION: relative;
-    HEIGHT: 100%;
-}
-
 #mainContainer {
     Z-INDEX: 3;
     MARGIN-LEFT: 10px;
-    WIDTH: 890px;
+    WIDTH: 700px;
     POSITION: absolute;
     TOP: 0px;
 }
 
-#logo {
-    padding: 5px;
+#mainlogo {
+    padding: 3px;
+    height: 70px;
+}
+
+#breadcrumbs {
+    padding: 10px;
+}
+
+#userinfo {
+    padding: 10px;
+    align-items: end;
 }
 
 #headContainer {
-    BORDER-TOP-WIDTH: 0px;
-    BORDER-LEFT-WIDTH: 0px;
-    MARGIN: 0px 5px 15px;
-    WIDTH: 780px;
-    HEIGHT: 70px;
-    top: 0px;
-    position: relative;
-    BORDER-RIGHT-WIDTH: 0px;
-}
-
-#mainNavigation {
-    float: right;
-    BOTTOM: 0px;
-    HEIGHT: 16px;
-    position: relative;
-    top: 50px;
-    color: #000000;
-    font-size: 14px;
-    font-weight: normal;
-    padding-right: 25px;
+    display: grid;
+    align-items: end;
+    grid-template-columns: 100px 2fr 1fr;
 }
 
 #menuContainer {
@@ -103,9 +85,9 @@ IMG {
 }
 
 #contentContainer {
-    MARGIN: 15px 5px 5px 15px;
+    MARGIN: 5px 0 5px 0;
     position: relative;
-    WIDTH: 690px;
+    WIDTH: 670px;
     display: block;
     border: none;
     border-color: #666666;
@@ -122,13 +104,6 @@ IMG {
     z-index: 4;
 }
 
-#mainlogo {
-    float: right;
-    top: 0px;
-    left: 0px;
-    width: 450px;
-    z-index: 4;
-}
 
 .aktiv {
     color: #559902;
