@@ -21,8 +21,19 @@
             <div id="detail-panel">
                 <h:panelGroup id="newSurvey" rendered="#{!newsurvey.surveyStored}">
                     <h2>#{newsurvey.survey.surveyName}</h2>
+
+                    <p><h:outputText value="#{newsurvey.survey.description}"/></p>
+
                     <fieldset class="styledFieldset">
                         <legend>Hausdaten</legend>
+                        <p>Angaben zum Haus. Wo befindet es sich und wie groß ist es.</p>
+                        <p>Wenn der zugehörige Parkplatz unterirdisch mit einem anderen Gebäude verbunden ist,
+                            so geben Sie bitte die Häuser getrennt ein.
+                            Kann die Zuordnung von Parkplätzen zu Häusern nicht getroffen werden,
+                            so erfassen Sie bitte die Gesamtanzahl der Stellplätze.
+                            Bitte schreiben Sie in diesem Fall die anderen Hausnummern im Freitext - Danke!
+                        </p>
+
                         <ol>
                             <li>
                                 <h:outputLabel for="bic" value="Postleitzahl"/>
@@ -72,7 +83,11 @@
                             </li>
                         </ol>
 
-                        <legend>Parkplatzdaten inhaus (Tiefgarage)</legend>
+                        <legend>Parkplatzdaten Inhaus (Tiefgarage)</legend>
+
+                        <p>Angaben über zum Haus gehörende Parkplätze innerhalb der MAuern.
+                            Also zB eine Tiefgarage oder einer ebenerdigen Garage.</p>
+
                         <ol>
                             <li>
                                 <h:outputLabel for="totalNrInside" value="Gesamtanzahl Parkplätze"/>
@@ -90,6 +105,8 @@
                         </ol>
 
                         <legend>Parkplatzdaten Innenhof</legend>
+                        <p>Erfassen Sie hier bitte Parkplätze die sich im Freien auf dem Gelände des Hauses befinden.
+                        Zum Beispiel in einem Innenhof.</p>
                         <ol>
                             <li>
                                 <h:outputLabel for="totalNrCourtyard" value="Gesamtanzahl Parkplätze"/>
@@ -106,6 +123,7 @@
                         </ol>
 
                         <legend>Freier Kommentar</legend>
+                        <p>Wollen Sie uns sonst noch etwas wissen lassen? Dann können Sie dies hier vermerken (optional).</p>
                         <ol>
                             <li>
                                 <h:outputLabel for="comment" value="Freier Kommentar"/>
@@ -116,12 +134,9 @@
                             </li>
                         </ol>
 
-                        <ol>
-                            <li>
-                                <h:commandButton id="cAddSurveyEntryBtn" action="#{newsurvey.saveSurveyEntry}" value="Daten Speichern"/>
-                            </li>
-                        </ol>
                     </fieldset>
+
+                    <h:commandButton id="cAddSurveyEntryBtn" action="#{newsurvey.saveSurveyEntry}" value="Daten Speichern"/>
                 </h:panelGroup>
                 <h:panelGroup id="surveyStored" rendered="#{newsurvey.surveyStored}">
                     <h2>Danke für Ihre Mithilfe, die Daten wurden erfolgreich gespeichert!</h2>

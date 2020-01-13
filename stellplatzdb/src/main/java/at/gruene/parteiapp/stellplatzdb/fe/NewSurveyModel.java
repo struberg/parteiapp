@@ -31,6 +31,7 @@ import at.gruene.parteiapp.stellplatzdb.be.SurveyEntryService;
 import at.gruene.parteiapp.stellplatzdb.be.SurveyService;
 import at.gruene.parteiapp.stellplatzdb.be.entities.Survey;
 import at.gruene.parteiapp.stellplatzdb.be.entities.SurveyEntry;
+import at.gruene.parteiapp.stellplatzdb.be.entities.SurveyEntryStatus;
 import at.gruene.parteiapp.stellplatzdb.fe.msg.SurveyMessage;
 
 /**
@@ -78,8 +79,12 @@ public class NewSurveyModel implements Serializable {
             surveyEntry.setCity(survey.getDefaultCity());
         }
 
-        surveyEntry.setCountedAt(LocalDate.now());
+        LocalDateTime now = LocalDateTime.now();
+        surveyEntry.setCountedAt(now.toLocalDate());
+        // set to last full hour by default
+        surveyEntry.setCountedAtTime(now.get(ChronoField.HOUR_OF_DAY) * 100);
 
+        surveyEntry.setStatus(SurveyEntryStatus.NEW);
 
         surveyStored = false;
         return null;

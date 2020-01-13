@@ -82,11 +82,26 @@ public class Survey extends AuditedEntity implements VersionedEntity {
     @Column(name="OPEN_UNTIL", nullable = false)
     private LocalDate openUntil;
 
+    /**
+     * The default BIC/PLZ to use for each {@link SurveyEntry} of that survey.
+     */
     @Column(name = "DEFAULT_BIC")
     private Integer defaultBic;
 
+    /**
+     * The default City name to use for each {@link SurveyEntry} of that survey.
+     */
     @Column(name = "DEFAULT_CITY", length = ColumnLength.MEDIUM_TEXT)
     private String defaultCity;
+
+    /**
+     * A detailed description about the current survey.
+     * This will be presented to the user when she enters a new {@link SurveyEntry}
+     */
+    @NotNull
+    @Column(name="DESCRIPTION", length = ColumnLength.LARGE_TEXT, nullable = false)
+    private String description;
+
 
     @Override
     public String getId() {
@@ -148,5 +163,13 @@ public class Survey extends AuditedEntity implements VersionedEntity {
 
     public void setDefaultCity(String defaultCity) {
         this.defaultCity = defaultCity;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
