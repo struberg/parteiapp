@@ -48,7 +48,7 @@
 
         <slf4j.version>1.7.12</slf4j.version>
         <log4j2.version>2.11.2</log4j2.version>
-        <deltaspike.version>1.9.0</deltaspike.version>
+        <deltaspike.version>1.9.2</deltaspike.version>
 
         <projectstage>Development</projectstage>
         <tomee.additional.args></tomee.additional.args>
@@ -93,7 +93,6 @@
         <postgres.database.onError.action>abort</postgres.database.onError.action>
 
     </properties>
-
 
     <dependencies>
         <dependency>
@@ -155,6 +154,31 @@
             <version>4.13</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-test-control-module-api</artifactId>
+            <version>${deltaspike.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-test-control-module-impl</artifactId>
+            <version>${deltaspike.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.deltaspike.cdictrl</groupId>
+            <artifactId>deltaspike-cdictrl-openejb</artifactId>
+            <version>${deltaspike.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>openejb-core</artifactId>
+            <version>${tomee.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
 
@@ -276,7 +300,7 @@
                                 <extension>.xhtml</extension>
                                 <!-- if you want to update each time you build with mvn compile -->
                             </extensions>
-                            <updateInterval>2</updateInterval>
+                            <updateInterval>1</updateInterval>
                         </synchronization>
 
                         <!-- because resource filtering ... -->
