@@ -1,0 +1,41 @@
+/* ----------small screen changes ------------*/
+
+#mainContainer {
+    width: 700px;
+}
+
+#contentContainer {
+    WIDTH: 670px;
+}
+
+fieldset ul,
+fieldset ol {
+    padding: 6px 0 0 225px;
+}
+
+fieldset ul .leftBlock,
+fieldset ol .leftBlock {
+    margin-left: -225px;
+}
+
+
+fieldset li label:first-child {
+    width: 195px;
+    min-height: 1px;
+    padding-right: 30px;
+    margin-left: -225px;
+}
+
+
+.largeInput {
+    width: 245px !important;
+}
+
+.xlargeInput {
+    width: 350px !important;
+}
+
+.mediumTextarea {
+    width: 350px !important;
+    height: 4em;
+}

@@ -43,39 +43,46 @@
                             </li>
                             <li>
                                 <h:outputLabel for="city" value="Gemeinde/Stadt"/>
-                                <h:inputText id="city" styleClass="xlargeInput" value="#{newsurvey.surveyEntry.city}"
+                                <h:inputText id="city" styleClass="xlargeInput"
+                                             value="#{newsurvey.surveyEntry.city}"
                                              title="zB Wien"
-                                             label="Gemeinde"/>
+                                             label="Gemeinde"
+                                             a:placeholder="zB Wien"/>
                                 <h:message for="city" errorClass="invalid"/>
                             </li>
                             <li>
                                 <h:outputLabel for="street" value="Straße"/>
-                                <h:inputText id="street" styleClass="xlargeInput" value="#{newsurvey.surveyEntry.street}"
+                                <h:inputText id="street" styleClass="xlargeInput"
+                                             value="#{newsurvey.surveyEntry.street}"
                                              title="Straße ohne Hausnummer."
                                              label="Straße"/>
                                 <h:message for="street" errorClass="invalid"/>
                             </li>
                             <li>
                                 <h:outputLabel for="houseNr" value="Hausnummer" />
-                                <h:inputText id="houseNr" value="#{newsurvey.surveyEntry.houseNr}"
+                                <h:inputText id="houseNr"
+                                             value="#{newsurvey.surveyEntry.houseNr}"
                                              title="Hausnummer ohne Türnummer"
                                              label="Hausnummer"/>
                                 <h:message for="houseNr" errorClass="invalid" />
                             </li>
                             <li>
                                 <h:outputLabel for="housingUnits" value="Anzahl Wohneinheiten"/>
-                                <h:inputText id="housingUnits" value="#{newsurvey.surveyEntry.totalHousingUnits}"
+                                <h:inputText id="housingUnits"
+                                             value="#{newsurvey.surveyEntry.totalHousingUnits}"
                                              title="Wieviele Wohnungen gibt es in dem Haus?"/>
                                 <h:message for="housingUnits" errorClass="invalid"/>
                             </li>
 
                             <li>
                                 <h:outputLabel for="date" value="Daten erhoben am"/>
-                                <h:inputText id="date" a:type="date" value="#{newsurvey.surveyEntry.countedAt}"
+                                <h:inputText id="date" a:type="date"
+                                             value="#{newsurvey.surveyEntry.countedAt}"
                                              label="Datum">
                                     <f:convertDateTime type="localDate" pattern="yyyy-MM-dd"/>
                                 </h:inputText>
-                                <h:inputText id="time" a:type="time" value="#{newsurvey.surveyEntry.countedAtTime}">
+                                <h:inputText id="time" a:type="time"
+                                             value="#{newsurvey.surveyEntry.countedAtTime}">
                                     <f:converter converterId="parteiapp.TimeConverter"/>
                                 </h:inputText>
                                 <h:message for="date" errorClass="invalid"/>
@@ -85,19 +92,21 @@
 
                         <legend>Parkplatzdaten Inhaus (Tiefgarage)</legend>
 
-                        <p>Angaben über zum Haus gehörende Parkplätze innerhalb der MAuern.
+                        <p>Angaben über zum Haus gehörende Parkplätze innerhalb der Mauern.
                             Also zB eine Tiefgarage oder einer ebenerdigen Garage.</p>
 
                         <ol>
                             <li>
                                 <h:outputLabel for="totalNrInside" value="Gesamtanzahl Parkplätze"/>
-                                <h:inputText id="totalNrInside" value="#{newsurvey.surveyEntry.totalNrInside}"
+                                <h:inputText id="totalNrInside"
+                                             value="#{newsurvey.surveyEntry.totalNrInside}"
                                              title="Die Gesamtanzahl der KFZ Stellplätze (Parkplätze) in der Tiefgarage des Hauses. Also besetzte und freie gemeinsam."/>
                                 <h:message for="totalNrInside" errorClass="invalid"/>
                             </li>
                             <li>
                                 <h:outputLabel for="usedLocalInside" value="Davon Benutzt"/>
-                                <h:inputText id="usedLocalInside" value="#{newsurvey.surveyEntry.usedLocalsInside}"
+                                <h:inputText id="usedLocalInside"
+                                             value="#{newsurvey.surveyEntry.usedLocalsInside}"
                                              title="Anzahl der besetzten Tiefgaragenstellplätze."/>
                                 <h:message for="usedLocalInside" errorClass="invalid"/>
                             </li>
@@ -110,13 +119,15 @@
                         <ol>
                             <li>
                                 <h:outputLabel for="totalNrCourtyard" value="Gesamtanzahl Parkplätze"/>
-                                <h:inputText id="totalNrCourtyard" value="#{newsurvey.surveyEntry.totalNrCourtyard}"
+                                <h:inputText id="totalNrCourtyard"
+                                             value="#{newsurvey.surveyEntry.totalNrCourtyard}"
                                              title="Die Gesamtanzahl der KFZ Stellplätze (Parkplätze) im Hof des Hauses. Also besetzte und freie gemeinsam."/>
                                 <h:message for="totalNrCourtyard" errorClass="invalid"/>
                             </li>
                             <li>
                                 <h:outputLabel for="usedLocalCourtyard" value="Davon benutzt"/>
-                                <h:inputText id="usedLocalCourtyard" value="#{newsurvey.surveyEntry.usedLocalsCourtyard}"
+                                <h:inputText id="usedLocalCourtyard"
+                                             value="#{newsurvey.surveyEntry.usedLocalsCourtyard}"
                                              title="Anzahl der besetzten Hofstellplätze"/>
                                 <h:message for="usedLocalCourtyard" errorClass="invalid"/>
                             </li>
@@ -136,7 +147,8 @@
 
                     </fieldset>
 
-                    <h:commandButton id="cAddSurveyEntryBtn" action="#{newsurvey.saveSurveyEntry}" value="Daten Speichern"/>
+                    <h:commandButton id="cAddSurveyEntryBtn" action="#{newsurvey.saveSurveyEntry}"
+                                     value="Daten Speichern"/>
                 </h:panelGroup>
                 <h:panelGroup id="surveyStored" rendered="#{newsurvey.surveyStored}">
                     <h2>Danke für Ihre Mithilfe, die Daten wurden erfolgreich gespeichert!</h2>

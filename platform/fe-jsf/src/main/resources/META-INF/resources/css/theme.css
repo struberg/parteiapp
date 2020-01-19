@@ -9,11 +9,12 @@ HTML {
     MARGIN: 0px;
     PADDING-TOP: 0px;
     BORDER-RIGHT-WIDTH: 0px;
-    background: -moz-radial-gradient(center,ellipse cover,rgba(0,0,0,.25) 0,rgba(0,0,0,0) 100%);
+    height: 100vh;
     background-color: #84B414;
+    background-image: linear-gradient(#80af14, #98C914);
     FONT-FAMILY: Verdana, Helvetica, Geneva, sans-serif;
     color: #000000;
-    font-size: 12px;
+    font-size: 1rem;
 }
 
 BODY {
@@ -43,10 +44,10 @@ IMG {
 
 #mainContainer {
     Z-INDEX: 3;
-    MARGIN-LEFT: 10px;
-    WIDTH: 700px;
-    POSITION: absolute;
+    margin-left: auto;
+    margin-right: auto;
     TOP: 0px;
+    font-size: 0.8rem;
 }
 
 #mainlogo {
@@ -66,55 +67,32 @@ IMG {
 #headContainer {
     display: grid;
     align-items: end;
-    grid-template-columns: 100px 2fr 1fr;
-}
-
-#menuContainer {
-    MARGIN: 20px 2px 2px 2px;
-    FLOAT: left;
-    display: block;
-    left: 0px;
-    width: 200px;
-    min-height: 350px;
-    position: relative;
-    text-decoration: none;
-    z-index: 1;
-    font-size: 10px;
-    border-width: 1px;
-    border-style: none;
+    grid-template-columns: 0.5fr 6fr 2fr;
 }
 
 #contentContainer {
-    MARGIN: 5px 0 5px 0;
+
+    MARGIN: 1vw 0 1vw 0;
     position: relative;
-    WIDTH: 670px;
+    width: 98vw;
     display: block;
     border: none;
     border-color: #666666;
     border-width: 1px;
     border-style: none;
-    padding: 10px 15px;
+    padding: 2vw 2vw;
     background-color: #ffffff;
 }
-
-#overview {
-    top: 0px;
-    left: 0px;
-    width: 350px;
-    z-index: 4;
-}
-
 
 .aktiv {
     color: #559902;
 }
 
 h1 {
-    font-size: 18px;
+    font-size: 1.2rem;
     font-weight: normal;
     color: #559902;
 }
-
 /* --------------- nice dialogues without tables --------------- */
 
 ol, ul {
@@ -122,9 +100,10 @@ ol, ul {
 }
 
 fieldset {
+    background-color: red;
     position: relative;
-    margin-top: 3px;
-    margin-bottom: 12px;
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;
     border: none;
     border-top: 1px solid #E6E6E6;
     margin-left: 0px;
@@ -146,7 +125,7 @@ fieldset.nonStyledFieldset {
 
 fieldset ul,
 fieldset ol {
-    padding: 6px 0 0 225px;
+    padding: 6px 0 0 0px;
 }
 
 fieldset ul ul,
@@ -183,11 +162,6 @@ fieldset li {
     line-height: 1.4em;
 }
 
-fieldset ul .leftBlock,
-fieldset ol .leftBlock {
-    margin-left: -225px;
-}
-
 fieldset .leftBlock label:first-child{
     margin-left: 0px;
     float: none;
@@ -208,10 +182,8 @@ fieldset li:after {
 }
 
 fieldset li label:first-child {
-    width: 195px;
     min-height: 1px;
-    padding-right: 30px;
-    margin-left: -225px;
+    padding-right: 3px;
     margin-top: 1px;
     margin-bottom: 3px;
     display: block;
@@ -270,11 +242,11 @@ fieldset li label.required:after {
 }
 
 .xlargeInput {
-    width: 350px !important;
+    width: 245px !important;
 }
 
 .mediumTextarea {
-    width: 350px !important;
+    width: 245px !important;
     height: 4em;
 }
 
@@ -472,4 +444,5 @@ table.datatable .row-even {
 table.datatable .row-odd {
     background: #F5FAFD;
 }
+
 
