@@ -46,7 +46,7 @@ public class WrappingTransactionStrategy extends ResourceLocalTransactionStrateg
     /**
      * Services should not take longer than this value in ms.
      */
-    private static final long THRESHOLD = 500;
+    private static final long THRESHOLD = 300;
 
     private final AtomicInteger parallelInvocations = new AtomicInteger(0);
 
