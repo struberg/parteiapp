@@ -1,4 +1,3 @@
-
 HTML {
     BORDER-TOP-WIDTH: 0px;
     PADDING-RIGHT: 0px;
@@ -30,6 +29,7 @@ BODY {
     PADDING-TOP: 0px;
     BORDER-RIGHT-WIDTH: 0px;
     border-collapse: separate;
+    min-width: 350px;
 }
 
 IMG {
@@ -45,11 +45,10 @@ IMG {
 }
 
 #mainContainer {
-    Z-INDEX: 3;
+    font-size: 0.8rem;
+    padding: 5px;
     margin-left: auto;
     margin-right: auto;
-    TOP: 0px;
-    font-size: 0.8rem;
 }
 
 #mainlogo {
@@ -73,16 +72,6 @@ IMG {
 }
 
 #contentContainer {
-
-    MARGIN: 1vw 0 1vw 0;
-    position: relative;
-    width: 98vw;
-    display: block;
-    border: none;
-    border-color: #666666;
-    border-width: 1px;
-    border-style: none;
-    padding: 2vw 2vw;
     background-color: #ffffff;
 }
 
@@ -102,15 +91,13 @@ ol, ul {
 }
 
 fieldset {
-    background-color: red;
     position: relative;
     margin-top: 0.2rem;
     margin-bottom: 1rem;
     border: none;
     border-top: 1px solid #E6E6E6;
-    margin-left: 0px;
     background: white;
-    padding: 0 0 6px 0;
+    padding: 0 2px 6px 2px;
 }
 
 fieldset.styledFieldset {
@@ -399,7 +386,7 @@ select {
 /* --------------- inputbox  --------------- */
 
 table, p {
-    font-size: 11px;
+    font-size: 0.8rem;
     padding: 0px;
     border: 0px;
 

@@ -20,11 +20,14 @@
         <h:form onsubmit="return submitIfOnline()">
             <div id="detail-panel">
                 <h:panelGroup id="newSurvey" rendered="#{!newsurvey.surveyStored}">
-                    <h2>#{newsurvey.survey.surveyName}</h2>
-
-                    <p><h:outputText value="#{newsurvey.survey.description}"/></p>
+                    <fieldset>
+                        <h2>#{newsurvey.survey.surveyName}</h2>
+                        <p><h:outputText value="#{newsurvey.survey.description}"/></p>
+                    </fieldset>
 
                     <fieldset class="styledFieldset">
+
+
                         <legend>Hausdaten</legend>
                         <p>Angaben zum Haus. Wo befindet es sich und wie groß ist es.</p>
                         <p>Wenn der zugehörige Parkplatz unterirdisch mit einem anderen Gebäude verbunden ist,

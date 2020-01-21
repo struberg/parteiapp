@@ -9,9 +9,10 @@
     <ui:insert name="metadata"/>
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link href="#{resource['images:favicon.ico']}" rel="shortcut icon" type="image/vnd.microsoft.icon"/>
         <link href="#{resource['css:theme.css']}" rel="stylesheet" type="text/css"/>
-        <link href="#{resource['css:large.css']}" rel="stylesheet" type="text/css" media="all and (min-device-width: 750px)"/>
+        <link href="#{resource['css:large.css']}" rel="stylesheet" type="text/css"/>
         <ui:insert name="header"></ui:insert>
         <title><h:outputText value="#{appSettings.applicationName}"/><ui:insert name="title"/></title>
     </h:head>
