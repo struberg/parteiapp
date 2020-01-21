@@ -298,6 +298,7 @@
                                 <extension>.properties</extension>
                                 <extension>.css</extension>
                                 <extension>.xhtml</extension>
+                                <extension>.js</extension>
                                 <!-- if you want to update each time you build with mvn compile -->
                             </extensions>
                             <updateInterval>1</updateInterval>

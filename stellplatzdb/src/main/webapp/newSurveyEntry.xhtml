@@ -17,7 +17,7 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form>
+        <h:form onsubmit="return submitIfOnline()">
             <div id="detail-panel">
                 <h:panelGroup id="newSurvey" rendered="#{!newsurvey.surveyStored}">
                     <h2>#{newsurvey.survey.surveyName}</h2>

@@ -10,12 +10,13 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="#{resource['images:favicon.ico']}" rel="shortcut icon" type="image/vnd.microsoft.icon"/>
-        <link href="#{resource['css:theme.css']}" rel="stylesheet" type="text/css" media="all"/>
+        <link href="#{resource['css:theme.css']}" rel="stylesheet" type="text/css"/>
         <link href="#{resource['css:large.css']}" rel="stylesheet" type="text/css" media="all and (min-device-width: 750px)"/>
         <ui:insert name="header"></ui:insert>
         <title><h:outputText value="#{appSettings.applicationName}"/><ui:insert name="title"/></title>
     </h:head>
     <h:body>
+        <h:outputScript library="js" name="core.js" />
         <ds:windowId/>
         <div id="mainContainer">
             <div id="headContainer">
